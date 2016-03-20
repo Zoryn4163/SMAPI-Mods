@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMAPITestMod", "SMAPITestMod\SMAPITestMod.csproj", "{D3DC7F91-512B-41F9-B79D-038D1D286A2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterRNG", "BetterRNG\BetterRNG.csproj", "{F7F751E2-8FF4-480A-9B64-541B0AC393E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarAnywhere", "CalendarAnywhere\CalendarAnywhere.csproj", "{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D3DC7F91-512B-41F9-B79D-038D1D286A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D3DC7F91-512B-41F9-B79D-038D1D286A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D3DC7F91-512B-41F9-B79D-038D1D286A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D3DC7F91-512B-41F9-B79D-038D1D286A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7F751E2-8FF4-480A-9B64-541B0AC393E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7F751E2-8FF4-480A-9B64-541B0AC393E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7F751E2-8FF4-480A-9B64-541B0AC393E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7F751E2-8FF4-480A-9B64-541B0AC393E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

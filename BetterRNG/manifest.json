@@ -1,0 +1,8 @@
+﻿{
+    "displayName": "Better RNG",
+    "author": "Zoryn",
+    "version": "1.0",
+    "description": "Overhauls RNG",
+
+    "assemblyFileName": "BetterRNG.dll"
+}
