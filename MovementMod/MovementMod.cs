@@ -24,7 +24,7 @@ namespace MovementMod
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
 
-            Console.WriteLine("MovementModifier by Zoryn => Initialized");
+            Log.Info("MovementModifier by Zoryn => Initialized");
         }
 
         private void GameEventsOnUpdateTick(object sender, EventArgs eventArgs)
