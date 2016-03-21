@@ -26,6 +26,7 @@ namespace HealthBars
 
         public override void Entry(params object[] objects)
         {
+            return;
             ModConfig = (HealthBarConfig)Config.InitializeConfig(Config.GetBasePath(this), new HealthBarConfig());
 
             int innerBarWidth = ModConfig.BarWidth - ModConfig.BarBorderWidth * 2;
