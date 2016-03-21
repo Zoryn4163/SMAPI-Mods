@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}</ProjectGuid>
+    <ProjectGuid>{C9C3BF63-10BF-40A3-92A8-EE1AA18F2FD4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CalendarAnywhere</RootNamespace>
-    <AssemblyName>CalendarAnywhere</AssemblyName>
+    <RootNamespace>FishingMod</RootNamespace>
+    <AssemblyName>FishingMod</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,9 +36,6 @@
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Stardew Valley">
       <HintPath>D:\#Network-Steam\SteamRepo\steamapps\common\Stardew Valley\Stardew Valley.exe</HintPath>
       <Private>False</Private>
@@ -57,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalendarAnywhere.cs" />
+    <Compile Include="FishingMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

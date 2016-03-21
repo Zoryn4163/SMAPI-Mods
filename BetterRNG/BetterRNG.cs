@@ -16,9 +16,7 @@ namespace BetterRNG
         public static float[] RandomFloats { get; private set; }
 
         public static RngConfig ModConfig { get; private set; }
-        public static bool JustLoadedGame { get; private set; }
 
-        public static Game1 TheGame => StardewModdingAPI.Program.gamePtr;
         public static Farmer Player => Game1.player;
 
         public static List<WeightedGeneric<Int32>> Weather { get; private set; }

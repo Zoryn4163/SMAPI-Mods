@@ -17,9 +17,7 @@ namespace CalendarAnywhere
 {
     public class CalendarAnywhere : Mod
     {
-
         public static SGame TheGame => Program.gamePtr;
-        public static Farmer Player => Game1.player;
         public static MouseState MState { get; set; }
         public static GamePadState GState { get; set; }
 
@@ -36,21 +34,23 @@ namespace CalendarAnywhere
         public static Rectangle MouseRect => new Rectangle(Game1.oldMouseState.X, Game1.oldMouseState.Y, 64, 64);
         public static Rectangle ClickRect => new Rectangle(MState.X, MState.Y, 1, 1);
 
-        public static Billboard NewBillboard => new Billboard(false);
-
         public override void Entry(params object[] objects)
         {
             OpenPath = PathOnDisk + "\\open.png";
-            if (File.Exists(OpenPath))
-            {
-                FileStream fs = File.OpenRead(OpenPath);
-                OpenTexture = Texture2D.FromStream(TheGame.GraphicsDevice, fs);
-                fs.Close();
-            }
 
             StardewModdingAPI.Events.ControlEvents.MouseChanged += ControlEvents_MouseChanged;
             StardewModdingAPI.Events.ControlEvents.ControllerButtonPressed += ControlEvents_ControllerButtonPressed;
             StardewModdingAPI.Events.GraphicsEvents.DrawTick += GraphicsEvents_DrawTick;
+
+            StardewModdingAPI.Events.GameEvents.FirstUpdateTick += (sender, args) =>
+            {
+                if (File.Exists(OpenPath))
+                {
+                    FileStream fs = File.OpenRead(OpenPath);
+                    OpenTexture = Texture2D.FromStream(TheGame.GraphicsDevice, fs);
+                    fs.Close();
+                }
+            };
 
             Console.WriteLine("CalendarAnywhere by Zoryn => Initialization Completed");
         }
@@ -62,8 +62,13 @@ namespace CalendarAnywhere
             if (!Game1.hasLoadedGame || Game1.activeClickableMenu != null)
                 return;
 
-            if (ClickRect.Intersects(TargRect))
-                Game1.activeClickableMenu = NewBillboard;
+            if (Game1.didPlayerJustLeftClick())
+            {
+                if (ClickRect.Intersects(TargRect))
+                {
+                    Game1.activeClickableMenu = new Billboard();
+                }
+            }
         }
 
         private void ControlEvents_ControllerButtonPressed(object sender, StardewModdingAPI.Events.EventArgsControllerButtonPressed e)
@@ -76,7 +81,7 @@ namespace CalendarAnywhere
 
             if ((e.ButtonPressed & Buttons.A) != 0)
                 if (ClickRect.Intersects(TargRect))
-                    Game1.activeClickableMenu = NewBillboard;
+                    Game1.activeClickableMenu = new Billboard();
         }
 
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
@@ -86,14 +91,11 @@ namespace CalendarAnywhere
 
             if (MousePointRect.Intersects(TargRect))
             {
-
-                Game1.spriteBatch.End();
                 Game1.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
                 Game1.spriteBatch.Draw(OpenTexture, TargRect, Color.White);
                 Game1.spriteBatch.DrawString(Game1.smallFont, "Calendar", new Vector2(TargX, TargY), Color.Black, 0, new Vector2(-3, -5), 1.4f, SpriteEffects.None, 0.001f);
                 Game1.spriteBatch.Draw(Game1.mouseCursors, MouseRect, new Rectangle(0, 0, 16, 16), Color.White);
                 Game1.spriteBatch.End();
-                Game1.spriteBatch.Begin();
             }
         }
     }
