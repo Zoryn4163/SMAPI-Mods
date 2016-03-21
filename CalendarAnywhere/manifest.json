@@ -1,0 +1,7 @@
+﻿{
+    "Name": "Calendar Anywhere",
+    "Authour": "Zoryn",
+    "Version": "1.0",
+    "Description": "Lets you open the calendar from anywhere.",
+    "EntryDll": "CalendarAnywhere.dll"
+}

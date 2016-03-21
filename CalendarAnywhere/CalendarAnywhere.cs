@@ -51,6 +51,8 @@ namespace CalendarAnywhere
             StardewModdingAPI.Events.ControlEvents.MouseChanged += ControlEvents_MouseChanged;
             StardewModdingAPI.Events.ControlEvents.ControllerButtonPressed += ControlEvents_ControllerButtonPressed;
             StardewModdingAPI.Events.GraphicsEvents.DrawTick += GraphicsEvents_DrawTick;
+
+            Console.WriteLine("CalendarAnywhere by Zoryn => Initialization Completed");
         }
 
         private void ControlEvents_MouseChanged(object sender, StardewModdingAPI.Events.EventArgsMouseStateChanged e)

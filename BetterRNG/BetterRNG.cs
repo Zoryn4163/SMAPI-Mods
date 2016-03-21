@@ -75,7 +75,7 @@ namespace BetterRNG
 
             StardewModdingAPI.Events.PlayerEvents.FarmerChanged += PlayerEvents_FarmerChanged;
 
-            Console.WriteLine("BetterRng by Zoryn => Initialization Completed");
+            Log.Verbose("BetterRng by Zoryn => Initialized");
         }
 
         private void PlayerEvents_FarmerChanged(object sender, StardewModdingAPI.Events.EventArgsFarmerChanged e)

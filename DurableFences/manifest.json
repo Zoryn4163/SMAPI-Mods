@@ -1,0 +1,7 @@
+﻿{
+    "Name": "Durable Fences",
+    "Authour": "Zoryn",
+    "Version": "1.0",
+    "Description": "Makes fences more durable",
+    "EntryDll": "DurableFences.dll"
+}
