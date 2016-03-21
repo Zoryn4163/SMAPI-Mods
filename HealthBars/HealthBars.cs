@@ -43,6 +43,8 @@ namespace HealthBars
             };
             GraphicsEvents.DrawTick += GraphicsEvents_DrawTick;
             LocationEvents.CurrentLocationChanged += LocationEvents_CurrentLocationChanged;
+
+            Log.Info("Health Bars by Zoryn => Initialized");
         }
 
         private void LocationEvents_CurrentLocationChanged(object sender, EventArgsCurrentLocationChanged e)

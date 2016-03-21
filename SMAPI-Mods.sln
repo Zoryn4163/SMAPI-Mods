@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthBars", "HealthBars\He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovementMod", "MovementMod\MovementMod.csproj", "{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JunimoDepositAnywhere", "JunimoDepositAnywhere\JunimoDepositAnywhere.csproj", "{E576D252-25BA-491A-A1BE-4D24E47BA095}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E576D252-25BA-491A-A1BE-4D24E47BA095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E576D252-25BA-491A-A1BE-4D24E47BA095}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E576D252-25BA-491A-A1BE-4D24E47BA095}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E576D252-25BA-491A-A1BE-4D24E47BA095}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

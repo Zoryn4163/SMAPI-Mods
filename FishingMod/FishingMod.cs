@@ -35,7 +35,7 @@ namespace FishingMod
             GameEvents.OneSecondTick += GameEvents_OneSecondTick;
             MenuEvents.MenuChanged += MenuEvents_MenuChanged;
 
-            Console.WriteLine("FishingMod by Zoryn => Initialized");
+            Log.Info("FishingMod by Zoryn => Initialized");
         }
 
         private void MenuEvents_MenuChanged(object sender, EventArgsClickableMenuChanged e)
