@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JunimoDepositAnywhere", "Ju
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegenMod", "RegenMod\RegenMod.csproj", "{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSpeed", "TimeSpeed\TimeSpeed.csproj", "{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49914CEC-FF9E-4D6F-9E8F-D40466B5D9C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

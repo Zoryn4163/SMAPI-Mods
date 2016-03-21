@@ -8,11 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Inheritance;
-using StardewModdingAPI.Inheritance.Monsters;
 using StardewValley;
 using StardewValley.Monsters;
 
-//Does not work until further notice D:
 namespace HealthBars
 {
     public class HealthBars : Mod
@@ -20,13 +18,14 @@ namespace HealthBars
         public static SGame TheGame => Program.gamePtr;
 
         public static HealthBarConfig ModConfig { get; set; }
-        public static List<SMonster> monsters = new List<SMonster>();
+        public static List<Monster> monsters = new List<Monster>();
+
+        public static RenderTarget2D RTarg { get; set; }
 
         Texture2D texBar;
 
         public override void Entry(params object[] objects)
         {
-            return;
             ModConfig = (HealthBarConfig)Config.InitializeConfig(Config.GetBasePath(this), new HealthBarConfig());
 
             int innerBarWidth = ModConfig.BarWidth - ModConfig.BarBorderWidth * 2;
@@ -57,15 +56,11 @@ namespace HealthBars
             try
             {
                 monsters.Clear();
-                for (int i = 0; i < gameLoc.characters.Count; i++)
+                foreach (var v in gameLoc.characters)
                 {
-                    var v = gameLoc.characters[i];
-                    if (v is Monster && !(v is SMonster))
+                    if (v is Monster)
                     {
-                        SMonster s = SMonster.ConstructFromBaseClass((Monster) v);
-                        s.BeforeDraw += S_BeforeDraw;
-                        gameLoc.characters[i] = s;
-                        monsters.Add(s);
+                        monsters.Add(v as Monster);
                     }
                 }
             }
@@ -77,24 +72,31 @@ namespace HealthBars
 
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
         {
-            return;
-
+            /*
             if (monsters.Count < 1)
                 return;
+            */
 
             var font = Game1.smallFont;
             var batch = Game1.spriteBatch;
             var viewport = Game1.viewport;
 
-            
+            //RTarg = new RenderTarget2D(Game1.graphics.GraphicsDevice, Math.Min(4096, (int) ((double) TheGame.Window.ClientBounds.Width * (1.0 / (double) Game1.options.zoomLevel))), Math.Min(4096, (int) ((double) TheGame.Window.ClientBounds.Height * (1.0 / (double) Game1.options.zoomLevel))));
+
+            PresentationParameters pp = Game1.graphics.GraphicsDevice.PresentationParameters;
+            RTarg = new RenderTarget2D(Game1.graphics.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, Game1.graphics.GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
+
+            TheGame.GraphicsDevice.SetRenderTargets(TheGame.Screen);
+
             batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
 
+            //Game1.spriteBatch.Draw((Texture2D)TheGame.Screen, Vector2.Zero, new Microsoft.Xna.Framework.Rectangle?(TheGame.Screen.Bounds), Color.Red, 0.0f, Vector2.Zero, Game1.options.zoomLevel, SpriteEffects.None, 1f);
 
             foreach (var monster in monsters)
             {
                 Vector2 screenLoc = monster.getLocalPosition(Game1.viewport) + new Vector2((float) (Game1.tileSize * 3 / 4 + Game1.pixelZoom * 2), (float) (Game1.tileSize / 4 + monster.yJumpOffset));
 
-                //batch.Draw(monster.Sprite.Texture, monster.getLocalPosition(Game1.viewport) + new Vector2((float)(Game1.tileSize * 3 / 4 + Game1.pixelZoom * 2), (float)(Game1.tileSize / 4 + monster.yJumpOffset)), new Rectangle?(monster.Sprite.SourceRect), Color.White, monster.rotation, new Vector2(16f, 16f), Math.Max(0.2f, monster.scale) * (float)Game1.pixelZoom, monster.flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, monster.drawOnTop ? 0.991f : ((float)monster.getStandingY() / 10000f)));
+                batch.Draw(monster.Sprite.Texture, monster.getLocalPosition(Game1.viewport) + new Vector2((float)(Game1.tileSize * 3 / 4 + Game1.pixelZoom * 2), (float)(Game1.tileSize / 4 + monster.yJumpOffset)), new Rectangle?(monster.Sprite.SourceRect), Color.White, monster.rotation, new Vector2(16f, 16f), Math.Max(0.2f, monster.scale) * (float)Game1.pixelZoom, monster.flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, monster.drawOnTop ? 0.991f : ((float)monster.getStandingY() / 10000f)));
 
                 if (monster.maxHealth < monster.health)
                 {
@@ -146,16 +148,6 @@ namespace HealthBars
             }
 
             batch.End();
-        }
-
-        private void S_BeforeDraw(object sender, EventArgs e)
-        {
-            return;
-            if (sender is SMonster)
-            {
-                SMonster s = sender as SMonster;
-                Console.WriteLine(s);
-            }
         }
     }
 
