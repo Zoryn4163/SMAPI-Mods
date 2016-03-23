@@ -26,8 +26,7 @@ namespace HealthBars
 
         public override void Entry(params object[] objects)
         {
-            ModConfig = new HealthBarConfig();
-            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
+            ModConfig = new HealthBarConfig().InitializeConfig(BaseConfigPath);
 
             int innerBarWidth = ModConfig.BarWidth - ModConfig.BarBorderWidth * 2;
             int innerBarHeight = ModConfig.BarHeight - ModConfig.BarBorderHeight * 2;
@@ -73,32 +72,29 @@ namespace HealthBars
 
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
         {
-            /*
-            if (monsters.Count < 1)
+            if (monsters.Count < 1 || Game1.activeClickableMenu != null)
                 return;
-            */
 
             var font = Game1.smallFont;
             var batch = Game1.spriteBatch;
             var viewport = Game1.viewport;
 
-            //RTarg = new RenderTarget2D(Game1.graphics.GraphicsDevice, Math.Min(4096, (int) ((double) TheGame.Window.ClientBounds.Width * (1.0 / (double) Game1.options.zoomLevel))), Math.Min(4096, (int) ((double) TheGame.Window.ClientBounds.Height * (1.0 / (double) Game1.options.zoomLevel))));
 
-            PresentationParameters pp = Game1.graphics.GraphicsDevice.PresentationParameters;
-            RTarg = new RenderTarget2D(Game1.graphics.GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, Game1.graphics.GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
-
-            TheGame.GraphicsDevice.SetRenderTargets(TheGame.Screen);
+            if (!Game1.options.zoomLevel.Equals(1.0f))
+            {
+                if (TheGame.Screen.RenderTargetUsage == RenderTargetUsage.DiscardContents)
+                {
+                    TheGame.Screen = new RenderTarget2D(Game1.graphics.GraphicsDevice, Math.Min(4096, (int)((double)TheGame.Window.ClientBounds.Width * (1.0 / (double)Game1.options.zoomLevel))),
+                     Math.Min(4096, (int)((double)TheGame.Window.ClientBounds.Height * (1.0 / (double)Game1.options.zoomLevel))),
+                        false, SurfaceFormat.Color, DepthFormat.Depth16, 1, RenderTargetUsage.PreserveContents);
+                }
+                TheGame.GraphicsDevice.SetRenderTarget(TheGame.Screen);
+            }
 
             batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
 
-            //Game1.spriteBatch.Draw((Texture2D)TheGame.Screen, Vector2.Zero, new Microsoft.Xna.Framework.Rectangle?(TheGame.Screen.Bounds), Color.Red, 0.0f, Vector2.Zero, Game1.options.zoomLevel, SpriteEffects.None, 1f);
-
             foreach (var monster in monsters)
             {
-                Vector2 screenLoc = monster.getLocalPosition(Game1.viewport) + new Vector2((float) (Game1.tileSize * 3 / 4 + Game1.pixelZoom * 2), (float) (Game1.tileSize / 4 + monster.yJumpOffset));
-
-                batch.Draw(monster.Sprite.Texture, monster.getLocalPosition(Game1.viewport) + new Vector2((float)(Game1.tileSize * 3 / 4 + Game1.pixelZoom * 2), (float)(Game1.tileSize / 4 + monster.yJumpOffset)), new Rectangle?(monster.Sprite.SourceRect), Color.White, monster.rotation, new Vector2(16f, 16f), Math.Max(0.2f, monster.scale) * (float)Game1.pixelZoom, monster.flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, monster.drawOnTop ? 0.991f : ((float)monster.getStandingY() / 10000f)));
-
                 if (monster.maxHealth < monster.health)
                 {
                     monster.maxHealth = monster.health;
@@ -110,22 +106,12 @@ namespace HealthBars
                 var animSprite = monster.Sprite;
 
                 var size = new Vector2(animSprite.spriteWidth, animSprite.spriteHeight) * Game1.pixelZoom;
-                /*
+                
                 var screenLoc = monster.Position - new Vector2(viewport.X, viewport.Y);
                 screenLoc.X += size.X / 2 - ModConfig.BarWidth / 2.0f;
                 screenLoc.Y -= ModConfig.BarHeight;
-                */
-
-                //var innerBarWidth = ModConfig.BarWidth - ModConfig.BarBorderWidth * 2;
-                //var innerBarHeight = ModConfig.BarHeight - ModConfig.BarBorderHeight * 2;
-
-                
 
                 var fill = monster.health / (float)monster.maxHealth;
-
-                //batch.Draw(tex, screenLoc, tex.Bounds, colWhite, 0.0f, Vector2.Zero, new Vector2((float) ModConfig.BarWidth / tex.Bounds.Width, (float) ModConfig.BarHeight / tex.Bounds.Height), SpriteEffects.None, 0);
-
-                //Console.WriteLine(typeof (Game1).GetBaseFieldInfo("screen"));
 
                 batch.Draw(texBar, screenLoc + new Vector2(ModConfig.BarBorderWidth, ModConfig.BarBorderHeight), texBar.Bounds, Color.Lerp(ModConfig.LowHealthColor, ModConfig.HighHealthColor, fill), 0.0f, Vector2.Zero, new Vector2(fill, 1.0f), SpriteEffects.None, 0);
 
@@ -149,6 +135,14 @@ namespace HealthBars
             }
 
             batch.End();
+
+            if (!Game1.options.zoomLevel.Equals(1.0f))
+            {
+                TheGame.GraphicsDevice.SetRenderTarget((RenderTarget2D)null);
+                Game1.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone);
+                Game1.spriteBatch.Draw((Texture2D)TheGame.Screen, Vector2.Zero, new Microsoft.Xna.Framework.Rectangle?(TheGame.Screen.Bounds), Color.White, 0.0f, Vector2.Zero, Game1.options.zoomLevel, SpriteEffects.None, 1f);
+                Game1.spriteBatch.End();
+            }
         }
     }
 

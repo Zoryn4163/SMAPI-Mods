@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +25,7 @@ namespace RegenMod
 
         public override void Entry(params object[] objects)
         {
-            ModConfig = new RegenConfig();
-            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
+            ModConfig = new RegenConfig().InitializeConfig(BaseConfigPath);
 
             GameEvents.UpdateTick += GameEvents_UpdateTick;
 
@@ -106,6 +106,32 @@ namespace RegenMod
                     }
                 }
             }
+        }
+    }
+
+    public class ExampleMod : Mod
+    {
+        public static ExampleConfig ModConfig { get; private set; }
+
+        public override void Entry(params object[] objects)
+        {
+            ModConfig = new ExampleConfig().InitializeConfig(BaseConfigPath);
+
+            ModConfig.ReloadConfig();
+            ModConfig.WriteConfig();
+
+            Log.Info("ExampleMod by Zoryn => Initialized");
+        }
+    }
+
+    public class ExampleConfig : Config
+    {
+        public bool SomeBoolean { get; set; }
+
+        public override T GenerateDefaultConfig<T>()
+        {
+            SomeBoolean = true;
+            return this as T;
         }
     }
 

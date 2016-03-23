@@ -29,8 +29,7 @@ namespace FishingMod
 
         public override void Entry(params object[] objects)
         {
-            ModConfig = new FishConfig();
-            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
+            ModConfig = new FishConfig().InitializeConfig(BaseConfigPath);
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
             GameEvents.OneSecondTick += GameEvents_OneSecondTick;

@@ -19,8 +19,7 @@ namespace MovementMod
 
         public override void Entry(params object[] objects)
         {
-            ModConfig = new MovementConfig();
-            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
+            ModConfig = new MovementConfig().InitializeConfig(BaseConfigPath);
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
 

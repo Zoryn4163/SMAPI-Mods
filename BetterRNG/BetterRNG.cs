@@ -26,8 +26,7 @@ namespace BetterRNG
 
         public override void Entry(params object[] objects)
         {
-            ModConfig = new RngConfig();
-            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
+            ModConfig = new RngConfig().InitializeConfig(BaseConfigPath);
 
             RandomFloats = new float[256];
             Twister = new MersenneTwister();
