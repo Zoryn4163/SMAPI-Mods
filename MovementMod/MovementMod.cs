@@ -20,7 +20,7 @@ namespace MovementMod
         public override void Entry(params object[] objects)
         {
             ModConfig = new MovementConfig();
-            ModConfig = (MovementConfig)Config.InitializeConfig(Config.GetBasePath(this), ModConfig);
+            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
 
@@ -62,14 +62,14 @@ namespace MovementMod
         public bool EnableRunningSpeedOverride { get; set; }
         public int PlayerRunningSpeed { get; set; }
 
-        public override Config GenerateBaseConfig(Config baseConfig)
+        public override T GenerateDefaultConfig<T>()
         {
             EnableDiagonalMovementSpeedFix = true;
             EnableWalkingSpeedOverride = false;
             PlayerWalkingSpeed = 2;
             EnableRunningSpeedOverride = false;
             PlayerRunningSpeed = 5;
-            return this;
+            return this as T;
         }
     }
 }

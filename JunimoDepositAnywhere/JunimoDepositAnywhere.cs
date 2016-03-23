@@ -27,7 +27,7 @@ namespace JunimoDepositAnywhere
             {
                 JunimoNoteMenu v = (JunimoNoteMenu) Game1.activeClickableMenu;
 
-                List<Bundle> bndl = new List<Bundle>(v.GetBaseFieldValue("bundles") as List<Bundle>);
+                List<Bundle> bndl = new List<Bundle>(v.GetType().GetBaseFieldValue<List<Bundle>>(v, "bundles"));
 
                 foreach (Bundle b in bndl)
                 {

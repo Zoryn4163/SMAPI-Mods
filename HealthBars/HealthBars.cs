@@ -26,7 +26,8 @@ namespace HealthBars
 
         public override void Entry(params object[] objects)
         {
-            ModConfig = (HealthBarConfig)Config.InitializeConfig(Config.GetBasePath(this), new HealthBarConfig());
+            ModConfig = new HealthBarConfig();
+            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
 
             int innerBarWidth = ModConfig.BarWidth - ModConfig.BarBorderWidth * 2;
             int innerBarHeight = ModConfig.BarHeight - ModConfig.BarBorderHeight * 2;
@@ -172,7 +173,7 @@ namespace HealthBars
         public int BarBorderWidth { get; set; }
         public int BarBorderHeight { get; set; }
 
-        public override Config GenerateBaseConfig(Config baseConfig)
+        public override T GenerateDefaultConfig<T>()
         {
             DisplayHealthWhenNotDamaged = false;
 
@@ -192,7 +193,7 @@ namespace HealthBars
 
             BarBorderWidth = 2;
             BarBorderHeight = 2;
-            return this;
+            return this as T;
         }
     }
 }

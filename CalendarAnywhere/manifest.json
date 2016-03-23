@@ -1,7 +1,14 @@
-﻿{
-    "Name": "Calendar Anywhere",
-    "Authour": "Zoryn",
-    "Version": "1.0",
-    "Description": "Lets you open the calendar from anywhere.",
-    "EntryDll": "CalendarAnywhere.dll"
+{
+  "Name": "Calendar Anywhere",
+  "Authour": "Zoryn",
+  "Version": {
+    "MajorVersion": 1,
+    "MinorVersion": 1,
+    "PatchVersion": 0,
+    "Build": ""
+  },
+  "Description": "Lets you open the calendar from anywhere.",
+  "UniqueID": "a41c01cd-0437-43eb-944f-78cb5a53002a",
+  "PerSaveConfigs": false,
+  "EntryDll": "CalendarAnywhere.dll"
 }

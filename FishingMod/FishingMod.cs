@@ -29,7 +29,8 @@ namespace FishingMod
 
         public override void Entry(params object[] objects)
         {
-            ModConfig = (FishConfig)Config.InitializeConfig(Config.GetBasePath(this), new FishConfig());
+            ModConfig = new FishConfig();
+            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
             GameEvents.OneSecondTick += GameEvents_OneSecondTick;
@@ -129,7 +130,7 @@ namespace FishingMod
         public bool InfiniteTackle { get; set; }
         public bool InfiniteBait { get; set; }
 
-        public override Config GenerateBaseConfig(Config baseConfig)
+        public override T GenerateDefaultConfig<T>()
         {
             AlwaysPerfect = false;
             AlwaysFindTreasure = false;
@@ -142,7 +143,7 @@ namespace FishingMod
 
             InfiniteTackle = true;
             InfiniteBait = true;
-            return this;
+            return this as T;
         }
     }
 }

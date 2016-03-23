@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using StardewModdingAPI;
+using StardewModdingAPI.Events;
 using StardewValley;
 
 namespace BetterRNG
@@ -26,8 +27,8 @@ namespace BetterRNG
         public override void Entry(params object[] objects)
         {
             ModConfig = new RngConfig();
-            ModConfig = (RngConfig) Config.InitializeConfig(Config.GetBasePath(this), ModConfig);
-            
+            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
+
             RandomFloats = new float[256];
             Twister = new MersenneTwister();
 
@@ -86,19 +87,24 @@ namespace BetterRNG
             //0 = SUNNY, 1 = RAIN, 2 = CLOUDY/SNOWY, 3 = THUNDER STORM, 4 = FESTIVAL/EVENT/SUNNY, 5 = SNOW
             //Generate a good set of new random numbers to choose from for daily luck every morning.
             RandomFloats.FillFloats();
-            Game1.dailyLuck = RandomFloats.Random() / 10;
 
-            int targWeather = BetterRng.Weather.Choose().TValue;
-            if (targWeather == 5 && Game1.currentSeason != "winter")
-                targWeather = 3;
-            if (targWeather == 1 && Game1.currentSeason == "winter")
-                targWeather = 2;
-            if (targWeather == 3 && Game1.currentSeason == "winter")
-                targWeather = 5;
-            if (targWeather == 4)
-                targWeather = 0;
+            if(ModConfig.EnableDailyLuckOverride)
+                Game1.dailyLuck = RandomFloats.Random() / 10;
 
-            Game1.weatherForTomorrow = targWeather;
+            if (ModConfig.EnableWeatherOverride)
+            {
+                int targWeather = BetterRng.Weather.Choose().TValue;
+                if (targWeather == 5 && Game1.currentSeason != "winter")
+                    targWeather = 3;
+                if (targWeather == 1 && Game1.currentSeason == "winter")
+                    targWeather = 2;
+                if (targWeather == 3 && Game1.currentSeason == "winter")
+                    targWeather = 5;
+                if (targWeather == 4)
+                    targWeather = 0;
+
+                Game1.weatherForTomorrow = targWeather;
+            }
 
             //Console.WriteLine("[Twister] Daily Luck: " + @event.Root.DailyLuck + " | Tomorrow's Weather: " + @event.Root.WeatherForTomorrow);
         }
@@ -108,36 +114,32 @@ namespace BetterRNG
     {
         public bool EnableDailyLuckOverride { get; set; }
         public bool EnableWeatherOverride { get; set; }
-        public string Info1 { get; set; }
-        public string Info2 { get; set; }
+        public List<string[]> Info { get; set; }
         public int SunnyChance { get; set; }
         public int CloudySnowyChance { get; set; }
         public int RainyChance { get; set; }
         public int StormyChance { get; set; }
         public int HarshSnowyChance { get; set; }
 
-        public string Info3 { get; set; }
         public bool EnableFishingTreasureOverride { get; set; }
         public float FishingTreasureChance { get; set; }
         public bool EnableFishingStuffOverride { get; set; }
 
-        public override Config GenerateBaseConfig(Config baseConfig)
+        public override T GenerateDefaultConfig<T>()
         {
             EnableDailyLuckOverride = false;
             EnableWeatherOverride = false;
-            Info1 = "The weather chances are whole numbers as percentages.";
-            Info2 = "They can add up to be any number. 60 = 60% or 0.60, but you must type 60";
+            Info = new List<string[]> { "The weather chances are whole numbers as percentages.|They can add up to be any number. 60 = 60% or 0.60, but you must type 60|The fishing things are not done yet and literally do nothing. Do not bother changing their values.".Split('|') };
             SunnyChance = 60;
             CloudySnowyChance = 15;
             RainyChance = 15;
             StormyChance = 5;
             HarshSnowyChance = 5;
 
-            Info3 = "These things are not done yet and literally do nothing.";
             EnableFishingTreasureOverride = false;
             FishingTreasureChance = 1 / 16f;
             EnableFishingStuffOverride = false;
-            return this;
+            return this as T;
         }
     }
 

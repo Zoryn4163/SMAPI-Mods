@@ -25,7 +25,7 @@ namespace RegenMod
         public override void Entry(params object[] objects)
         {
             ModConfig = new RegenConfig();
-            ModConfig = (RegenConfig)Config.InitializeConfig(Config.GetBasePath(this), ModConfig);
+            ModConfig = ModConfig.InitializeConfig(BaseConfigPath);
 
             GameEvents.UpdateTick += GameEvents_UpdateTick;
 
@@ -123,8 +123,7 @@ namespace RegenMod
         public float RegenHealthPerSecond { get; set; }
         public float FramesUntilBeginHealthRegen { get; set; }
 
-
-        public override Config GenerateBaseConfig(Config baseConfig)
+        public override T GenerateDefaultConfig<T>()
         {
             RegenStamina = false;
             RegenStaminaIsNegative = false;
@@ -138,7 +137,7 @@ namespace RegenMod
             RegenHealthPerSecond = 0.15f;
             FramesUntilBeginHealthRegen = 180;
 
-            return this;
+            return this as T;
         }
     }
 }

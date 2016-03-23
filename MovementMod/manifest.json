@@ -1,7 +1,14 @@
-﻿{
-    "Name": "Movement Modifier",
-    "Authour": "Zoryn",
-    "Version": "1.0",
-    "Description": "Allows you to change movement based on a config",
-    "EntryDll": "MovementMod.dll"
+{
+  "Name": "Movement Modifier",
+  "Authour": "Zoryn",
+  "Version": {
+    "MajorVersion": 1,
+    "MinorVersion": 1,
+    "PatchVersion": 0,
+    "Build": ""
+  },
+  "Description": "Allows you to change movement based on a config",
+  "UniqueID": "8a632929-8335-484f-87dd-c29d2ba3215d",
+  "PerSaveConfigs": false,
+  "EntryDll": "MovementMod.dll"
 }
