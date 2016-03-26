@@ -18,7 +18,7 @@ namespace HealthBars
         public static SGame TheGame => Program.gamePtr;
 
         public static HealthBarConfig ModConfig { get; set; }
-        public static List<Monster> monsters = new List<Monster>();
+        public static List<Monster> monsters { get; private set; }
 
         public static RenderTarget2D RTarg { get; set; }
 
@@ -42,37 +42,18 @@ namespace HealthBars
                 texBar.SetData<uint>(data);
             };
             GraphicsEvents.DrawTick += GraphicsEvents_DrawTick;
-            LocationEvents.CurrentLocationChanged += LocationEvents_CurrentLocationChanged;
 
             Log.Info("Health Bars by Zoryn => Initialized");
         }
 
-        private void LocationEvents_CurrentLocationChanged(object sender, EventArgsCurrentLocationChanged e)
-        {
-            var gameLoc = Game1.currentLocation;
-            if (gameLoc == null)
-                return;
-
-            try
-            {
-                monsters.Clear();
-                foreach (var v in gameLoc.characters)
-                {
-                    if (v is Monster)
-                    {
-                        monsters.Add(v as Monster);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.ToString());
-            }
-        }
-
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
         {
-            if (monsters.Count < 1 || Game1.activeClickableMenu != null)
+            if (Game1.currentLocation == null)
+                return;
+
+            monsters = Game1.currentLocation.characters.OfType<Monster>().ToList();
+
+            if (!monsters.Any() || Game1.activeClickableMenu != null)
                 return;
 
             var font = Game1.smallFont;
@@ -93,8 +74,11 @@ namespace HealthBars
 
             batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
 
-            foreach (var monster in monsters)
+            Console.WriteLine(monsters.Select(x => x.position).ToSingular<Vector2>());
+
+            for (int i = 0; i < monsters.Count; i++)
             {
+                var monster = monsters[i];
                 if (monster.maxHealth < monster.health)
                 {
                     monster.maxHealth = monster.health;
@@ -106,12 +90,13 @@ namespace HealthBars
                 var animSprite = monster.Sprite;
 
                 var size = new Vector2(animSprite.spriteWidth, animSprite.spriteHeight) * Game1.pixelZoom;
-                
+
                 var screenLoc = monster.Position - new Vector2(viewport.X, viewport.Y);
+                batch.DrawString(Game1.dialogueFont, screenLoc.ToString(), new Vector2(0, i * 30), Color.CornflowerBlue);
                 screenLoc.X += size.X / 2 - ModConfig.BarWidth / 2.0f;
                 screenLoc.Y -= ModConfig.BarHeight;
 
-                var fill = monster.health / (float)monster.maxHealth;
+                var fill = monster.health / (float) monster.maxHealth;
 
                 batch.Draw(texBar, screenLoc + new Vector2(ModConfig.BarBorderWidth, ModConfig.BarBorderHeight), texBar.Bounds, Color.Lerp(ModConfig.LowHealthColor, ModConfig.HighHealthColor, fill), 0.0f, Vector2.Zero, new Vector2(fill, 1.0f), SpriteEffects.None, 0);
 

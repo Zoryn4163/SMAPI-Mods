@@ -28,8 +28,18 @@ namespace RegenMod
             ModConfig = new RegenConfig().InitializeConfig(BaseConfigPath);
 
             GameEvents.UpdateTick += GameEvents_UpdateTick;
+            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info("RegenMod by Zoryn => Initialized");
+            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
+        }
+
+        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        {
+            if (e.KeyPressed == Keys.F4)
+            {
+                ModConfig.ReloadConfig();
+                Log.Success("Config Reloaded for " + GetType().Name);
+            }
         }
 
         private void GameEvents_UpdateTick(object sender, EventArgs e)
@@ -109,59 +119,49 @@ namespace RegenMod
         }
     }
 
-    public class ExampleMod : Mod
-    {
-        public static ExampleConfig ModConfig { get; private set; }
-
-        public override void Entry(params object[] objects)
-        {
-            ModConfig = new ExampleConfig().InitializeConfig(BaseConfigPath);
-
-            ModConfig.ReloadConfig();
-            ModConfig.WriteConfig();
-
-            Log.Info("ExampleMod by Zoryn => Initialized");
-        }
-    }
-
-    public class ExampleConfig : Config
-    {
-        public bool SomeBoolean { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            SomeBoolean = true;
-            return this as T;
-        }
-    }
-
     public class RegenConfig : Config
     {
-        public bool RegenStamina { get; set; }
-        public bool RegenStaminaIsNegative { get; set; }
-        public bool RegenStaminaOnlyWhileStill { get; set; }
-        public float RegenStaminaPerSecond { get; set; }
-        public float FramesUntilBeginStaminaRegen { get; set; }
+        public bool RegenStaminaConstant { get; set; }
+        public bool RegenStaminaConstantIsNegative { get; set; }
+        public float RegenStaminaConstantAmountPerSecond { get; set; }
 
-        public bool RegenHealth { get; set; }
-        public bool RegenHealthIsNegative { get; set; }
-        public bool RegenHealthOnlyWhileStill { get; set; }
-        public float RegenHealthPerSecond { get; set; }
-        public float FramesUntilBeginHealthRegen { get; set; }
+        public bool RegenStaminaStill { get; set; }
+        public bool RegenStaminaStillIsNegative { get; set; }
+        public float RegenStaminaStillAmountPerSecond { get; set; }
+        public int RegenStaminaStillTimeRequiredMS { get; set; }
+
+
+
+        public bool RegenHealthConstant { get; set; }
+        public bool RegenHealthConstantIsNegative { get; set; }
+        public float RegenHealthConstantAmountPerSecond { get; set; }
+
+        public bool RegenHealthStill { get; set; }
+        public bool RegenHealthStillIsNegative { get; set; }
+        public float RegenHealthStillAmountPerSecond { get; set; }
+        public int RegenHealthStillTimeRequiredMS { get; set; }
 
         public override T GenerateDefaultConfig<T>()
         {
-            RegenStamina = false;
-            RegenStaminaIsNegative = false;
-            RegenStaminaOnlyWhileStill = false;
-            RegenStaminaPerSecond = 0.25f;
-            FramesUntilBeginStaminaRegen = 180;
+            RegenStaminaConstant = false;
+            RegenStaminaConstantIsNegative = false;
+            RegenStaminaConstantAmountPerSecond = 0;
 
-            RegenHealth = false;
-            RegenHealthIsNegative = false;
-            RegenHealthOnlyWhileStill = false;
-            RegenHealthPerSecond = 0.15f;
-            FramesUntilBeginHealthRegen = 180;
+            RegenStaminaStill = false;
+            RegenStaminaStillIsNegative = false;
+            RegenStaminaStillAmountPerSecond = 0;
+            RegenStaminaStillTimeRequiredMS = 1000;
+
+
+
+            RegenHealthConstant = false;
+            RegenHealthConstantIsNegative = false;
+            RegenHealthConstantAmountPerSecond = 0;
+
+            RegenHealthStill = false;
+            RegenHealthStillIsNegative = false;
+            RegenHealthStillAmountPerSecond = 0;
+            RegenHealthStillTimeRequiredMS = 1000;
 
             return this as T;
         }

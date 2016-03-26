@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StardewModdingAPI;
+using StardewValley;
+using Object = StardewValley.Object;
 
 namespace SMAPITestMod
 {
@@ -18,12 +20,16 @@ namespace SMAPITestMod
             Log.Verbose("SomeMod by Zoryn => Initialized");
         }
 
-        private void PlayerEvents_LoadedGame(object sender, StardewModdingAPI.Events.EventArgsLoadedGameChanged e)
+        public void PlayerEvents_LoadedGame(object sender, StardewModdingAPI.Events.EventArgsLoadedGameChanged e)
         {
-            PerSaveConfig = new MyConfig().InitializeConfig(PerSaveConfigPath);
+            Console.WriteLine(e.LoadedGame);
+            if (e.LoadedGame)
+            {
+                PerSaveConfig = new MyConfig().InitializeConfig(PerSaveConfigPath);
+            }
         }
 
-        private void GameEvents_UpdateTick(object sender, EventArgs e)
+        public void GameEvents_UpdateTick(object sender, EventArgs e)
         {
             //This stuff will happen every update (60 times a second without lag)
         }
@@ -31,11 +37,12 @@ namespace SMAPITestMod
 
     public class MyConfig : Config
     {
-        public string SomeValue { get; set; }
+        public List<Object> playerItems { get; set; }
 
         public override T GenerateDefaultConfig<T>()
         {
-            SomeValue = "something";
+            playerItems = new List<Object>();
+            playerItems.Add(new Object(80, 1));
             return this as T;
         }
     }
