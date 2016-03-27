@@ -21,7 +21,7 @@ namespace RegenMod
         public static Farmer Player => Game1.player;
 
         public static int UpdateIndex { get; private set; }
-        public static float TimeSinceLastMoved { get; private set; }
+        public static double TimeSinceLastMoved { get; private set; }
 
         public override void Entry(params object[] objects)
         {
@@ -30,7 +30,7 @@ namespace RegenMod
             GameEvents.UpdateTick += GameEvents_UpdateTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
         }
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
@@ -38,7 +38,7 @@ namespace RegenMod
             if (e.KeyPressed == Keys.F4)
             {
                 ModConfig.ReloadConfig();
-                Log.Success("Config Reloaded for " + GetType().Name);
+                Log.AsyncG("Config Reloaded for " + GetType().Name);
             }
         }
 
@@ -56,66 +56,61 @@ namespace RegenMod
                 return;
             }
 
-            TimeSinceLastMoved += 1;
-            if (Game1.oldKBState.GetPressedKeys().Length > 0 || Game1.oldMouseState.LeftButton == ButtonState.Pressed || Game1.oldMouseState.RightButton == ButtonState.Pressed)
+            TimeSinceLastMoved += Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
+            if (Game1.oldKBState.GetPressedKeys().Any() || Game1.oldMouseState.LeftButton == ButtonState.Pressed || Game1.oldMouseState.RightButton == ButtonState.Pressed)
                 TimeSinceLastMoved = 0;
 
-            if (ModConfig.RegenHealth)
-            {
-                if (!ModConfig.RegenHealthOnlyWhileStill || (ModConfig.RegenHealthOnlyWhileStill && TimeSinceLastMoved > ModConfig.FramesUntilBeginHealthRegen))
-                {
-                    if (Player.health + HealthFloat >= Player.maxHealth)
-                    {
-                        HealthFloat = 0;
-                        Player.health = Player.maxHealth;
-                    }
-                    else
-                    {
-                        HealthFloat += ModConfig.RegenHealthPerSecond * (float)(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000) * (ModConfig.RegenHealthIsNegative ? -1 : 1);
+            #region Health Regen 
 
-                        if (HealthFloat > 1 && Player.health < Player.maxHealth)
-                        {
-                            Player.health = Player.health >= Player.maxHealth ? Player.maxHealth : Player.health + 1;
-                            HealthFloat -= 1;
-                        }
-                        else if (HealthFloat < -1 && Player.health > 0)
-                        {
-                            Player.health = Player.health > 0 ? Player.health - 1 : 0;
-                            HealthFloat += 1;
-                        }
-                    }
+            if (ModConfig.RegenHealthConstant)
+                HealthFloat += ModConfig.RegenHealthConstantIsNegative ? -ModConfig.RegenHealthConstantAmountPerSecond : ModConfig.RegenHealthConstantAmountPerSecond;
+
+            if (ModConfig.RegenHealthStill)
+            {
+                if (TimeSinceLastMoved > ModConfig.RegenHealthStillTimeRequiredMS)
+                {
+                    HealthFloat += ModConfig.RegenHealthStillIsNegative ? -ModConfig.RegenHealthStillAmountPerSecond : ModConfig.RegenHealthStillAmountPerSecond;
                 }
             }
 
-            if (ModConfig.RegenStamina)
+            if (Player.health + HealthFloat >= Player.maxHealth)
             {
-                if (!ModConfig.RegenStaminaOnlyWhileStill || (ModConfig.RegenStaminaOnlyWhileStill && TimeSinceLastMoved > ModConfig.FramesUntilBeginStaminaRegen))
+                Player.health = Player.maxHealth;
+                HealthFloat = 0;
+            }
+            else
+            {
+                Player.health += Convert.ToInt32(Math.Round(HealthFloat));
+                HealthFloat = 0;
+            }
+
+            #endregion
+
+            #region Stamina Regen 
+
+            if (ModConfig.RegenStaminaConstant)
+                StaminaFloat += ModConfig.RegenStaminaConstantIsNegative ? -ModConfig.RegenStaminaConstantAmountPerSecond : ModConfig.RegenStaminaConstantAmountPerSecond;
+
+            if (ModConfig.RegenStaminaStill)
+            {
+                if (TimeSinceLastMoved > ModConfig.RegenStaminaStillTimeRequiredMS)
                 {
-                    if (Player.stamina + StaminaFloat >= Player.maxStamina)
-                    {
-                        StaminaFloat = 0;
-                        Player.stamina = Player.maxStamina;
-                    }
-                    else
-                    {
-                        StaminaFloat += ModConfig.RegenStaminaPerSecond * (float)(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000) * (ModConfig.RegenStaminaIsNegative ? -1 : 1);
-
-                        if (StaminaFloat > 1 && Player.stamina < Player.maxStamina)
-                        {
-                            Player.stamina = Player.stamina >= Player.maxStamina ? Player.maxStamina : Player.stamina + 1;
-                            StaminaFloat -= 1;
-                        }
-                        else if (StaminaFloat < -1 && Player.stamina > 0)
-                        {
-                            Player.stamina = Player.stamina > 0 ? Player.stamina - 1 : 0;
-                            StaminaFloat += 1;
-
-                            if (Player.stamina <= 0.1f)
-                                Player.exhausted = true;
-                        }
-                    }
+                    StaminaFloat += ModConfig.RegenStaminaStillIsNegative ? -ModConfig.RegenStaminaStillAmountPerSecond : ModConfig.RegenStaminaStillAmountPerSecond;
                 }
             }
+
+            if (Player.Stamina + StaminaFloat >= Player.maxStamina)
+            {
+                Player.Stamina = Player.maxStamina;
+                StaminaFloat = 0;
+            }
+            else
+            {
+                Player.Stamina += Convert.ToInt32(Math.Round(StaminaFloat));
+                StaminaFloat = 0;
+            }
+
+            #endregion
         }
     }
 

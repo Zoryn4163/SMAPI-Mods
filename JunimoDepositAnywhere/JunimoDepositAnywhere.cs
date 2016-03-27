@@ -15,7 +15,8 @@ namespace JunimoDepositAnywhere
         public override void Entry(params object[] objects)
         {
             GameEvents.QuarterSecondTick += GameEvents_QuarterSecondTick;
-            Log.Info("Junimo Deposit Anywhere by Zoryn => Initialized");
+
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
         }
 
         private void GameEvents_QuarterSecondTick(object sender, EventArgs e)

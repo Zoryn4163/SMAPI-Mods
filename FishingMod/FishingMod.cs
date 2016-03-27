@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Inheritance;
@@ -35,7 +36,7 @@ namespace FishingMod
             GameEvents.OneSecondTick += GameEvents_OneSecondTick;
             MenuEvents.MenuChanged += MenuEvents_MenuChanged;
 
-            Log.Info("FishingMod by Zoryn => Initialized");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
         }
 
         private void MenuEvents_MenuChanged(object sender, EventArgsClickableMenuChanged e)
@@ -111,6 +112,15 @@ namespace FishingMod
                 //End fishing game
                 BeganFishingGame = false;
                 UpdateIndex = 0;
+            }
+        }
+
+        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        {
+            if (e.KeyPressed == Keys.F4)
+            {
+                ModConfig.ReloadConfig();
+                Log.AsyncG("Config Reloaded for " + GetType().Name);
             }
         }
     }

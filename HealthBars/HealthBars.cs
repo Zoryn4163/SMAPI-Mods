@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Inheritance;
@@ -41,9 +42,9 @@ namespace HealthBars
                 }
                 texBar.SetData<uint>(data);
             };
-            GraphicsEvents.DrawTick += GraphicsEvents_DrawTick;
+            GraphicsEvents.DrawInRenderTargetTick += GraphicsEvents_DrawTick;
 
-            Log.Info("Health Bars by Zoryn => Initialized");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
         }
 
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
@@ -60,7 +61,7 @@ namespace HealthBars
             var batch = Game1.spriteBatch;
             var viewport = Game1.viewport;
 
-
+            /*
             if (!Game1.options.zoomLevel.Equals(1.0f))
             {
                 if (TheGame.Screen.RenderTargetUsage == RenderTargetUsage.DiscardContents)
@@ -71,10 +72,11 @@ namespace HealthBars
                 }
                 TheGame.GraphicsDevice.SetRenderTarget(TheGame.Screen);
             }
+            */
 
             batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
 
-            Console.WriteLine(monsters.Select(x => x.position).ToSingular<Vector2>());
+            //Console.WriteLine(monsters.Select(x => x.position).ToSingular<Vector2>());
 
             for (int i = 0; i < monsters.Count; i++)
             {
@@ -121,12 +123,22 @@ namespace HealthBars
 
             batch.End();
 
+            /*
             if (!Game1.options.zoomLevel.Equals(1.0f))
             {
                 TheGame.GraphicsDevice.SetRenderTarget((RenderTarget2D)null);
                 Game1.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone);
                 Game1.spriteBatch.Draw((Texture2D)TheGame.Screen, Vector2.Zero, new Microsoft.Xna.Framework.Rectangle?(TheGame.Screen.Bounds), Color.White, 0.0f, Vector2.Zero, Game1.options.zoomLevel, SpriteEffects.None, 1f);
                 Game1.spriteBatch.End();
+            }*/
+        }
+
+        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        {
+            if (e.KeyPressed == Keys.F4)
+            {
+                ModConfig.ReloadConfig();
+                Log.AsyncG("Config Reloaded for " + GetType().Name);
             }
         }
     }

@@ -14,7 +14,7 @@ namespace DurableFences
         {
             StardewModdingAPI.Events.GameEvents.OneSecondTick += GameEvents_OneSecondTick;
 
-            Log.Info("DurableFences by Zoryn => Initialized");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
         }
 
         private void GameEvents_OneSecondTick(object sender, EventArgs e)

@@ -5,8 +5,11 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Inheritance;
 using StardewValley;
 
 namespace BetterRNG
@@ -71,9 +74,28 @@ namespace BetterRNG
             //Determine base RNG to get everything up and running.
             DetermineRng();
 
-            StardewModdingAPI.Events.PlayerEvents.FarmerChanged += PlayerEvents_FarmerChanged;
+            PlayerEvents.FarmerChanged += PlayerEvents_FarmerChanged;
+            GameEvents.UpdateTick += GameEvents_UpdateTick;
+            PlayerEvents.LoadedGame += PlayerEvents_LoadedGame;
+            TimeEvents.OnNewDay += TimeEvents_OnNewDay;
 
-            Log.Info("BetterRng by Zoryn => Initialized");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
+        }
+
+        private void TimeEvents_OnNewDay(object sender, EventArgsNewDay e)
+        {
+            Console.WriteLine("NEW DAY: " + e.IsNewDay);
+        }
+
+        private void PlayerEvents_LoadedGame(object sender, EventArgsLoadedGameChanged e)
+        {
+            DetermineRng();
+        }
+
+        private void GameEvents_UpdateTick(object sender, EventArgs e)
+        {
+            if (SGame.Debug)
+                SGame.QueueDebugMessage($"[Twister] Daily Luck: {Game1.dailyLuck} | Tomorrow's Weather: {Game1.weatherForTomorrow}");
         }
 
         private void PlayerEvents_FarmerChanged(object sender, StardewModdingAPI.Events.EventArgsFarmerChanged e)
@@ -104,8 +126,15 @@ namespace BetterRNG
 
                 Game1.weatherForTomorrow = targWeather;
             }
+        }
 
-            //Console.WriteLine("[Twister] Daily Luck: " + @event.Root.DailyLuck + " | Tomorrow's Weather: " + @event.Root.WeatherForTomorrow);
+        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        {
+            if (e.KeyPressed == Keys.F4)
+            {
+                ModConfig.ReloadConfig();
+                Log.AsyncG("Config Reloaded for " + GetType().Name);
+            }
         }
     }
 

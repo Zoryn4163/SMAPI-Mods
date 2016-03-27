@@ -52,7 +52,7 @@ namespace CalendarAnywhere
                 }
             };
 
-            Log.Info("CalendarAnywhere by Zoryn => Initialization Completed");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
         }
 
         private void ControlEvents_MouseChanged(object sender, StardewModdingAPI.Events.EventArgsMouseStateChanged e)

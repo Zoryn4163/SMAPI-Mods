@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Inheritance;
@@ -23,7 +24,7 @@ namespace MovementMod
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
 
-            Log.Info("MovementModifier by Zoryn => Initialized");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
         }
 
         private void GameEventsOnUpdateTick(object sender, EventArgs eventArgs)
@@ -40,6 +41,8 @@ namespace MovementMod
             }
             else
             {
+                if (ModConfig.EnableHorseSpeedOverride && Player.getMount() != null)
+                    Player.addedSpeed = ModConfig.HorseSpeed;
                 if (ModConfig.EnableRunningSpeedOverride && Player.running)
                     Player.addedSpeed = ModConfig.PlayerRunningSpeed;
                 else if (ModConfig.EnableWalkingSpeedOverride && !Player.running)
@@ -51,23 +54,43 @@ namespace MovementMod
                     Player.movementDirections?.Clear();
             }
         }
+
+        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        {
+            if (e.KeyPressed == Keys.F4)
+            {
+                ModConfig.ReloadConfig();
+                Log.AsyncG("Config Reloaded for " + GetType().Name);
+            }
+        }
     }
 
     public class MovementConfig : Config
     {
         public bool EnableDiagonalMovementSpeedFix { get; set; }
+
         public bool EnableWalkingSpeedOverride { get; set; }
         public int PlayerWalkingSpeed { get; set; }
+
         public bool EnableRunningSpeedOverride { get; set; }
         public int PlayerRunningSpeed { get; set; }
+
+        public bool EnableHorseSpeedOverride { get; set; }
+        public int HorseSpeed { get; set; }
 
         public override T GenerateDefaultConfig<T>()
         {
             EnableDiagonalMovementSpeedFix = true;
+
             EnableWalkingSpeedOverride = false;
             PlayerWalkingSpeed = 2;
+
             EnableRunningSpeedOverride = false;
             PlayerRunningSpeed = 5;
+
+            EnableHorseSpeedOverride = false;
+            HorseSpeed = 5;
+
             return this as T;
         }
     }
