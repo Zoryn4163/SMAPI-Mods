@@ -16,7 +16,7 @@ namespace JunimoDepositAnywhere
         {
             GameEvents.QuarterSecondTick += GameEvents_QuarterSecondTick;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void GameEvents_QuarterSecondTick(object sender, EventArgs e)

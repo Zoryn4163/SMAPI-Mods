@@ -42,9 +42,10 @@ namespace HealthBars
                 }
                 texBar.SetData<uint>(data);
             };
-            GraphicsEvents.DrawInRenderTargetTick += GraphicsEvents_DrawTick;
+            GraphicsEvents.OnPreRenderGuiEvent += GraphicsEvents_DrawTick;
+            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
@@ -135,9 +136,9 @@ namespace HealthBars
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
         {
-            if (e.KeyPressed == Keys.F4)
+            if (e.KeyPressed == Keys.F5)
             {
-                ModConfig.ReloadConfig();
+                ModConfig = ModConfig.ReloadConfig();
                 Log.AsyncG("Config Reloaded for " + GetType().Name);
             }
         }

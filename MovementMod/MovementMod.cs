@@ -23,8 +23,9 @@ namespace MovementMod
             ModConfig = new MovementConfig().InitializeConfig(BaseConfigPath);
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
+            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void GameEventsOnUpdateTick(object sender, EventArgs eventArgs)
@@ -57,9 +58,9 @@ namespace MovementMod
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
         {
-            if (e.KeyPressed == Keys.F4)
+            if (e.KeyPressed == Keys.F5)
             {
-                ModConfig.ReloadConfig();
+                ModConfig = ModConfig.ReloadConfig();
                 Log.AsyncG("Config Reloaded for " + GetType().Name);
             }
         }

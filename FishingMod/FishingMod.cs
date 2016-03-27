@@ -35,8 +35,9 @@ namespace FishingMod
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
             GameEvents.OneSecondTick += GameEvents_OneSecondTick;
             MenuEvents.MenuChanged += MenuEvents_MenuChanged;
+            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void MenuEvents_MenuChanged(object sender, EventArgsClickableMenuChanged e)
@@ -117,9 +118,9 @@ namespace FishingMod
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
         {
-            if (e.KeyPressed == Keys.F4)
+            if (e.KeyPressed == Keys.F5)
             {
-                ModConfig.ReloadConfig();
+                ModConfig = ModConfig.ReloadConfig();
                 Log.AsyncG("Config Reloaded for " + GetType().Name);
             }
         }

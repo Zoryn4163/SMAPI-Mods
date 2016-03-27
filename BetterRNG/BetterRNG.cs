@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -77,19 +78,19 @@ namespace BetterRNG
             PlayerEvents.FarmerChanged += PlayerEvents_FarmerChanged;
             GameEvents.UpdateTick += GameEvents_UpdateTick;
             PlayerEvents.LoadedGame += PlayerEvents_LoadedGame;
-            TimeEvents.OnNewDay += TimeEvents_OnNewDay;
+            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F4 To Reload Config)");
-        }
-
-        private void TimeEvents_OnNewDay(object sender, EventArgsNewDay e)
-        {
-            Console.WriteLine("NEW DAY: " + e.IsNewDay);
+            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void PlayerEvents_LoadedGame(object sender, EventArgsLoadedGameChanged e)
         {
-            DetermineRng();
+            Task.Run(() =>
+            {
+                while (Game1.gameMode != 3)
+                    Thread.Sleep(100);
+                DetermineRng();
+            });
         }
 
         private void GameEvents_UpdateTick(object sender, EventArgs e)
@@ -130,9 +131,9 @@ namespace BetterRNG
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
         {
-            if (e.KeyPressed == Keys.F4)
+            if (e.KeyPressed == Keys.F5)
             {
-                ModConfig.ReloadConfig();
+                ModConfig = ModConfig.ReloadConfig();
                 Log.AsyncG("Config Reloaded for " + GetType().Name);
             }
         }
