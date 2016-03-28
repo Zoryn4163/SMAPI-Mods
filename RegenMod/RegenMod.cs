@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Inheritance;
 using StardewValley;
 
 namespace RegenMod
@@ -22,6 +23,8 @@ namespace RegenMod
 
         public static int UpdateIndex { get; private set; }
         public static double TimeSinceLastMoved { get; private set; }
+
+        public static float ElapsedFloat => (float)(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000);
 
         public override void Entry(params object[] objects)
         {
@@ -63,13 +66,13 @@ namespace RegenMod
             #region Health Regen 
 
             if (ModConfig.RegenHealthConstant)
-                HealthFloat += ModConfig.RegenHealthConstantIsNegative ? -ModConfig.RegenHealthConstantAmountPerSecond : ModConfig.RegenHealthConstantAmountPerSecond;
+                HealthFloat += (ModConfig.RegenHealthConstantIsNegative ? -ModConfig.RegenHealthConstantAmountPerSecond : ModConfig.RegenHealthConstantAmountPerSecond) * ElapsedFloat;
 
             if (ModConfig.RegenHealthStill)
             {
                 if (TimeSinceLastMoved > ModConfig.RegenHealthStillTimeRequiredMS)
                 {
-                    HealthFloat += ModConfig.RegenHealthStillIsNegative ? -ModConfig.RegenHealthStillAmountPerSecond : ModConfig.RegenHealthStillAmountPerSecond;
+                    HealthFloat += (ModConfig.RegenHealthStillIsNegative ? -ModConfig.RegenHealthStillAmountPerSecond : ModConfig.RegenHealthStillAmountPerSecond) * ElapsedFloat;
                 }
             }
 
@@ -78,10 +81,15 @@ namespace RegenMod
                 Player.health = Player.maxHealth;
                 HealthFloat = 0;
             }
-            else
+            else if (HealthFloat >= 1)
             {
-                Player.health += Convert.ToInt32(Math.Round(HealthFloat));
-                HealthFloat = 0;
+                Player.health += 1;
+                HealthFloat -= 1;
+            }
+            else if (HealthFloat <= -1)
+            {
+                Player.health -= 1;
+                HealthFloat += 1;
             }
 
             #endregion
@@ -89,13 +97,13 @@ namespace RegenMod
             #region Stamina Regen 
 
             if (ModConfig.RegenStaminaConstant)
-                StaminaFloat += ModConfig.RegenStaminaConstantIsNegative ? -ModConfig.RegenStaminaConstantAmountPerSecond : ModConfig.RegenStaminaConstantAmountPerSecond;
+                StaminaFloat += (ModConfig.RegenStaminaConstantIsNegative ? -ModConfig.RegenStaminaConstantAmountPerSecond : ModConfig.RegenStaminaConstantAmountPerSecond) * ElapsedFloat;
 
             if (ModConfig.RegenStaminaStill)
             {
                 if (TimeSinceLastMoved > ModConfig.RegenStaminaStillTimeRequiredMS)
                 {
-                    StaminaFloat += ModConfig.RegenStaminaStillIsNegative ? -ModConfig.RegenStaminaStillAmountPerSecond : ModConfig.RegenStaminaStillAmountPerSecond;
+                    StaminaFloat += (ModConfig.RegenStaminaStillIsNegative ? -ModConfig.RegenStaminaStillAmountPerSecond : ModConfig.RegenStaminaStillAmountPerSecond) * ElapsedFloat;
                 }
             }
 
@@ -104,13 +112,20 @@ namespace RegenMod
                 Player.Stamina = Player.maxStamina;
                 StaminaFloat = 0;
             }
-            else
+            else if (StaminaFloat >= 1)
             {
-                Player.Stamina += Convert.ToInt32(Math.Round(StaminaFloat));
-                StaminaFloat = 0;
+                Player.Stamina += 1;
+                StaminaFloat -= 1;
+            }
+            else if (StaminaFloat <= -1)
+            {
+                Player.Stamina -= 1;
+                StaminaFloat += 1;
             }
 
             #endregion
+
+            SGame.QueueDebugMessage("H: " + HealthFloat + " | S: " + StaminaFloat);
         }
     }
 
