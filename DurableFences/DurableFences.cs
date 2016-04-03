@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StardewModdingAPI;
 using StardewValley;
 
@@ -14,7 +10,7 @@ namespace DurableFences
         {
             StardewModdingAPI.Events.GameEvents.OneSecondTick += GameEvents_OneSecondTick;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void GameEvents_OneSecondTick(object sender, EventArgs e)

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Inheritance;
 using StardewModdingAPI.Inheritance.Menus;
 using StardewValley;
 using StardewValley.Menus;
@@ -37,7 +32,7 @@ namespace FishingMod
             MenuEvents.MenuChanged += MenuEvents_MenuChanged;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void MenuEvents_MenuChanged(object sender, EventArgsClickableMenuChanged e)
@@ -121,7 +116,7 @@ namespace FishingMod
             if (e.KeyPressed == Keys.F5)
             {
                 ModConfig = ModConfig.ReloadConfig();
-                Log.AsyncG("Config Reloaded for " + GetType().Name);
+                Log.Success("Config Reloaded for " + GetType().Name);
             }
         }
     }

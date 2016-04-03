@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -80,7 +76,7 @@ namespace BetterRNG
             PlayerEvents.LoadedGame += PlayerEvents_LoadedGame;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void PlayerEvents_LoadedGame(object sender, EventArgsLoadedGameChanged e)
@@ -134,7 +130,7 @@ namespace BetterRNG
             if (e.KeyPressed == Keys.F5)
             {
                 ModConfig = ModConfig.ReloadConfig();
-                Log.AsyncG("Config Reloaded for " + GetType().Name);
+                Log.Success("Config Reloaded for " + GetType().Name);
             }
         }
     }

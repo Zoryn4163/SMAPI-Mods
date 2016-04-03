@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -16,7 +13,7 @@ namespace JunimoDepositAnywhere
         {
             GameEvents.QuarterSecondTick += GameEvents_QuarterSecondTick;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void GameEvents_QuarterSecondTick(object sender, EventArgs e)

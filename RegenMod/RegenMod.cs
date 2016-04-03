@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -33,7 +29,7 @@ namespace RegenMod
             GameEvents.UpdateTick += GameEvents_UpdateTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
@@ -41,7 +37,7 @@ namespace RegenMod
             if (e.KeyPressed == Keys.F5)
             {
                 ModConfig = ModConfig.ReloadConfig();
-                Log.AsyncG("Config Reloaded for " + GetType().Name);
+                Log.Success("Config Reloaded for " + GetType().Name);
             }
         }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -45,7 +43,7 @@ namespace HealthBars
             GraphicsEvents.OnPreRenderGuiEvent += GraphicsEvents_DrawTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
@@ -139,7 +137,7 @@ namespace HealthBars
             if (e.KeyPressed == Keys.F5)
             {
                 ModConfig = ModConfig.ReloadConfig();
-                Log.AsyncG("Config Reloaded for " + GetType().Name);
+                Log.Success("Config Reloaded for " + GetType().Name);
             }
         }
     }

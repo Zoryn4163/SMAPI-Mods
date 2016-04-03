@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -40,7 +35,7 @@ namespace CalendarAnywhere
 
             StardewModdingAPI.Events.ControlEvents.MouseChanged += ControlEvents_MouseChanged;
             StardewModdingAPI.Events.ControlEvents.ControllerButtonPressed += ControlEvents_ControllerButtonPressed;
-            StardewModdingAPI.Events.GraphicsEvents.DrawTick += GraphicsEvents_DrawTick;
+            StardewModdingAPI.Events.GraphicsEvents.OnPostRenderEvent += GraphicsEvents_DrawTick;
 
             StardewModdingAPI.Events.GameEvents.FirstUpdateTick += (sender, args) =>
             {
@@ -52,7 +47,7 @@ namespace CalendarAnywhere
                 }
             };
 
-            Log.AsyncY(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
 
         private void ControlEvents_MouseChanged(object sender, StardewModdingAPI.Events.EventArgsMouseStateChanged e)
@@ -91,11 +86,11 @@ namespace CalendarAnywhere
 
             if (MousePointRect.Intersects(TargRect))
             {
-                Game1.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+                //Game1.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
                 Game1.spriteBatch.Draw(OpenTexture, TargRect, Color.White);
                 Game1.spriteBatch.DrawString(Game1.smallFont, "Calendar", new Vector2(TargX, TargY), Color.Black, 0, new Vector2(-3, -5), 1.4f, SpriteEffects.None, 0.001f);
                 Game1.spriteBatch.Draw(Game1.mouseCursors, MouseRect, new Rectangle(0, 0, 16, 16), Color.White);
-                Game1.spriteBatch.End();
+                //Game1.spriteBatch.End();
             }
         }
     }
