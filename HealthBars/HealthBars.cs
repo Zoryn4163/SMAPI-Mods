@@ -19,7 +19,7 @@ namespace HealthBars
         public static HealthBarConfig ModConfig { get; set; }
         public static List<Monster> monsters { get; private set; }
 
-        public static RenderTarget2D RTarg { get; set; }
+        //public static RenderTarget2D RTarg { get; set; }
 
         Texture2D texBar;
 
@@ -40,7 +40,7 @@ namespace HealthBars
                 }
                 texBar.SetData<uint>(data);
             };
-            GraphicsEvents.OnPreRenderGuiEvent += GraphicsEvents_DrawTick;
+            GraphicsEvents.OnPreRenderGuiEventNoCheck += GraphicsEvents_DrawTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
             Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
@@ -53,29 +53,12 @@ namespace HealthBars
 
             monsters = Game1.currentLocation.characters.OfType<Monster>().ToList();
 
-            if (!monsters.Any() || Game1.activeClickableMenu != null)
+            if (!monsters.Any())
                 return;
 
             var font = Game1.smallFont;
             var batch = Game1.spriteBatch;
             var viewport = Game1.viewport;
-
-            /*
-            if (!Game1.options.zoomLevel.Equals(1.0f))
-            {
-                if (TheGame.Screen.RenderTargetUsage == RenderTargetUsage.DiscardContents)
-                {
-                    TheGame.Screen = new RenderTarget2D(Game1.graphics.GraphicsDevice, Math.Min(4096, (int)((double)TheGame.Window.ClientBounds.Width * (1.0 / (double)Game1.options.zoomLevel))),
-                     Math.Min(4096, (int)((double)TheGame.Window.ClientBounds.Height * (1.0 / (double)Game1.options.zoomLevel))),
-                        false, SurfaceFormat.Color, DepthFormat.Depth16, 1, RenderTargetUsage.PreserveContents);
-                }
-                TheGame.GraphicsDevice.SetRenderTarget(TheGame.Screen);
-            }
-            */
-
-            batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
-
-            //Console.WriteLine(monsters.Select(x => x.position).ToSingular<Vector2>());
 
             for (int i = 0; i < monsters.Count; i++)
             {
@@ -93,7 +76,6 @@ namespace HealthBars
                 var size = new Vector2(animSprite.spriteWidth, animSprite.spriteHeight) * Game1.pixelZoom;
 
                 var screenLoc = monster.Position - new Vector2(viewport.X, viewport.Y);
-                batch.DrawString(Game1.dialogueFont, screenLoc.ToString(), new Vector2(0, i * 30), Color.CornflowerBlue);
                 screenLoc.X += size.X / 2 - ModConfig.BarWidth / 2.0f;
                 screenLoc.Y -= ModConfig.BarHeight;
 
@@ -119,17 +101,6 @@ namespace HealthBars
                     batch.DrawString(font, textRight, screenLoc + new Vector2(ModConfig.BarWidth, 0.0f) - new Vector2(textSizeR.X, textSizeR.Y + 1.0f), ModConfig.TextColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
                 }
             }
-
-            batch.End();
-
-            /*
-            if (!Game1.options.zoomLevel.Equals(1.0f))
-            {
-                TheGame.GraphicsDevice.SetRenderTarget((RenderTarget2D)null);
-                Game1.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone);
-                Game1.spriteBatch.Draw((Texture2D)TheGame.Screen, Vector2.Zero, new Microsoft.Xna.Framework.Rectangle?(TheGame.Screen.Bounds), Color.White, 0.0f, Vector2.Zero, Game1.options.zoomLevel, SpriteEffects.None, 1f);
-                Game1.spriteBatch.End();
-            }*/
         }
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
