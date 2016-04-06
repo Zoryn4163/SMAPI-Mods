@@ -79,7 +79,11 @@ namespace FishingMod
                         Bobber.treasure = true;
 
                     if (ModConfig.InstantCatchFish)
+                    {
+                        if (Bobber.treasure)
+                            Bobber.treasureCaught = true;
                         Bobber.distanceFromCatching += 100;
+                    }
 
                     if (ModConfig.InstantCatchTreasure)
                         if (Bobber.treasure || ModConfig.AlwaysFindTreasure)
