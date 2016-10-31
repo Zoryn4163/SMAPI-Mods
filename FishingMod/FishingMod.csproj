@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="FishingMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SBobberBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json">
