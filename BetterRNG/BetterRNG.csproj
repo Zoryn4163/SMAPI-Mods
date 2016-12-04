@@ -44,8 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BetterRNG.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="IWeighted.cs" />
     <Compile Include="MersenneTwister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RngConfig.cs" />
+    <Compile Include="Weighted.cs" />
+    <Compile Include="WeightedGeneric.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json">

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
@@ -19,7 +18,7 @@ namespace MovementMod
 
         public static Keys SprintKey { get; private set; }
         public static bool SprintKeyDown => Program.gamePtr.CurrentlyPressedKeys.Contains(SprintKey);
-        
+
         public static int CurrentSpeed { get; private set; }
 
         public static Vector2 PrevPosition { get; private set; }
@@ -35,7 +34,7 @@ namespace MovementMod
 
             Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
         }
-        
+
         private void GameEventsOnUpdateTick(object sender, EventArgs e)
         {
             if (TheGame == null || Game1.player == null || Game1.currentLocation == null)
@@ -50,7 +49,7 @@ namespace MovementMod
             }
             else
             {
-                
+
                 if (ModConfig.EnableHorseSpeedOverride && Player.getMount() != null)
                     CurrentSpeed = ModConfig.HorseSpeed;
                 if (ModConfig.EnableRunningSpeedOverride && Player.running)
@@ -112,48 +111,6 @@ namespace MovementMod
             }
 
             return k;
-        }
-    }
-
-    public class MovementConfig : Config
-    {
-        public bool EnableDiagonalMovementSpeedFix { get; set; }
-
-        public bool EnableWalkingSpeedOverride { get; set; }
-        public int PlayerWalkingSpeed { get; set; }
-
-        public bool EnableRunningSpeedOverride { get; set; }
-        public int PlayerRunningSpeed { get; set; }
-
-        public bool EnableHorseSpeedOverride { get; set; }
-        public int HorseSpeed { get; set; }
-
-        public bool EnableSprinting { get; set; }
-        public int PlayerSprintingSpeedMultiplier { get; set; }
-        public string SprintKey { get; set; }
-        public bool SprintingDrainsStamina { get; set; }
-        public float SprintingStaminaDrainPerSecond { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            EnableDiagonalMovementSpeedFix = true;
-
-            EnableWalkingSpeedOverride = false;
-            PlayerWalkingSpeed = 2;
-
-            EnableRunningSpeedOverride = false;
-            PlayerRunningSpeed = 5;
-
-            EnableHorseSpeedOverride = false;
-            HorseSpeed = 5;
-
-            EnableSprinting = false;
-            PlayerSprintingSpeedMultiplier = 2;
-            SprintKey = "LeftShift";
-            SprintingDrainsStamina = true;
-            SprintingStaminaDrainPerSecond = 15;
-
-            return this as T;
         }
     }
 }
