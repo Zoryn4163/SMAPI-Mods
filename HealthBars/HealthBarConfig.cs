@@ -1,50 +1,26 @@
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 
 namespace HealthBars
 {
-    public class HealthBarConfig : Config
+    public class HealthBarConfig
     {
         public bool DisplayHealthWhenNotDamaged { get; set; }
 
-        public bool DisplayMaxHealthNumber { get; set; }
-        public bool DisplayCurrentHealthNumber { get; set; }
+        public bool DisplayMaxHealthNumber { get; set; } = true;
+        public bool DisplayCurrentHealthNumber { get; set; } = true;
 
-        public bool DisplayTextBorder { get; set; }
+        public bool DisplayTextBorder { get; set; } = true;
 
-        public Color TextColor { get; set; }
-        public Color TextBorderColor { get; set; }
+        public Color TextColor { get; set; } = Color.White;
+        public Color TextBorderColor { get; set; } = Color.Black;
 
-        public Color LowHealthColor { get; set; }
-        public Color HighHealthColor { get; set; }
+        public Color LowHealthColor { get; set; } = Color.DarkRed;
+        public Color HighHealthColor { get; set; } = Color.LimeGreen;
 
-        public int BarWidth { get; set; }
-        public int BarHeight { get; set; }
+        public int BarWidth { get; set; } = 90;
+        public int BarHeight { get; set; } = 15;
 
-        public int BarBorderWidth { get; set; }
-        public int BarBorderHeight { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            DisplayHealthWhenNotDamaged = false;
-
-            DisplayMaxHealthNumber = true;
-            DisplayCurrentHealthNumber = true;
-
-            DisplayTextBorder = true;
-
-            TextColor = Color.White;
-            TextBorderColor = Color.Black;
-
-            LowHealthColor = Color.DarkRed;
-            HighHealthColor = Color.LimeGreen;
-
-            BarWidth = 90;
-            BarHeight = 15;
-
-            BarBorderWidth = 2;
-            BarBorderHeight = 2;
-            return this as T;
-        }
+        public int BarBorderWidth { get; set; } = 2;
+        public int BarBorderHeight { get; set; } = 2;
     }
 }

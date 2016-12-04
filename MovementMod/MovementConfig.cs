@@ -1,46 +1,22 @@
-using StardewModdingAPI;
-
 namespace MovementMod
 {
-    public class MovementConfig : Config
+    public class MovementConfig
     {
-        public bool EnableDiagonalMovementSpeedFix { get; set; }
+        public bool EnableDiagonalMovementSpeedFix { get; set; } = true;
 
         public bool EnableWalkingSpeedOverride { get; set; }
-        public int PlayerWalkingSpeed { get; set; }
+        public int PlayerWalkingSpeed { get; set; } = 2;
 
         public bool EnableRunningSpeedOverride { get; set; }
-        public int PlayerRunningSpeed { get; set; }
+        public int PlayerRunningSpeed { get; set; } = 5;
 
         public bool EnableHorseSpeedOverride { get; set; }
-        public int HorseSpeed { get; set; }
+        public int HorseSpeed { get; set; } = 5;
 
         public bool EnableSprinting { get; set; }
-        public int PlayerSprintingSpeedMultiplier { get; set; }
-        public string SprintKey { get; set; }
-        public bool SprintingDrainsStamina { get; set; }
-        public float SprintingStaminaDrainPerSecond { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            EnableDiagonalMovementSpeedFix = true;
-
-            EnableWalkingSpeedOverride = false;
-            PlayerWalkingSpeed = 2;
-
-            EnableRunningSpeedOverride = false;
-            PlayerRunningSpeed = 5;
-
-            EnableHorseSpeedOverride = false;
-            HorseSpeed = 5;
-
-            EnableSprinting = false;
-            PlayerSprintingSpeedMultiplier = 2;
-            SprintKey = "LeftShift";
-            SprintingDrainsStamina = true;
-            SprintingStaminaDrainPerSecond = 15;
-
-            return this as T;
-        }
+        public int PlayerSprintingSpeedMultiplier { get; set; } = 2;
+        public string SprintKey { get; set; } = "LeftShift";
+        public bool SprintingDrainsStamina { get; set; } = true;
+        public float SprintingStaminaDrainPerSecond { get; set; } = 15;
     }
 }

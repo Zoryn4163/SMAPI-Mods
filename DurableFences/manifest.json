@@ -1,6 +1,6 @@
 {
   "Name": "Durable Fences",
-  "Authour": "Zoryn",
+  "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
     "MinorVersion": 4,
@@ -9,6 +9,5 @@
   },
   "Description": "Makes fences more durable",
   "UniqueID": "56d3439c-7b9b-497e-9496-0c4890e8a00e",
-  "PerSaveConfigs": false,
   "EntryDll": "DurableFences.dll"
 }

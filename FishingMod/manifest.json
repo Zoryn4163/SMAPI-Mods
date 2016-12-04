@@ -1,6 +1,6 @@
 {
   "Name": "Fishing Mod",
-  "Authour": "Zoryn",
+  "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
     "MinorVersion": 4,
@@ -9,6 +9,5 @@
   },
   "Description": "Allows you to change some things with fishing based on a config file.",
   "UniqueID": "fa277b1f-265e-47c3-a84f-cd320cc74949",
-  "PerSaveConfigs": false,
   "EntryDll": "FishingMod.dll"
 }

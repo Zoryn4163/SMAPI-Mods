@@ -1,6 +1,6 @@
 ﻿{
   "Name": "Health Bars",
-  "Authour": "Zoryn",
+  "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
     "MinorVersion": 4,
@@ -9,6 +9,5 @@
   },
   "Description": "Shows monster health bars.",
   "UniqueID": "",
-  "PerSaveConfigs": false,
   "EntryDll": "HealthBars.dll"
 }

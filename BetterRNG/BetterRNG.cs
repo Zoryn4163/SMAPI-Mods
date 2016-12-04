@@ -19,13 +19,15 @@ namespace BetterRNG
 
         public static Farmer Player => Game1.player;
 
-        public static List<WeightedGeneric<Int32>> Weather { get; private set; }
+        public static List<WeightedGeneric<int>> Weather { get; private set; }
 
-        public static List<WeightedGeneric<Int32>> OneToTen { get; private set; }
+        public static List<WeightedGeneric<int>> OneToTen { get; private set; }
 
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
-            ModConfig = new RngConfig().InitializeConfig(BaseConfigPath);
+            ModConfig = helper.ReadConfig<RngConfig>();
 
             RandomFloats = new float[256];
             Twister = new MersenneTwister();
@@ -75,7 +77,7 @@ namespace BetterRNG
             PlayerEvents.LoadedGame += PlayerEvents_LoadedGame;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
         private void PlayerEvents_LoadedGame(object sender, EventArgsLoadedGameChanged e)
@@ -94,7 +96,7 @@ namespace BetterRNG
                 SGame.QueueDebugMessage($"[Twister] Daily Luck: {Game1.dailyLuck} | Tomorrow's Weather: {Game1.weatherForTomorrow}");
         }
 
-        private void PlayerEvents_FarmerChanged(object sender, StardewModdingAPI.Events.EventArgsFarmerChanged e)
+        private void PlayerEvents_FarmerChanged(object sender, EventArgsFarmerChanged e)
         {
             DetermineRng();
         }
@@ -128,8 +130,8 @@ namespace BetterRNG
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = ModConfig.ReloadConfig();
-                Log.Success("Config Reloaded for " + GetType().Name);
+                ModConfig = this.Helper.ReadConfig<RngConfig>();
+                this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
     }

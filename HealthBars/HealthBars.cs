@@ -23,9 +23,11 @@ namespace HealthBars
 
         Texture2D texBar;
 
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
-            ModConfig = new HealthBarConfig().InitializeConfig(BaseConfigPath);
+            ModConfig = helper.ReadConfig<HealthBarConfig>();
 
             int innerBarWidth = ModConfig.BarWidth - ModConfig.BarBorderWidth * 2;
             int innerBarHeight = ModConfig.BarHeight - ModConfig.BarBorderHeight * 2;
@@ -43,7 +45,7 @@ namespace HealthBars
             GraphicsEvents.OnPreRenderGuiEventNoCheck += GraphicsEvents_DrawTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
@@ -107,8 +109,8 @@ namespace HealthBars
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = ModConfig.ReloadConfig();
-                Log.Success("Config Reloaded for " + GetType().Name);
+                ModConfig = this.Helper.ReadConfig<HealthBarConfig>();
+                this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
     }

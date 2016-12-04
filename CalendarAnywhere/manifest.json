@@ -1,6 +1,6 @@
 {
   "Name": "Calendar Anywhere",
-  "Authour": "Zoryn",
+  "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
     "MinorVersion": 4,
@@ -9,6 +9,5 @@
   },
   "Description": "Lets you open the calendar from anywhere.",
   "UniqueID": "a41c01cd-0437-43eb-944f-78cb5a53002a",
-  "PerSaveConfigs": false,
   "EntryDll": "CalendarAnywhere.dll"
 }

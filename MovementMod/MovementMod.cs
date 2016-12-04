@@ -24,15 +24,17 @@ namespace MovementMod
         public static Vector2 PrevPosition { get; private set; }
         public static float TickSecondMult => (float)Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
 
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
-            ModConfig = new MovementConfig().InitializeConfig(BaseConfigPath);
+            ModConfig = helper.ReadConfig<MovementConfig>();
             SprintKey = KeyFromString();
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
         private void GameEventsOnUpdateTick(object sender, EventArgs e)
@@ -91,22 +93,20 @@ namespace MovementMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = ModConfig.ReloadConfig();
+                ModConfig = this.Helper.ReadConfig<MovementConfig>();
                 SprintKey = KeyFromString();
-                Log.Success("Config Reloaded for " + GetType().Name);
+                this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
 
-        public static Keys KeyFromString()
+        public Keys KeyFromString()
         {
             Keys k;
             if (Enum.TryParse(ModConfig.SprintKey, out k))
-            {
-                Log.Info($"Bound key '{ModConfig.SprintKey}' for sprinting.");
-            }
+                this.Monitor.Log($"Bound key '{ModConfig.SprintKey}' for sprinting.");
             else
             {
-                Log.Error($"Failed to find specified key '{ModConfig.SprintKey}', using default 'LeftShift' for sprinting.");
+                this.Monitor.Log($"Failed to find specified key '{ModConfig.SprintKey}', using default 'LeftShift' for sprinting.", LogLevel.Error);
                 k = Keys.LeftShift;
             }
 
