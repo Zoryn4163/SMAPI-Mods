@@ -22,22 +22,24 @@ namespace RegenMod
 
         public static float ElapsedFloat => (float)(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000);
 
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
-            ModConfig = new RegenConfig().InitializeConfig(BaseConfigPath);
+            ModConfig = helper.ReadConfig<RegenConfig>();
 
             GameEvents.UpdateTick += GameEvents_UpdateTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = ModConfig.ReloadConfig();
-                Log.Success("Config Reloaded for " + GetType().Name);
+                ModConfig = this.Helper.ReadConfig<RegenConfig>();
+                this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
 
@@ -122,54 +124,6 @@ namespace RegenMod
             #endregion
 
             SGame.QueueDebugMessage("H: " + HealthFloat + " | S: " + StaminaFloat);
-        }
-    }
-
-    public class RegenConfig : Config
-    {
-        public bool RegenStaminaConstant { get; set; }
-        public bool RegenStaminaConstantIsNegative { get; set; }
-        public float RegenStaminaConstantAmountPerSecond { get; set; }
-
-        public bool RegenStaminaStill { get; set; }
-        public bool RegenStaminaStillIsNegative { get; set; }
-        public float RegenStaminaStillAmountPerSecond { get; set; }
-        public int RegenStaminaStillTimeRequiredMS { get; set; }
-
-
-
-        public bool RegenHealthConstant { get; set; }
-        public bool RegenHealthConstantIsNegative { get; set; }
-        public float RegenHealthConstantAmountPerSecond { get; set; }
-
-        public bool RegenHealthStill { get; set; }
-        public bool RegenHealthStillIsNegative { get; set; }
-        public float RegenHealthStillAmountPerSecond { get; set; }
-        public int RegenHealthStillTimeRequiredMS { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            RegenStaminaConstant = false;
-            RegenStaminaConstantIsNegative = false;
-            RegenStaminaConstantAmountPerSecond = 0;
-
-            RegenStaminaStill = false;
-            RegenStaminaStillIsNegative = false;
-            RegenStaminaStillAmountPerSecond = 0;
-            RegenStaminaStillTimeRequiredMS = 1000;
-
-
-
-            RegenHealthConstant = false;
-            RegenHealthConstantIsNegative = false;
-            RegenHealthConstantAmountPerSecond = 0;
-
-            RegenHealthStill = false;
-            RegenHealthStillIsNegative = false;
-            RegenHealthStillAmountPerSecond = 0;
-            RegenHealthStillTimeRequiredMS = 1000;
-
-            return this as T;
         }
     }
 }

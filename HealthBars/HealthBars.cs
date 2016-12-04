@@ -23,9 +23,11 @@ namespace HealthBars
 
         Texture2D texBar;
 
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
-            ModConfig = new HealthBarConfig().InitializeConfig(BaseConfigPath);
+            ModConfig = helper.ReadConfig<HealthBarConfig>();
 
             int innerBarWidth = ModConfig.BarWidth - ModConfig.BarBorderWidth * 2;
             int innerBarHeight = ModConfig.BarHeight - ModConfig.BarBorderHeight * 2;
@@ -43,7 +45,7 @@ namespace HealthBars
             GraphicsEvents.OnPreRenderGuiEventNoCheck += GraphicsEvents_DrawTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
         private void GraphicsEvents_DrawTick(object sender, EventArgs e)
@@ -79,7 +81,7 @@ namespace HealthBars
                 screenLoc.X += size.X / 2 - ModConfig.BarWidth / 2.0f;
                 screenLoc.Y -= ModConfig.BarHeight;
 
-                var fill = monster.health / (float) monster.maxHealth;
+                var fill = monster.health / (float)monster.maxHealth;
 
                 batch.Draw(texBar, screenLoc + new Vector2(ModConfig.BarBorderWidth, ModConfig.BarBorderHeight), texBar.Bounds, Color.Lerp(ModConfig.LowHealthColor, ModConfig.HighHealthColor, fill), 0.0f, Vector2.Zero, new Vector2(fill, 1.0f), SpriteEffects.None, 0);
 
@@ -107,54 +109,9 @@ namespace HealthBars
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = ModConfig.ReloadConfig();
-                Log.Success("Config Reloaded for " + GetType().Name);
+                ModConfig = this.Helper.ReadConfig<HealthBarConfig>();
+                this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
-        }
-    }
-
-    public class HealthBarConfig : Config
-    {
-        public bool DisplayHealthWhenNotDamaged { get; set; }
-
-        public bool DisplayMaxHealthNumber { get; set; }
-        public bool DisplayCurrentHealthNumber { get; set; }
-
-        public bool DisplayTextBorder { get; set; }
-
-        public Color TextColor { get; set; }
-        public Color TextBorderColor { get; set; }
-
-        public Color LowHealthColor { get; set; }
-        public Color HighHealthColor { get; set; }
-
-        public int BarWidth { get; set; }
-        public int BarHeight { get; set; }
-
-        public int BarBorderWidth { get; set; }
-        public int BarBorderHeight { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            DisplayHealthWhenNotDamaged = false;
-
-            DisplayMaxHealthNumber = true;
-            DisplayCurrentHealthNumber = true;
-
-            DisplayTextBorder = true;
-
-            TextColor = Color.White;
-            TextBorderColor = Color.Black;
-
-            LowHealthColor = Color.DarkRed;
-            HighHealthColor = Color.LimeGreen;
-
-            BarWidth = 90;
-            BarHeight = 15;
-
-            BarBorderWidth = 2;
-            BarBorderHeight = 2;
-            return this as T;
         }
     }
 }

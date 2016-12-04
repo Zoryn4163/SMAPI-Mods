@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
@@ -19,23 +18,25 @@ namespace MovementMod
 
         public static Keys SprintKey { get; private set; }
         public static bool SprintKeyDown => Program.gamePtr.CurrentlyPressedKeys.Contains(SprintKey);
-        
+
         public static int CurrentSpeed { get; private set; }
 
         public static Vector2 PrevPosition { get; private set; }
         public static float TickSecondMult => (float)Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
 
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
-            ModConfig = new MovementConfig().InitializeConfig(BaseConfigPath);
+            ModConfig = helper.ReadConfig<MovementConfig>();
             SprintKey = KeyFromString();
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized (press F5 to reload config)");
         }
-        
+
         private void GameEventsOnUpdateTick(object sender, EventArgs e)
         {
             if (TheGame == null || Game1.player == null || Game1.currentLocation == null)
@@ -50,7 +51,7 @@ namespace MovementMod
             }
             else
             {
-                
+
                 if (ModConfig.EnableHorseSpeedOverride && Player.getMount() != null)
                     CurrentSpeed = ModConfig.HorseSpeed;
                 if (ModConfig.EnableRunningSpeedOverride && Player.running)
@@ -92,68 +93,24 @@ namespace MovementMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = ModConfig.ReloadConfig();
+                ModConfig = this.Helper.ReadConfig<MovementConfig>();
                 SprintKey = KeyFromString();
-                Log.Success("Config Reloaded for " + GetType().Name);
+                this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
 
-        public static Keys KeyFromString()
+        public Keys KeyFromString()
         {
             Keys k;
             if (Enum.TryParse(ModConfig.SprintKey, out k))
-            {
-                Log.Info($"Bound key '{ModConfig.SprintKey}' for sprinting.");
-            }
+                this.Monitor.Log($"Bound key '{ModConfig.SprintKey}' for sprinting.");
             else
             {
-                Log.Error($"Failed to find specified key '{ModConfig.SprintKey}', using default 'LeftShift' for sprinting.");
+                this.Monitor.Log($"Failed to find specified key '{ModConfig.SprintKey}', using default 'LeftShift' for sprinting.", LogLevel.Error);
                 k = Keys.LeftShift;
             }
 
             return k;
-        }
-    }
-
-    public class MovementConfig : Config
-    {
-        public bool EnableDiagonalMovementSpeedFix { get; set; }
-
-        public bool EnableWalkingSpeedOverride { get; set; }
-        public int PlayerWalkingSpeed { get; set; }
-
-        public bool EnableRunningSpeedOverride { get; set; }
-        public int PlayerRunningSpeed { get; set; }
-
-        public bool EnableHorseSpeedOverride { get; set; }
-        public int HorseSpeed { get; set; }
-
-        public bool EnableSprinting { get; set; }
-        public int PlayerSprintingSpeedMultiplier { get; set; }
-        public string SprintKey { get; set; }
-        public bool SprintingDrainsStamina { get; set; }
-        public float SprintingStaminaDrainPerSecond { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            EnableDiagonalMovementSpeedFix = true;
-
-            EnableWalkingSpeedOverride = false;
-            PlayerWalkingSpeed = 2;
-
-            EnableRunningSpeedOverride = false;
-            PlayerRunningSpeed = 5;
-
-            EnableHorseSpeedOverride = false;
-            HorseSpeed = 5;
-
-            EnableSprinting = false;
-            PlayerSprintingSpeedMultiplier = 2;
-            SprintKey = "LeftShift";
-            SprintingDrainsStamina = true;
-            SprintingStaminaDrainPerSecond = 15;
-
-            return this as T;
         }
     }
 }

@@ -1,14 +1,13 @@
 {
   "Name": "Junimo Deposit Anywhere",
-  "Authour": "Zoryn",
+  "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 4,
+    "MinorVersion": 5,
     "PatchVersion": 0,
     "Build": ""
   },
   "Description": "Allows you to deposit items into budles from anywhere",
   "UniqueID": "f93a4fe8-cade-4146-9335-b5f82fbbf7bc",
-  "PerSaveConfigs": false,
   "EntryDll": "JunimoDepositAnywhere.dll"
 }

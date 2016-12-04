@@ -29,9 +29,11 @@ namespace CalendarAnywhere
         public static Rectangle MouseRect => new Rectangle(Game1.oldMouseState.X, Game1.oldMouseState.Y, 64, 64);
         public static Rectangle ClickRect => new Rectangle(MState.X, MState.Y, 1, 1);
 
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
-            OpenPath = PathOnDisk + "\\open.png";
+            OpenPath = Path.Combine(helper.DirectoryPath, "open.png");
 
             StardewModdingAPI.Events.ControlEvents.MouseChanged += ControlEvents_MouseChanged;
             StardewModdingAPI.Events.ControlEvents.ControllerButtonPressed += ControlEvents_ControllerButtonPressed;
@@ -47,7 +49,7 @@ namespace CalendarAnywhere
                 }
             };
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized");
         }
 
         private void ControlEvents_MouseChanged(object sender, StardewModdingAPI.Events.EventArgsMouseStateChanged e)

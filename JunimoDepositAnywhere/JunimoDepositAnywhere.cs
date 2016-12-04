@@ -9,11 +9,13 @@ namespace JunimoDepositAnywhere
 {
     public class JunimoDepositAnywhere : Mod
     {
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
             GameEvents.QuarterSecondTick += GameEvents_QuarterSecondTick;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized");
         }
 
         private void GameEvents_QuarterSecondTick(object sender, EventArgs e)

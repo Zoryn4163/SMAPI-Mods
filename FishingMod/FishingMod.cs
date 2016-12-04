@@ -22,16 +22,18 @@ namespace FishingMod
 
         public static FishConfig ModConfig { get; protected set; }
 
-        public override void Entry(params object[] objects)
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        public override void Entry(IModHelper helper)
         {
-            ModConfig = new FishConfig().InitializeConfig(BaseConfigPath);
+            ModConfig = helper.ReadConfig<FishConfig>();
 
             GameEvents.UpdateTick += GameEventsOnUpdateTick;
             GameEvents.OneSecondTick += GameEvents_OneSecondTick;
             MenuEvents.MenuChanged += MenuEvents_MenuChanged;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
 
-            Log.Info(GetType().Name + " by Zoryn => Initialized (Press F5 To Reload Config)");
+            this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
         private void MenuEvents_MenuChanged(object sender, EventArgsClickableMenuChanged e)
@@ -118,40 +120,9 @@ namespace FishingMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = ModConfig.ReloadConfig();
-                Log.Success("Config Reloaded for " + GetType().Name);
+                ModConfig = this.Helper.ReadConfig<FishConfig>();
+                this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
-        }
-    }
-
-    public class FishConfig : Config
-    {
-        public bool AlwaysPerfect { get; set; }
-        public bool AlwaysFindTreasure { get; set; }
-        public bool InstantCatchFish { get; set; }
-        public bool InstantCatchTreasure { get; set; }
-        public bool EasierFishing { get; set; }
-        public float FishDifficultyMultiplier { get; set; }
-        public float FishDifficultyAdditive { get; set; }
-        public float LossAdditive { get; set; }
-
-        public bool InfiniteTackle { get; set; }
-        public bool InfiniteBait { get; set; }
-
-        public override T GenerateDefaultConfig<T>()
-        {
-            AlwaysPerfect = false;
-            AlwaysFindTreasure = false;
-            InstantCatchFish = false;
-            InstantCatchTreasure = false;
-            EasierFishing = false;
-            FishDifficultyMultiplier = 1;
-            FishDifficultyAdditive = 0;
-            LossAdditive = 2 / 1000f;
-
-            InfiniteTackle = true;
-            InfiniteBait = true;
-            return this as T;
         }
     }
 }
