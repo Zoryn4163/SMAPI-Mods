@@ -1,26 +1,33 @@
 ﻿using System;
 using System.Linq;
 using StardewModdingAPI;
+using StardewModdingAPI.Events;
 using StardewValley;
 
 namespace DurableFences
 {
+    /// <summary>The main entry point.</summary>
     public class DurableFences : Mod
     {
+        /*********
+        ** Public methods
+        *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            StardewModdingAPI.Events.GameEvents.OneSecondTick += GameEvents_OneSecondTick;
-
-            this.Monitor.Log("Initialized");
+            GameEvents.OneSecondTick += this.GameEvents_OneSecondTick;
         }
 
+
+        /*********
+        ** Private methods
+        *********/
         private void GameEvents_OneSecondTick(object sender, EventArgs e)
         {
-            foreach (GameLocation gl in Game1.locations)
+            foreach (GameLocation location in Game1.locations)
             {
-                foreach (Fence fence in gl.Objects.Values.OfType<Fence>())
+                foreach (Fence fence in location.Objects.Values.OfType<Fence>())
                     fence.health = fence.maxHealth;
             }
         }

@@ -1,6 +1,6 @@
 namespace BetterRNG
 {
-    public class RngConfig
+    internal class RngConfig
     {
         public bool EnableDailyLuckOverride { get; set; }
         public bool EnableWeatherOverride { get; set; }
@@ -20,7 +20,11 @@ namespace BetterRNG
         {
             this.Info = new[]
             {
-                new [] { "The weather chances are whole numbers as percentages.", "They can add up to be any number. 60 = 60% or 0.60, but you must type 60", "The fishing things are not done yet and literally do nothing. Do not bother changing their values." }
+                new [] {
+                    "The weather chances are whole numbers as percentages.",
+                    "They can add up to be any number. 60 = 60% or 0.60, but you must type 60",
+                    "The fishing things are not done yet and literally do nothing. Do not bother changing their values."
+                }
             };
             this.SunnyChance = 60;
             this.CloudySnowyChance = 15;

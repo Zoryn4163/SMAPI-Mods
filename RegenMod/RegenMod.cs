@@ -3,30 +3,34 @@ using System.Linq;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Inheritance;
 using StardewValley;
 
 namespace RegenMod
 {
+    /// <summary>The main entry point.</summary>
     public class RegenMod : Mod
     {
-        public static RegenConfig ModConfig { get; private set; }
-        public static float HealthFloat { get; private set; }
-        public static float StaminaFloat { get; private set; }
+        /*********
+        ** Properties
+        *********/
+        private RegenConfig Config;
+        private float Health;
+        private float Stamina;
 
-        public static Game1 TheGame => Program.gamePtr;
-        public static Farmer Player => Game1.player;
+        private int UpdateIndex;
+        private double TimeSinceLastMoved;
 
-        public static int UpdateIndex { get; private set; }
-        public static double TimeSinceLastMoved { get; private set; }
+        private float ElapsedSeconds => (float)(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000);
 
-        public static float ElapsedFloat => (float)(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000);
 
+        /*********
+        ** Public methods
+        *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
         public override void Entry(IModHelper helper)
         {
-            ModConfig = helper.ReadConfig<RegenConfig>();
+            this.Config = helper.ReadConfig<RegenConfig>();
 
             GameEvents.UpdateTick += GameEvents_UpdateTick;
             ControlEvents.KeyPressed += ControlEvents_KeyPressed;
@@ -34,21 +38,22 @@ namespace RegenMod
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
+
+        /*********
+        ** Private methods
+        *********/
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = this.Helper.ReadConfig<RegenConfig>();
+                this.Config = this.Helper.ReadConfig<RegenConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
 
         private void GameEvents_UpdateTick(object sender, EventArgs e)
         {
-            if (TheGame == null || Player == null)
-                return;
-
-            if (!TheGame.IsActive || Game1.paused || Game1.activeClickableMenu != null)
+            if (!Game1.hasLoadedGame || Game1.paused || Game1.activeClickableMenu != null)
                 return;
 
             if (UpdateIndex <= 60)
@@ -57,73 +62,59 @@ namespace RegenMod
                 return;
             }
 
-            TimeSinceLastMoved += Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
+            this.TimeSinceLastMoved += Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
             if (Game1.oldKBState.GetPressedKeys().Any() || Game1.oldMouseState.LeftButton == ButtonState.Pressed || Game1.oldMouseState.RightButton == ButtonState.Pressed)
-                TimeSinceLastMoved = 0;
+                this.TimeSinceLastMoved = 0;
 
-            #region Health Regen 
-
-            if (ModConfig.RegenHealthConstant)
-                HealthFloat += (ModConfig.RegenHealthConstantIsNegative ? -ModConfig.RegenHealthConstantAmountPerSecond : ModConfig.RegenHealthConstantAmountPerSecond) * ElapsedFloat;
-
-            if (ModConfig.RegenHealthStill)
+            Farmer player = Game1.player;
+            
+            // health regen
+            if (this.Config.RegenHealthConstant)
+                this.Health += (this.Config.RegenHealthConstantIsNegative ? -this.Config.RegenHealthConstantAmountPerSecond : this.Config.RegenHealthConstantAmountPerSecond) * this.ElapsedSeconds;
+            if (this.Config.RegenHealthStill)
             {
-                if (TimeSinceLastMoved > ModConfig.RegenHealthStillTimeRequiredMS)
-                {
-                    HealthFloat += (ModConfig.RegenHealthStillIsNegative ? -ModConfig.RegenHealthStillAmountPerSecond : ModConfig.RegenHealthStillAmountPerSecond) * ElapsedFloat;
-                }
+                if (this.TimeSinceLastMoved > this.Config.RegenHealthStillTimeRequiredMS)
+                    this.Health += (this.Config.RegenHealthStillIsNegative ? -this.Config.RegenHealthStillAmountPerSecond : this.Config.RegenHealthStillAmountPerSecond) * this.ElapsedSeconds;
+            }
+            if (player.health + this.Health >= player.maxHealth)
+            {
+                player.health = player.maxHealth;
+                this.Health = 0;
+            }
+            else if (this.Health >= 1)
+            {
+                player.health += 1;
+                this.Health -= 1;
+            }
+            else if (this.Health <= -1)
+            {
+                player.health -= 1;
+                this.Health += 1;
             }
 
-            if (Player.health + HealthFloat >= Player.maxHealth)
+            // stamina regen
+            if (this.Config.RegenStaminaConstant)
+                this.Stamina += (this.Config.RegenStaminaConstantIsNegative ? -this.Config.RegenStaminaConstantAmountPerSecond : this.Config.RegenStaminaConstantAmountPerSecond) * this.ElapsedSeconds;
+            if (this.Config.RegenStaminaStill)
             {
-                Player.health = Player.maxHealth;
-                HealthFloat = 0;
+                if (this.TimeSinceLastMoved > this.Config.RegenStaminaStillTimeRequiredMS)
+                    this.Stamina += (this.Config.RegenStaminaStillIsNegative ? -this.Config.RegenStaminaStillAmountPerSecond : this.Config.RegenStaminaStillAmountPerSecond) * this.ElapsedSeconds;
             }
-            else if (HealthFloat >= 1)
+            if (player.Stamina + this.Stamina >= player.maxStamina)
             {
-                Player.health += 1;
-                HealthFloat -= 1;
+                player.Stamina = player.maxStamina;
+                this.Stamina = 0;
             }
-            else if (HealthFloat <= -1)
+            else if (this.Stamina >= 1)
             {
-                Player.health -= 1;
-                HealthFloat += 1;
+                player.Stamina += 1;
+                this.Stamina -= 1;
             }
-
-            #endregion
-
-            #region Stamina Regen 
-
-            if (ModConfig.RegenStaminaConstant)
-                StaminaFloat += (ModConfig.RegenStaminaConstantIsNegative ? -ModConfig.RegenStaminaConstantAmountPerSecond : ModConfig.RegenStaminaConstantAmountPerSecond) * ElapsedFloat;
-
-            if (ModConfig.RegenStaminaStill)
+            else if (this.Stamina <= -1)
             {
-                if (TimeSinceLastMoved > ModConfig.RegenStaminaStillTimeRequiredMS)
-                {
-                    StaminaFloat += (ModConfig.RegenStaminaStillIsNegative ? -ModConfig.RegenStaminaStillAmountPerSecond : ModConfig.RegenStaminaStillAmountPerSecond) * ElapsedFloat;
-                }
+                player.Stamina -= 1;
+                this.Stamina += 1;
             }
-
-            if (Player.Stamina + StaminaFloat >= Player.maxStamina)
-            {
-                Player.Stamina = Player.maxStamina;
-                StaminaFloat = 0;
-            }
-            else if (StaminaFloat >= 1)
-            {
-                Player.Stamina += 1;
-                StaminaFloat -= 1;
-            }
-            else if (StaminaFloat <= -1)
-            {
-                Player.Stamina -= 1;
-                StaminaFloat += 1;
-            }
-
-            #endregion
-
-            SGame.QueueDebugMessage("H: " + HealthFloat + " | S: " + StaminaFloat);
         }
     }
 }

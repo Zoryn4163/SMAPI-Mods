@@ -1,116 +1,99 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Inheritance;
 using StardewValley;
 
 namespace MovementMod
 {
+    /// <summary>The main entry point.</summary>
     public class MovementMod : Mod
     {
-        public static MovementConfig ModConfig { get; private set; }
+        /*********
+        ** Properties
+        *********/
+        private MovementConfig Config;
+        private Keys SprintKey;
 
-        public static SGame TheGame => Program.gamePtr;
-        public static Farmer Player => Game1.player;
+        private int CurrentSpeed;
 
-        public static Keys SprintKey { get; private set; }
-        public static bool SprintKeyDown => Program.gamePtr.CurrentlyPressedKeys.Contains(SprintKey);
+        private Vector2 PrevPosition;
+        private float ElapsedSeconds => (float)Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
 
-        public static int CurrentSpeed { get; private set; }
 
-        public static Vector2 PrevPosition { get; private set; }
-        public static float TickSecondMult => (float)Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
-
+        /*********
+        ** Public methods
+        *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
         public override void Entry(IModHelper helper)
         {
-            ModConfig = helper.ReadConfig<MovementConfig>();
-            SprintKey = KeyFromString();
+            this.Config = helper.ReadConfig<MovementConfig>();
+            this.SprintKey = this.Config.GetSprintKey(this.Monitor);
 
-            GameEvents.UpdateTick += GameEventsOnUpdateTick;
-            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
+            GameEvents.UpdateTick += this.GameEvents_UpdateTick;
+            ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
-        private void GameEventsOnUpdateTick(object sender, EventArgs e)
-        {
-            if (TheGame == null || Game1.player == null || Game1.currentLocation == null)
-                return;
 
-            if (!TheGame.IsActive || Game1.paused || Game1.activeClickableMenu != null)
+        /*********
+        ** Private methods
+        *********/
+        private void GameEvents_UpdateTick(object sender, EventArgs e)
+        {
+            if (!Game1.hasLoadedGame || Game1.paused || Game1.activeClickableMenu != null)
                 return;
 
             if (Game1.currentLocation.currentEvent != null)
             {
                 CurrentSpeed = 0;
+                return;
             }
+
+            Farmer player = Game1.player;
+            if (this.Config.EnableHorseSpeedOverride && player.getMount() != null)
+                this.CurrentSpeed = this.Config.HorseSpeed;
+            if (this.Config.EnableRunningSpeedOverride && player.running)
+                this.CurrentSpeed = this.Config.PlayerRunningSpeed;
+            else if (this.Config.EnableWalkingSpeedOverride && !player.running)
+                this.CurrentSpeed = this.Config.PlayerWalkingSpeed;
             else
+                this.CurrentSpeed = 0;
+
+            if (Game1.oldKBState.IsKeyDown(this.SprintKey))
             {
-
-                if (ModConfig.EnableHorseSpeedOverride && Player.getMount() != null)
-                    CurrentSpeed = ModConfig.HorseSpeed;
-                if (ModConfig.EnableRunningSpeedOverride && Player.running)
-                    CurrentSpeed = ModConfig.PlayerRunningSpeed;
-                else if (ModConfig.EnableWalkingSpeedOverride && !Player.running)
-                    CurrentSpeed = ModConfig.PlayerWalkingSpeed;
-                else
-                    CurrentSpeed = 0;
-
-                if (SprintKeyDown)
+                if (this.Config.SprintingDrainsStamina)
                 {
-                    if (ModConfig.SprintingDrainsStamina)
+                    float loss = this.Config.SprintingStaminaDrainPerSecond * this.ElapsedSeconds;
+                    if (player.position != this.PrevPosition && player.stamina - loss > 0)
                     {
-                        float loss = ModConfig.SprintingStaminaDrainPerSecond * TickSecondMult;
-                        if (Player.position != PrevPosition && Player.stamina - loss > 0)
-                        {
-                            Player.stamina -= loss;
-                            CurrentSpeed *= ModConfig.PlayerSprintingSpeedMultiplier;
-                        }
-                    }
-                    else
-                    {
-                        CurrentSpeed *= ModConfig.PlayerSprintingSpeedMultiplier;
+                        player.stamina -= loss;
+                        this.CurrentSpeed *= this.Config.PlayerSprintingSpeedMultiplier;
                     }
                 }
-
-                Player.addedSpeed = CurrentSpeed;
-
-                SGame.QueueDebugMessage($"CSpeed: {CurrentSpeed} - ASpeed: {Player.addedSpeed}");
-
-                if (ModConfig.EnableDiagonalMovementSpeedFix)
-                    Player.movementDirections?.Clear();
+                else
+                    this.CurrentSpeed *= this.Config.PlayerSprintingSpeedMultiplier;
             }
 
-            PrevPosition = Player.position;
+            player.addedSpeed = this.CurrentSpeed;
+
+            if (this.Config.EnableDiagonalMovementSpeedFix)
+                player.movementDirections?.Clear();
+
+            PrevPosition = player.position;
         }
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = this.Helper.ReadConfig<MovementConfig>();
-                SprintKey = KeyFromString();
+                this.Config = this.Helper.ReadConfig<MovementConfig>();
+                this.SprintKey = this.Config.GetSprintKey(this.Monitor);
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
-        }
-
-        public Keys KeyFromString()
-        {
-            Keys k;
-            if (Enum.TryParse(ModConfig.SprintKey, out k))
-                this.Monitor.Log($"Bound key '{ModConfig.SprintKey}' for sprinting.");
-            else
-            {
-                this.Monitor.Log($"Failed to find specified key '{ModConfig.SprintKey}', using default 'LeftShift' for sprinting.", LogLevel.Error);
-                k = Keys.LeftShift;
-            }
-
-            return k;
         }
     }
 }

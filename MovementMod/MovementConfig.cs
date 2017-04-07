@@ -1,7 +1,14 @@
+using System;
+using Microsoft.Xna.Framework.Input;
+using StardewModdingAPI;
+
 namespace MovementMod
 {
-    public class MovementConfig
+    internal class MovementConfig
     {
+        /*********
+        ** Accessors
+        *********/
         public bool EnableDiagonalMovementSpeedFix { get; set; } = true;
 
         public bool EnableWalkingSpeedOverride { get; set; }
@@ -18,5 +25,21 @@ namespace MovementMod
         public string SprintKey { get; set; } = "LeftShift";
         public bool SprintingDrainsStamina { get; set; } = true;
         public float SprintingStaminaDrainPerSecond { get; set; } = 15;
+
+
+        /*********
+        ** Public methods
+        *********/
+        public Keys GetSprintKey(IMonitor monitor)
+        {
+            if (Enum.TryParse(this.SprintKey, out Keys key))
+            {
+                monitor.Log($"Bound key '{key}' for sprinting.");
+                return key;
+            }
+
+            monitor.Log($"Failed to find specified key '{this.SprintKey}', using default 'LeftShift' for sprinting.", LogLevel.Warn);
+            return Keys.LeftShift;
+        }
     }
 }

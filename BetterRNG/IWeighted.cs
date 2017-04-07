@@ -1,6 +1,6 @@
 ﻿namespace BetterRNG
 {
-    public interface IWeighted
+    internal interface IWeighted
     {
         int Weight { get; set; }
         object Value { get; set; }

@@ -4,15 +4,15 @@ using System;
 
 namespace BetterRNG
 {
-    public class MersenneTwister : System.Random
+    internal class MersenneTwister : Random
     {
         /// <summary>
         /// Creates a new pseudo-random number generator with a given seed.
         /// </summary>
         /// <param name="seed">A value to use as a seed.</param>
-        public MersenneTwister(Int32 seed)
+        public MersenneTwister(int seed)
         {
-            init((UInt32) seed);
+            init((uint)seed);
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace BetterRNG
         /// <c>new <see cref="System.Random"/>().<see cref="Random.Next()"/></c> 
         /// is used for the seed.
         /// </remarks>
-        public MersenneTwister() : this(new Random().Next(Int32.MinValue, Int32.MaxValue)) /* a default initial seed is used   */
+        public MersenneTwister() : this(new Random().Next(int.MinValue, int.MaxValue)) /* a default initial seed is used   */
         {
         }
 
@@ -30,18 +30,18 @@ namespace BetterRNG
         /// Creates a pseudo-random number generator initialized with the given array.
         /// </summary>
         /// <param name="initKey">The array for initializing keys.</param>
-        public MersenneTwister(Int32[] initKey)
+        public MersenneTwister(int[] initKey)
         {
             if (initKey == null)
             {
                 throw new ArgumentNullException("initKey");
             }
 
-            UInt32[] initArray = new UInt32[initKey.Length];
+            uint[] initArray = new uint[initKey.Length];
 
             for (int i = 0; i < initKey.Length; ++i)
             {
-                initArray[i] = (UInt32) initKey[i];
+                initArray[i] = (uint)initKey[i];
             }
 
             init(initArray);
@@ -51,7 +51,7 @@ namespace BetterRNG
         /// Returns the next pseudo-random <see cref="UInt32"/>.
         /// </summary>
         /// <returns>A pseudo-random <see cref="UInt32"/> value.</returns>
-        public virtual UInt32 NextUInt32()
+        public virtual uint NextUInt32()
         {
             return GenerateUInt32();
         }
@@ -66,9 +66,9 @@ namespace BetterRNG
         /// <returns>
         /// A pseudo-random <see cref="UInt32"/> value which is at most <paramref name="maxValue"/>.
         /// </returns>
-        public virtual UInt32 NextUInt32(UInt32 maxValue)
+        public virtual uint NextUInt32(uint maxValue)
         {
-            return (UInt32) (GenerateUInt32() / ((Double) UInt32.MaxValue / maxValue));
+            return (uint)(GenerateUInt32() / ((double)uint.MaxValue / maxValue));
         }
 
         /// <summary>
@@ -84,23 +84,23 @@ namespace BetterRNG
         /// <exception cref="ArgumentOutOfRangeException">
         /// If <c><paramref name="minValue"/> &gt;= <paramref name="maxValue"/></c>.
         /// </exception>
-        public virtual UInt32 NextUInt32(UInt32 minValue, UInt32 maxValue) /* throws ArgumentOutOfRangeException */
+        public virtual uint NextUInt32(uint minValue, uint maxValue) /* throws ArgumentOutOfRangeException */
         {
             if (minValue >= maxValue)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            return (UInt32) (GenerateUInt32() / ((Double) UInt32.MaxValue / (maxValue - minValue)) + minValue);
+            return (uint)(GenerateUInt32() / ((double)uint.MaxValue / (maxValue - minValue)) + minValue);
         }
 
         /// <summary>
         /// Returns the next pseudo-random <see cref="Int32"/>.
         /// </summary>
         /// <returns>A pseudo-random <see cref="Int32"/> value.</returns>
-        public override Int32 Next()
+        public override int Next()
         {
-            return Next(Int32.MaxValue);
+            return Next(int.MaxValue);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace BetterRNG
         /// <exception cref="ArgumentOutOfRangeException">
         /// When <paramref name="maxValue"/> &lt; 0.
         /// </exception>
-        public override Int32 Next(Int32 maxValue)
+        public override int Next(int maxValue)
         {
             if (maxValue <= 1)
             {
@@ -125,7 +125,7 @@ namespace BetterRNG
                 return 0;
             }
 
-            return (Int32) (NextDouble() * maxValue);
+            return (int)(NextDouble() * maxValue);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace BetterRNG
         /// <exception cref="ArgumentOutOfRangeException">
         /// If <c><paramref name="minValue"/> &gt;= <paramref name="maxValue"/></c>.
         /// </exception>
-        public override Int32 Next(Int32 minValue, Int32 maxValue)
+        public override int Next(int minValue, int maxValue)
         {
             if (maxValue <= minValue)
             {
@@ -162,7 +162,7 @@ namespace BetterRNG
         /// <exception cref="ArgumentNullException">
         /// If <c><paramref name="buffer"/> == <see langword="null"/></c>.
         /// </exception>
-        public override void NextBytes(Byte[] buffer)
+        public override void NextBytes(byte[] buffer)
         {
             // [codekaizen: corrected this to check null before checking length.]
             if (buffer == null)
@@ -170,11 +170,11 @@ namespace BetterRNG
                 throw new ArgumentNullException();
             }
 
-            Int32 bufLen = buffer.Length;
+            int bufLen = buffer.Length;
 
-            for (Int32 idx = 0; idx < bufLen; ++idx)
+            for (int idx = 0; idx < bufLen; ++idx)
             {
-                buffer[idx] = (Byte) Next(256);
+                buffer[idx] = (byte)Next(256);
             }
         }
 
@@ -206,9 +206,9 @@ namespace BetterRNG
         /// </code>
         /// </para>
         /// </remarks>
-        public override Double NextDouble()
+        public override double NextDouble()
         {
-            return compute53BitRandom(0, InverseOnePlus53BitsOf1s);
+            return compute53BitRandom(0, MersenneTwister.InverseOnePlus53BitsOf1s);
         }
 
         /// <summary>
@@ -229,18 +229,18 @@ namespace BetterRNG
         /// returns a double-precision pseudo-random number greater than or equal to zero and
         /// strictly less than one.
         /// </returns>
-        public Double NextDouble(Boolean includeOne)
+        public double NextDouble(bool includeOne)
         {
-            return includeOne ? compute53BitRandom(0, Inverse53BitsOf1s) : NextDouble();
+            return includeOne ? compute53BitRandom(0, MersenneTwister.Inverse53BitsOf1s) : NextDouble();
         }
 
         /// <summary>
         /// Returns a pseudo-random number greater than 0.0 and less than 1.0.
         /// </summary>
         /// <returns>A pseudo-random number greater than 0.0 and less than 1.0.</returns>
-        public Double NextDoublePositive()
+        public double NextDoublePositive()
         {
-            return compute53BitRandom(0.5, Inverse53BitsOf1s);
+            return compute53BitRandom(0.5, MersenneTwister.Inverse53BitsOf1s);
         }
 
         /// <summary>
@@ -250,9 +250,9 @@ namespace BetterRNG
         /// A single-precision floating point number greater than or equal to 0.0, 
         /// and less than 1.0.
         /// </returns>
-        public Single NextSingle()
+        public float NextSingle()
         {
-            return (Single) NextDouble();
+            return (float)NextDouble();
         }
 
         /// <summary>
@@ -272,21 +272,21 @@ namespace BetterRNG
         /// this method returns a single-precision pseudo-random number greater than or equal to zero and
         /// strictly less than one.
         /// </returns>
-        public Single NextSingle(Boolean includeOne)
+        public float NextSingle(bool includeOne)
         {
-            return (Single) NextDouble(includeOne);
+            return (float)NextDouble(includeOne);
         }
 
         /// <summary>
         /// Returns a pseudo-random number greater than 0.0 and less than 1.0.
         /// </summary>
         /// <returns>A pseudo-random number greater than 0.0 and less than 1.0.</returns>
-        public Single NextSinglePositive()
+        public float NextSinglePositive()
         {
-            return (Single) NextDoublePositive();
+            return (float)NextDoublePositive();
         }
 
-        public Single NextSinglePositive(float max)
+        public float NextSinglePositive(float max)
         {
             return (Next((int)Math.Round(max)) + NextSinglePositive()) * NextSinglePositive();
         }
@@ -310,88 +310,88 @@ namespace BetterRNG
         /// Generates a new pseudo-random <see cref="UInt32"/>.
         /// </summary>
         /// <returns>A pseudo-random <see cref="UInt32"/>.</returns>
-        protected UInt32 GenerateUInt32()
+        protected uint GenerateUInt32()
         {
-            UInt32 y;
+            uint y;
 
             /* _mag01[x] = x * MatrixA  for x=0,1 */
-            if (_mti >= N) /* generate N words at one time */
+            if (_mti >= MersenneTwister.N) /* generate N words at one time */
             {
-                Int16 kk = 0;
+                short kk = 0;
 
-                for (; kk < N - M; ++kk)
+                for (; kk < MersenneTwister.N - MersenneTwister.M; ++kk)
                 {
-                    y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
-                    _mt[kk] = _mt[kk + M] ^ (y >> 1) ^ _mag01[y & 0x1];
+                    y = (_mt[kk] & MersenneTwister.UpperMask) | (_mt[kk + 1] & MersenneTwister.LowerMask);
+                    _mt[kk] = _mt[kk + MersenneTwister.M] ^ (y >> 1) ^ MersenneTwister._mag01[y & 0x1];
                 }
 
-                for (; kk < N - 1; ++kk)
+                for (; kk < MersenneTwister.N - 1; ++kk)
                 {
-                    y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
-                    _mt[kk] = _mt[kk + (M - N)] ^ (y >> 1) ^ _mag01[y & 0x1];
+                    y = (_mt[kk] & MersenneTwister.UpperMask) | (_mt[kk + 1] & MersenneTwister.LowerMask);
+                    _mt[kk] = _mt[kk + (MersenneTwister.M - MersenneTwister.N)] ^ (y >> 1) ^ MersenneTwister._mag01[y & 0x1];
                 }
 
-                y = (_mt[N - 1] & UpperMask) | (_mt[0] & LowerMask);
-                _mt[N - 1] = _mt[M - 1] ^ (y >> 1) ^ _mag01[y & 0x1];
+                y = (_mt[MersenneTwister.N - 1] & MersenneTwister.UpperMask) | (_mt[0] & MersenneTwister.LowerMask);
+                _mt[MersenneTwister.N - 1] = _mt[MersenneTwister.M - 1] ^ (y >> 1) ^ MersenneTwister._mag01[y & 0x1];
 
                 _mti = 0;
             }
 
             y = _mt[_mti++];
-            y ^= temperingShiftU(y);
-            y ^= temperingShiftS(y) & TemperingMaskB;
-            y ^= temperingShiftT(y) & TemperingMaskC;
-            y ^= temperingShiftL(y);
+            y ^= MersenneTwister.temperingShiftU(y);
+            y ^= MersenneTwister.temperingShiftS(y) & MersenneTwister.TemperingMaskB;
+            y ^= MersenneTwister.temperingShiftT(y) & MersenneTwister.TemperingMaskC;
+            y ^= MersenneTwister.temperingShiftL(y);
 
             return y;
         }
 
         /* Period parameters */
-        private const Int32 N = 624;
-        private const Int32 M = 397;
-        private const UInt32 MatrixA = 0x9908b0df;
+        private const int N = 624;
+        private const int M = 397;
+        private const uint MatrixA = 0x9908b0df;
         /* constant vector a */
-        private const UInt32 UpperMask = 0x80000000;
+        private const uint UpperMask = 0x80000000;
         /* most significant w-r bits */
-        private const UInt32 LowerMask = 0x7fffffff;
+        private const uint LowerMask = 0x7fffffff;
         /* least significant r bits */
         /* Tempering parameters */
-        private const UInt32 TemperingMaskB = 0x9d2c5680;
-        private const UInt32 TemperingMaskC = 0xefc60000;
+        private const uint TemperingMaskB = 0x9d2c5680;
+        private const uint TemperingMaskC = 0xefc60000;
 
-        private static UInt32 temperingShiftU(UInt32 y)
+        private static uint temperingShiftU(uint y)
         {
             return (y >> 11);
         }
 
-        private static UInt32 temperingShiftS(UInt32 y)
+        private static uint temperingShiftS(uint y)
         {
             return (y << 7);
         }
 
-        private static UInt32 temperingShiftT(UInt32 y)
+        private static uint temperingShiftT(uint y)
         {
             return (y << 15);
         }
 
-        private static UInt32 temperingShiftL(UInt32 y)
+        private static uint temperingShiftL(uint y)
         {
             return (y >> 18);
         }
 
-        private readonly UInt32[] _mt = new UInt32[N];
+        private readonly uint[] _mt = new uint[MersenneTwister.N];
         /* the array for the state vector  */
-        private Int16 _mti;
+        private short _mti;
 
-        private static readonly UInt32[] _mag01 = {0x0, MatrixA};
+        private static readonly uint[] _mag01 = { 0x0, MersenneTwister.MatrixA };
 
-        private void init(UInt32 seed)
+        private void init(uint seed)
         {
             _mt[0] = seed & 0xffffffffu;
 
-            for (_mti = 1; _mti < N; _mti++)
+            for (_mti = 1; _mti < MersenneTwister.N; _mti++)
             {
-                _mt[_mti] = (uint) (1812433253u * (_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + _mti);
+                _mt[_mti] = (uint)(1812433253u * (_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + _mti);
                 // See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. 
                 // In the previous versions, MSBs of the seed affect   
                 // only MSBs of the array _mt[].                        
@@ -401,47 +401,47 @@ namespace BetterRNG
             }
         }
 
-        private void init(UInt32[] key)
+        private void init(uint[] key)
         {
-            Int32 i, j, k;
+            int i, j, k;
             init(19650218u);
 
-            Int32 keyLength = key.Length;
+            int keyLength = key.Length;
             i = 1;
             j = 0;
-            k = (N > keyLength ? N : keyLength);
+            k = (MersenneTwister.N > keyLength ? MersenneTwister.N : keyLength);
 
             for (; k > 0; k--)
             {
-                _mt[i] = (uint) ((_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30)) * 1664525u)) + key[j] + j);
+                _mt[i] = (uint)((_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30)) * 1664525u)) + key[j] + j);
                 /* non linear */
                 _mt[i] &= 0xffffffffu;
                 // for WORDSIZE > 32 machines
                 i++;
                 j++;
-                if (i >= N)
+                if (i >= MersenneTwister.N)
                 {
-                    _mt[0] = _mt[N - 1];
+                    _mt[0] = _mt[MersenneTwister.N - 1];
                     i = 1;
                 }
                 if (j >= keyLength)
                     j = 0;
             }
 
-            for (k = N - 1; k > 0; k--)
+            for (k = MersenneTwister.N - 1; k > 0; k--)
             {
-                _mt[i] = (uint) ((_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30)) * 1566083941u)) - i);
+                _mt[i] = (uint)((_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30)) * 1566083941u)) - i);
                 /* non linear */
                 _mt[i] &= 0xffffffffu;
                 // for WORDSIZE > 32 machines
                 i++;
 
-                if (i < N)
+                if (i < MersenneTwister.N)
                 {
                     continue;
                 }
 
-                _mt[0] = _mt[N - 1];
+                _mt[0] = _mt[MersenneTwister.N - 1];
                 i = 1;
             }
 
@@ -452,18 +452,18 @@ namespace BetterRNG
 
         // 9007199254740991.0 is the maximum double value which the 53 significand
         // can hold when the exponent is 0.
-        private const Double FiftyThreeBitsOf1s = 9007199254740991.0;
+        private const double FiftyThreeBitsOf1s = 9007199254740991.0;
         // Multiply by inverse to (vainly?) try to avoid a division.
-        private const Double Inverse53BitsOf1s = 1.0 / FiftyThreeBitsOf1s;
-        private const Double OnePlus53BitsOf1s = FiftyThreeBitsOf1s + 1;
-        private const Double InverseOnePlus53BitsOf1s = 1.0 / OnePlus53BitsOf1s;
+        private const double Inverse53BitsOf1s = 1.0 / MersenneTwister.FiftyThreeBitsOf1s;
+        private const double OnePlus53BitsOf1s = MersenneTwister.FiftyThreeBitsOf1s + 1;
+        private const double InverseOnePlus53BitsOf1s = 1.0 / MersenneTwister.OnePlus53BitsOf1s;
 
-        private Double compute53BitRandom(Double translate, Double scale)
+        private double compute53BitRandom(double translate, double scale)
         {
             // get 27 pseudo-random bits
-            UInt64 a = (UInt64) GenerateUInt32() >> 5;
+            ulong a = (ulong)GenerateUInt32() >> 5;
             // get 26 pseudo-random bits
-            UInt64 b = (UInt64) GenerateUInt32() >> 6;
+            ulong b = (ulong)GenerateUInt32() >> 6;
 
             // shift the 27 pseudo-random bits (a) over by 26 bits (* 67108864.0) and
             // add another pseudo-random 26 bits (+ b).

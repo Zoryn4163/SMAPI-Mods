@@ -5,9 +5,9 @@ using StardewValley;
 
 namespace BetterRNG
 {
-    public static class Extensions
+    internal static class Extensions
     {
-        public static float[] DynamicDowncast(this Byte[] bytes)
+        public static float[] DynamicDowncast(this byte[] bytes)
         {
             float[] f = new float[bytes.Length / 4];
             for (int i = 0; i < f.Length; i++)
@@ -39,12 +39,12 @@ namespace BetterRNG
             return Math.Abs(f);
         }
 
-        public static T Choose<T>(this List<T> list) where T : IWeighted
+        public static T Choose<T>(this T[] list) where T : IWeighted
         {
             return Weighted.Choose(list);
         }
 
-        public static T ChooseRange<T>(this List<T> list, Int32 min, Int32 max) where T : IWeighted
+        public static T ChooseRange<T>(this T[] list, int min, int max) where T : IWeighted
         {
             return Weighted.ChooseRange(list, min, max);
         }
@@ -92,10 +92,7 @@ namespace BetterRNG
 
         public static int[] FishingZeroes(this Farmer player)
         {
-            if (player == null)
-                player = BetterRng.Player;
-
-            return Enumerable.Range(0, player.FishingLevel - 3).ToArray();
+            return Enumerable.Range(0, (player ?? Game1.player).FishingLevel - 3).ToArray();
         }
     }
 }

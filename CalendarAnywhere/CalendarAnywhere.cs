@@ -4,55 +4,57 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
-using StardewModdingAPI.Inheritance;
+using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 
 namespace CalendarAnywhere
 {
+    /// <summary>The main entry point.</summary>
     public class CalendarAnywhere : Mod
     {
-        public static SGame TheGame => Program.gamePtr;
-        public static MouseState MState { get; set; }
-        public static GamePadState GState { get; set; }
+        /*********
+        ** Properties
+        *********/
+        private MouseState MState;
 
-        public static string OpenPath { get; set; }
-        public static Texture2D OpenTexture { get; set; }
+        private string OpenPath;
+        private Texture2D OpenTexture;
 
-        public static int TargX => (TheGame.GraphicsDevice.Viewport.Width - 300) + 108;
-        public static int TargY => (Game1.tileSize / 8) + 20;
-        public static int TargW = 160;
-        public static int TargH = 41;
+        private readonly Rectangle Target = new Rectangle(x: (Game1.graphics.GraphicsDevice.Viewport.Width - 300) + 108, y: (Game1.tileSize / 8) + 20, width: 160, height: 41);
 
-        public static Rectangle TargRect => new Rectangle(TargX, TargY, TargW, TargH);
-        public static Rectangle MousePointRect => new Rectangle(Game1.oldMouseState.X, Game1.oldMouseState.Y, 1, 1);
-        public static Rectangle MouseRect => new Rectangle(Game1.oldMouseState.X, Game1.oldMouseState.Y, 64, 64);
-        public static Rectangle ClickRect => new Rectangle(MState.X, MState.Y, 1, 1);
+        private Rectangle MouseRect => new Rectangle(Game1.oldMouseState.X, Game1.oldMouseState.Y, 64, 64);
+        private Point ClickPoint => new Point(this.MState.X, this.MState.Y);
 
+
+        /*********
+        ** Public methods
+        *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            OpenPath = Path.Combine(helper.DirectoryPath, "open.png");
+            this.OpenPath = Path.Combine(helper.DirectoryPath, "open.png");
 
-            StardewModdingAPI.Events.ControlEvents.MouseChanged += ControlEvents_MouseChanged;
-            StardewModdingAPI.Events.ControlEvents.ControllerButtonPressed += ControlEvents_ControllerButtonPressed;
-            StardewModdingAPI.Events.GraphicsEvents.OnPostRenderEvent += GraphicsEvents_DrawTick;
+            ControlEvents.MouseChanged += this.ControlEvents_MouseChanged;
+            ControlEvents.ControllerButtonPressed += this.ControlEvents_ControllerButtonPressed;
+            GraphicsEvents.OnPostRenderEvent += this.GraphicsEvents_OnPostRenderEvent;
 
-            StardewModdingAPI.Events.GameEvents.FirstUpdateTick += (sender, args) =>
+            GameEvents.FirstUpdateTick += (sender, args) =>
             {
                 if (File.Exists(OpenPath))
                 {
-                    FileStream fs = File.OpenRead(OpenPath);
-                    OpenTexture = Texture2D.FromStream(TheGame.GraphicsDevice, fs);
-                    fs.Close();
+                    using (FileStream fs = File.OpenRead(OpenPath))
+                        OpenTexture = Texture2D.FromStream(Game1.graphics.GraphicsDevice, fs);
                 }
             };
-
-            this.Monitor.Log("Initialized");
         }
 
-        private void ControlEvents_MouseChanged(object sender, StardewModdingAPI.Events.EventArgsMouseStateChanged e)
+
+        /*********
+        ** Private methods
+        *********/
+        private void ControlEvents_MouseChanged(object sender, EventArgsMouseStateChanged e)
         {
             MState = e.NewState;
 
@@ -61,38 +63,32 @@ namespace CalendarAnywhere
 
             if (Game1.didPlayerJustLeftClick())
             {
-                if (ClickRect.Intersects(TargRect))
-                {
+                if (this.Target.Contains(this.ClickPoint))
                     Game1.activeClickableMenu = new Billboard();
-                }
             }
         }
 
-        private void ControlEvents_ControllerButtonPressed(object sender, StardewModdingAPI.Events.EventArgsControllerButtonPressed e)
+        private void ControlEvents_ControllerButtonPressed(object sender, EventArgsControllerButtonPressed e)
         {
-            GState = Game1.oldPadState;
             MState = Game1.oldMouseState;
 
             if (!Game1.hasLoadedGame || Game1.activeClickableMenu != null)
                 return;
 
-            if ((e.ButtonPressed & Buttons.A) != 0)
-                if (ClickRect.Intersects(TargRect))
-                    Game1.activeClickableMenu = new Billboard();
+            if (e.ButtonPressed == Buttons.A && this.Target.Contains(this.ClickPoint))
+                Game1.activeClickableMenu = new Billboard();
         }
 
-        private void GraphicsEvents_DrawTick(object sender, EventArgs e)
+        private void GraphicsEvents_OnPostRenderEvent(object sender, EventArgs e)
         {
             if (!Game1.hasLoadedGame || Game1.activeClickableMenu != null || OpenTexture == null)
                 return;
 
-            if (MousePointRect.Intersects(TargRect))
+            if (this.Target.Contains(Game1.getOldMouseX(), Game1.getOldMouseX()))
             {
-                //Game1.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
-                Game1.spriteBatch.Draw(OpenTexture, TargRect, Color.White);
-                Game1.spriteBatch.DrawString(Game1.smallFont, "Calendar", new Vector2(TargX, TargY), Color.Black, 0, new Vector2(-3, -5), 1.4f, SpriteEffects.None, 0.001f);
+                Game1.spriteBatch.Draw(OpenTexture, this.Target, Color.White);
+                Game1.spriteBatch.DrawString(Game1.smallFont, "Calendar", new Vector2(this.Target.X, this.Target.Y), Color.Black, 0, new Vector2(-3, -5), 1.4f, SpriteEffects.None, 0.001f);
                 Game1.spriteBatch.Draw(Game1.mouseCursors, MouseRect, new Rectangle(0, 0, 16, 16), Color.White);
-                //Game1.spriteBatch.End();
             }
         }
     }

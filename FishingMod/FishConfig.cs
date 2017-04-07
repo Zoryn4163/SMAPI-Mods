@@ -1,6 +1,6 @@
 ﻿namespace FishingMod
 {
-    public class FishConfig
+    internal class FishConfig
     {
         public bool AlwaysPerfect { get; set; }
         public bool AlwaysFindTreasure { get; set; }
