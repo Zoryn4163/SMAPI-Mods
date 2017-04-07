@@ -76,7 +76,7 @@ namespace FishingMod
 
         private void GameEvents_OnUpdateTick(object sender, EventArgs e)
         {
-            if (Game1.activeClickableMenu is BobberBar)
+            if (Game1.activeClickableMenu is BobberBar && this.Bobber != null)
             {
                 SBobberBar bobber = this.Bobber;
 

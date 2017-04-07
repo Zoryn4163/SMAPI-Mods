@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -17,8 +14,6 @@ namespace CalendarAnywhere
         ** Properties
         *********/
         private MouseState MState;
-
-        private readonly Rectangle Target = new Rectangle(x: (Game1.graphics.GraphicsDevice.Viewport.Width - 300) + 108, y: (Game1.tileSize / 8) + 20, width: 160, height: 41);
 
         private Rectangle MouseRect => new Rectangle(Game1.oldMouseState.X, Game1.oldMouseState.Y, 64, 64);
         private Point ClickPoint => new Point(this.MState.X, this.MState.Y);
@@ -48,7 +43,8 @@ namespace CalendarAnywhere
 
             if (Game1.didPlayerJustLeftClick())
             {
-                if (this.Target.Contains(this.ClickPoint))
+                Rectangle target = this.GetTarget();
+                if (target.Contains(this.ClickPoint))
                     Game1.activeClickableMenu = new Billboard();
             }
         }
@@ -60,8 +56,18 @@ namespace CalendarAnywhere
             if (!Game1.hasLoadedGame || Game1.activeClickableMenu != null)
                 return;
 
-            if (e.ButtonPressed == Buttons.A && this.Target.Contains(this.ClickPoint))
+            if (e.ButtonPressed == Buttons.A && this.GetTarget().Contains(this.ClickPoint))
                 Game1.activeClickableMenu = new Billboard();
+        }
+
+        private Rectangle GetTarget()
+        {
+            return new Rectangle(
+                x: (Game1.graphics.GraphicsDevice.Viewport.Width - 300) + 108,
+                y: (Game1.tileSize / 8) + 20,
+                width: 160,
+                height: 41
+            );
         }
     }
 }
