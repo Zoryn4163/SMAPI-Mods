@@ -81,7 +81,7 @@ namespace BetterRNG
             //Determine base RNG to get everything up and running.
             this.DetermineRng();
 
-            GameEvents.OneSecondTick += this.GameEvents_OneSecondTick;
+            SaveEvents.AfterLoad += this.SaveEvents_AfterLoad;
             ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
@@ -91,11 +91,8 @@ namespace BetterRNG
         /*********
         ** Private methods
         *********/
-        private void GameEvents_OneSecondTick(object sender, EventArgs e)
+        private void SaveEvents_AfterLoad(object sender, EventArgs e)
         {
-            if (!Game1.hasLoadedGame)
-                return;
-
             this.DetermineRng();
         }
 
