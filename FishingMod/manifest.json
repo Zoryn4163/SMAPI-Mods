@@ -3,11 +3,12 @@
   "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 5,
+    "MinorVersion": 6,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
-  "Description": "Allows you to change some things with fishing based on a config file.",
-  "UniqueID": "fa277b1f-265e-47c3-a84f-cd320cc74949",
+  "MinimumApiVersion": "1.9",
+  "Description": "Lets you change some things about fishing based on a config file.",
+  "UniqueID": "Zoryn.FishingMod",
   "EntryDll": "FishingMod.dll"
 }

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 
 namespace HealthBars
 {
-    public class HealthBarConfig
+    internal class HealthBarConfig
     {
         public bool DisplayHealthWhenNotDamaged { get; set; }
 

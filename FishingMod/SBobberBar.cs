@@ -5,7 +5,7 @@ using StardewValley.Menus;
 
 namespace FishingMod
 {
-    public class SBobberBar : BobberBar
+    internal class SBobberBar : BobberBar
     {
         /// <summary>
         ///     DO NOT CONSTRUCT THIS CLASS

@@ -3,11 +3,12 @@
   "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 5,
+    "MinorVersion": 6,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
+  "MinimumApiVersion": "1.9",
   "Description": "Lets you open the calendar from anywhere.",
-  "UniqueID": "a41c01cd-0437-43eb-944f-78cb5a53002a",
+  "UniqueID": "Zoryn.CalendarAnywhere",
   "EntryDll": "CalendarAnywhere.dll"
 }

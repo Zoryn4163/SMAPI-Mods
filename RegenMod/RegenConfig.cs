@@ -1,6 +1,6 @@
 namespace RegenMod
 {
-    public class RegenConfig
+    internal class RegenConfig
     {
         public bool RegenStaminaConstant { get; set; }
         public bool RegenStaminaConstantIsNegative { get; set; }

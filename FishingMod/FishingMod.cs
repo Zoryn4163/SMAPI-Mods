@@ -9,110 +9,121 @@ using StardewValley.Tools;
 
 namespace FishingMod
 {
+    /// <summary>The main entry point.</summary>
     public class FishingMod : Mod
     {
-        public static Farmer Player => Game1.player;
-        public static IClickableMenu ActiveMenu => Game1.activeClickableMenu;
-        public static BobberBar BaseBobber => ActiveMenu as BobberBar;
+        /*********
+        ** Properties
+        *********/
+        private SBobberBar Bobber;
+        private bool BeganFishingGame;
+        private int UpdateIndex;
+        private FishConfig Config;
 
-        public static SBobberBar Bobber { get; protected set; }
 
-        public static bool BeganFishingGame { get; protected set; }
-        public static int UpdateIndex { get; protected set; }
-
-        public static FishConfig ModConfig { get; protected set; }
-
+        /*********
+        ** Public methods
+        *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            ModConfig = helper.ReadConfig<FishConfig>();
+            this.Config = helper.ReadConfig<FishConfig>();
 
-            GameEvents.UpdateTick += GameEventsOnUpdateTick;
-            GameEvents.OneSecondTick += GameEvents_OneSecondTick;
-            MenuEvents.MenuChanged += MenuEvents_MenuChanged;
-            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
+            GameEvents.UpdateTick += this.GameEvents_OnUpdateTick;
+            GameEvents.OneSecondTick += this.GameEvents_OneSecondTick;
+            MenuEvents.MenuChanged += this.MenuEvents_MenuChanged;
+            ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
 
+
+        /*********
+        ** Private methods
+        *********/
         private void MenuEvents_MenuChanged(object sender, EventArgsClickableMenuChanged e)
         {
-            if (e.NewMenu is BobberBar)
-            {
-                Bobber = SBobberBar.ConstructFromBaseClass((BobberBar)e.NewMenu);
-            }
+            if (e.NewMenu is BobberBar menu)
+                this.Bobber = SBobberBar.ConstructFromBaseClass(menu);
         }
 
         private void GameEvents_OneSecondTick(object sender, EventArgs e)
         {
-            if (ModConfig.InfiniteBait || ModConfig.InfiniteTackle)
-            {
-                if (Player?.CurrentTool is FishingRod && Player?.CurrentTool?.attachments?.Length > 0 && Player.CurrentTool.attachments[0] != null)
-                {
-                    if (ModConfig.InfiniteBait)
-                        Player.CurrentTool.attachments[0].Stack = Player.CurrentTool.attachments[0].maximumStackSize();
+            if (!Game1.hasLoadedGame)
+                return;
 
-                    if (Player.CurrentTool?.attachments?.Length > 1 && Player.CurrentTool.attachments[1] != null)
+            Farmer player = Game1.player;
+
+            if (this.Config.InfiniteBait || this.Config.InfiniteTackle)
+            {
+                if (player.CurrentTool is FishingRod rod && rod.attachments?.Length > 0 && rod.attachments[0] != null)
+                {
+                    if (this.Config.InfiniteBait)
+                        rod.attachments[0].Stack = rod.attachments[0].maximumStackSize();
+
+                    if (rod.attachments?.Length > 1 && rod.attachments[1] != null)
                     {
-                        if (ModConfig.InfiniteTackle)
+                        if (this.Config.InfiniteTackle)
                         {
-                            Player.CurrentTool.attachments[1].Stack = Player.CurrentTool.attachments[1].maximumStackSize();
-                            Player.CurrentTool.attachments[1].scale = new Vector2(Player.CurrentTool.attachments[1].scale.X, 1.1f);
+                            rod.attachments[1].Stack = rod.attachments[1].maximumStackSize();
+                            rod.attachments[1].scale = new Vector2(rod.attachments[1].scale.X, 1.1f);
                         }
                     }
                 }
             }
         }
 
-        private void GameEventsOnUpdateTick(object sender, EventArgs e)
+        private void GameEvents_OnUpdateTick(object sender, EventArgs e)
         {
-            if (ActiveMenu is BobberBar && Bobber != null)
+            if (Game1.activeClickableMenu is BobberBar && this.Bobber != null)
             {
+                SBobberBar bobber = this.Bobber;
+
                 //Begin fishing game
-                if (!BeganFishingGame && UpdateIndex > 15)
+                if (!this.BeganFishingGame && this.UpdateIndex > 15)
                 {
                     //Do these things once per fishing minigame, 1/4 second after it updates
-                    Bobber.difficulty *= ModConfig.FishDifficultyMultiplier;
-                    Bobber.difficulty += ModConfig.FishDifficultyAdditive;
+                    bobber.difficulty *= this.Config.FishDifficultyMultiplier;
+                    bobber.difficulty += this.Config.FishDifficultyAdditive;
 
-                    if (ModConfig.AlwaysFindTreasure)
-                        Bobber.treasure = true;
+                    if (this.Config.AlwaysFindTreasure)
+                        bobber.treasure = true;
 
-                    if (ModConfig.InstantCatchFish)
+                    if (this.Config.InstantCatchFish)
                     {
-                        if (Bobber.treasure)
-                            Bobber.treasureCaught = true;
-                        Bobber.distanceFromCatching += 100;
+                        if (bobber.treasure)
+                            bobber.treasureCaught = true;
+                        bobber.distanceFromCatching += 100;
                     }
 
-                    if (ModConfig.InstantCatchTreasure)
-                        if (Bobber.treasure || ModConfig.AlwaysFindTreasure)
-                            Bobber.treasureCaught = true;
+                    if (this.Config.InstantCatchTreasure)
+                        if (bobber.treasure || this.Config.AlwaysFindTreasure)
+                            bobber.treasureCaught = true;
 
-                    if (ModConfig.EasierFishing)
+                    if (this.Config.EasierFishing)
                     {
-                        Bobber.difficulty = Math.Max(15, Math.Max(Bobber.difficulty, 60));
-                        Bobber.motionType = 2;
+                        bobber.difficulty = Math.Max(15, Math.Max(bobber.difficulty, 60));
+                        bobber.motionType = 2;
                     }
 
-                    BeganFishingGame = true;
+                    this.BeganFishingGame = true;
                 }
 
-                if (UpdateIndex < 20)
-                    UpdateIndex++;
+                if (this.UpdateIndex < 20)
+                    this.UpdateIndex++;
 
-                if (ModConfig.AlwaysPerfect)
-                    Bobber.perfect = true;
+                if (this.Config.AlwaysPerfect)
+                    bobber.perfect = true;
 
-                if (!Bobber.bobberInBar)
-                    Bobber.distanceFromCatching += ModConfig.LossAdditive;
+                if (!bobber.bobberInBar)
+                    bobber.distanceFromCatching += this.Config.LossAdditive;
             }
             else
             {
                 //End fishing game
-                BeganFishingGame = false;
-                UpdateIndex = 0;
+                this.BeganFishingGame = false;
+                this.UpdateIndex = 0;
             }
         }
 
@@ -120,7 +131,7 @@ namespace FishingMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                ModConfig = this.Helper.ReadConfig<FishConfig>();
+                this.Config = this.Helper.ReadConfig<FishConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }

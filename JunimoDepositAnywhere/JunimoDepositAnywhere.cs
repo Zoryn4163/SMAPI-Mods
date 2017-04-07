@@ -7,33 +7,36 @@ using StardewValley.Menus;
 
 namespace JunimoDepositAnywhere
 {
+    /// <summary>The main entry point.</summary>
     public class JunimoDepositAnywhere : Mod
     {
+        /*********
+        ** Public methods
+        *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-        /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            GameEvents.QuarterSecondTick += GameEvents_QuarterSecondTick;
-
-            this.Monitor.Log("Initialized");
+            GameEvents.QuarterSecondTick += this.GameEvents_QuarterSecondTick;
         }
 
+
+        /*********
+        ** Protected methods methods
+        *********/
+        /// <summary>A method invoked roughly four times per second.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event data.</param>
         private void GameEvents_QuarterSecondTick(object sender, EventArgs e)
         {
             if (!Game1.hasLoadedGame || Game1.activeClickableMenu == null)
                 return;
 
-            if (Game1.activeClickableMenu is JunimoNoteMenu)
+            if (Game1.activeClickableMenu is JunimoNoteMenu menu)
             {
-                JunimoNoteMenu v = (JunimoNoteMenu) Game1.activeClickableMenu;
-
-                List<Bundle> bndl = new List<Bundle>(v.GetType().GetBaseFieldValue<List<Bundle>>(v, "bundles"));
-
-                foreach (Bundle b in bndl)
-                {
-                    if (!b.depositsAllowed)
-                        b.depositsAllowed = true;
-                }
+                Bundle[] bundles = this.Helper.Reflection.GetPrivateValue<List<Bundle>>(menu, "bundles").ToArray();
+                foreach (Bundle bundle in bundles)
+                    bundle.depositsAllowed = true;
             }
         }
     }

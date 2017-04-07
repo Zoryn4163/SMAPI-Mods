@@ -3,11 +3,12 @@
   "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 5,
+    "MinorVersion": 6,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
-  "Description": "Allows you to change movement based on a config",
-  "UniqueID": "8a632929-8335-484f-87dd-c29d2ba3215d",
+  "MinimumApiVersion": "1.9",
+  "Description": "Lets you change your movement based on a config.",
+  "UniqueID": "Zoryn.MovementModifier",
   "EntryDll": "MovementMod.dll"
 }

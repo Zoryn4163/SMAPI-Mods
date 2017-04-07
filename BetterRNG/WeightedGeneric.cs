@@ -1,6 +1,6 @@
 ﻿namespace BetterRNG
 {
-    public class WeightedGeneric<T> : IWeighted
+    internal class WeightedGeneric<T> : IWeighted
     {
         public object Value { get; set; }
         public int Weight { get; set; }

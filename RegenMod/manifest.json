@@ -3,11 +3,12 @@
   "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 5,
+    "MinorVersion": 6,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
-  "Description": "Allows the player to regen health and stamina based on config values",
-  "UniqueID": "dfac4383-1b6b-4f33-ae4e-37fc23e5252e",
+  "MinimumApiVersion": "1.9",
+  "Description": "Lets the player regenerate health and stamina based on config values.",
+  "UniqueID": "Zoryn.RegenMod",
   "EntryDll": "RegenMod.dll"
 }

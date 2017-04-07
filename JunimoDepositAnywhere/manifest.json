@@ -3,11 +3,12 @@
   "Author": "Zoryn",
   "Version": {
     "MajorVersion": 1,
-    "MinorVersion": 5,
+    "MinorVersion": 6,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
-  "Description": "Allows you to deposit items into budles from anywhere",
-  "UniqueID": "f93a4fe8-cade-4146-9335-b5f82fbbf7bc",
+  "MinimumApiVersion": "1.9",
+  "Description": "Lets you deposit items into Junimo bundles from anywhere.",
+  "UniqueID": "Zoryn.JunimoDepositAnywhere",
   "EntryDll": "JunimoDepositAnywhere.dll"
 }
