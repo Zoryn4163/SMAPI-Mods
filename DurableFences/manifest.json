@@ -5,9 +5,9 @@
     "MajorVersion": 1,
     "MinorVersion": 5,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
-  "Description": "Makes fences more durable",
-  "UniqueID": "56d3439c-7b9b-497e-9496-0c4890e8a00e",
+  "Description": "Makes fences more durable.",
+  "UniqueID": "Zoryn.DurableFences",
   "EntryDll": "DurableFences.dll"
 }

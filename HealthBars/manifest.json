@@ -5,9 +5,9 @@
     "MajorVersion": 1,
     "MinorVersion": 5,
     "PatchVersion": 0,
-    "Build": ""
+    "Build": null
   },
   "Description": "Shows monster health bars.",
-  "UniqueID": "",
+  "UniqueID": "Zoryn.HealthBars",
   "EntryDll": "HealthBars.dll"
 }
