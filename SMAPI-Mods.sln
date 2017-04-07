@@ -21,7 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegenMod", "RegenMod\RegenM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "~metadata", "~metadata", "{F71B419E-D517-4B15-AA0C-674519D99239}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		deploy-mod.targets = deploy-mod.targets
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
