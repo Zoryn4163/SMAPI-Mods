@@ -21,6 +21,9 @@ menu from your inventory.
 complete the bundle from the Community Center.**
 
 ## Versions
+### 1.7
+* Updated to Stardew Valley 1.2.
+
 ### 1.6
 * Updated to SMAPI 1.9.
 
