@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using StardewValley;
+using SFarmer = StardewValley.Farmer;
 
 namespace BetterRNG
 {
@@ -90,7 +91,7 @@ namespace BetterRNG
             return ls.ToList();
         }
 
-        public static int[] FishingZeroes(this Farmer player)
+        public static int[] FishingZeroes(this SFarmer player)
         {
             return Enumerable.Range(0, (player ?? Game1.player).FishingLevel - 3).ToArray();
         }

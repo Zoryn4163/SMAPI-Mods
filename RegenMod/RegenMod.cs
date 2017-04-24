@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using SFarmer = StardewValley.Farmer;
 
 namespace RegenMod
 {
@@ -66,8 +67,8 @@ namespace RegenMod
             if (Game1.oldKBState.GetPressedKeys().Any() || Game1.oldMouseState.LeftButton == ButtonState.Pressed || Game1.oldMouseState.RightButton == ButtonState.Pressed)
                 this.TimeSinceLastMoved = 0;
 
-            Farmer player = Game1.player;
-            
+            SFarmer player = Game1.player;
+
             // health regen
             if (this.Config.RegenHealthConstant)
                 this.Health += (this.Config.RegenHealthConstantIsNegative ? -this.Config.RegenHealthConstantAmountPerSecond : this.Config.RegenHealthConstantAmountPerSecond) * this.ElapsedSeconds;

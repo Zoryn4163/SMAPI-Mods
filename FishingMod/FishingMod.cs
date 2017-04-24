@@ -53,11 +53,9 @@ namespace FishingMod
             if (!Game1.hasLoadedGame)
                 return;
 
-            Farmer player = Game1.player;
-
             if (this.Config.InfiniteBait || this.Config.InfiniteTackle)
             {
-                if (player.CurrentTool is FishingRod rod && rod.attachments?.Length > 0 && rod.attachments[0] != null)
+                if (Game1.player.CurrentTool is FishingRod rod && rod.attachments?.Length > 0 && rod.attachments[0] != null)
                 {
                     if (this.Config.InfiniteBait)
                         rod.attachments[0].Stack = rod.attachments[0].maximumStackSize();

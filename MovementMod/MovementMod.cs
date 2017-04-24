@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using SFarmer = StardewValley.Farmer;
 
 namespace MovementMod
 {
@@ -53,7 +54,7 @@ namespace MovementMod
                 return;
             }
 
-            Farmer player = Game1.player;
+            SFarmer player = Game1.player;
             if (this.Config.EnableHorseSpeedOverride && player.getMount() != null)
                 this.CurrentSpeed = this.Config.HorseSpeed;
             if (this.Config.EnableRunningSpeedOverride && player.running)
