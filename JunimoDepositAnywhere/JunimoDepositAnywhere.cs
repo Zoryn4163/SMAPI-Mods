@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -34,8 +33,7 @@ namespace JunimoDepositAnywhere
 
             if (Game1.activeClickableMenu is JunimoNoteMenu menu)
             {
-                Bundle[] bundles = this.Helper.Reflection.GetPrivateValue<List<Bundle>>(menu, "bundles").ToArray();
-                foreach (Bundle bundle in bundles)
+                foreach (Bundle bundle in menu.bundles)
                     bundle.depositsAllowed = true;
             }
         }
