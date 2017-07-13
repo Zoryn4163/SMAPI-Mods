@@ -31,7 +31,15 @@ namespace HealthBars
         {
             this.Config = helper.ReadConfig<HealthBarConfig>();
 
-            GameEvents.FirstUpdateTick += this.GameEvents_FirstUpdateTick;
+            int innerBarWidth = this.Config.BarWidth - this.Config.BarBorderWidth * 2;
+            int innerBarHeight = this.Config.BarHeight - this.Config.BarBorderHeight * 2;
+
+            this.TextureBar = new Texture2D(Game1.graphics.GraphicsDevice, innerBarWidth, innerBarHeight);
+            var data = new uint[innerBarWidth * innerBarHeight];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = 0xffffffff;
+            this.TextureBar.SetData(data);
+
             GraphicsEvents.OnPostRenderEvent += this.GraphicsEvents_OnPostRenderEvent;
             ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
 
@@ -42,18 +50,6 @@ namespace HealthBars
         /*********
         ** Private methods
         *********/
-        private void GameEvents_FirstUpdateTick(object sender, EventArgs e)
-        {
-            int innerBarWidth = this.Config.BarWidth - this.Config.BarBorderWidth * 2;
-            int innerBarHeight = this.Config.BarHeight - this.Config.BarBorderHeight * 2;
-
-            this.TextureBar = new Texture2D(Game1.graphics.GraphicsDevice, innerBarWidth, innerBarHeight);
-            var data = new uint[innerBarWidth * innerBarHeight];
-            for (int i = 0; i < data.Length; i++)
-                data[i] = 0xffffffff;
-            this.TextureBar.SetData(data);
-        }
-
         private void GraphicsEvents_OnPostRenderEvent(object sender, EventArgs e)
         {
             if (!Game1.hasLoadedGame)
