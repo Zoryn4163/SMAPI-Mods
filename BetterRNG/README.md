@@ -31,6 +31,9 @@ The mod will...
   changed. That means the weather channel may be wrong in rare cases.
 
 ## Versions
+### 1.8
+* Updated to SMAPI 1.15 & 2.0.
+
 ### 1.7
 * Updated to Stardew Valley 1.2.
 

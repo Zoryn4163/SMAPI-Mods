@@ -19,6 +19,10 @@ change temporarily to "Calendar", and clicking that (or pressing `A` on a contro
 calendar.
 
 ## Versions
+### 1.8
+* Updated to SMAPI 1.15 & 2.0.
+* Fixed crash if you open the calendar while warping to a new area.
+
 ### 1.7
 * Updated to Stardew Valley 1.2.
 

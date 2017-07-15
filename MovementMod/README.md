@@ -21,6 +21,9 @@ speed when walking, running, or riding the horse by editing the `config.json` fi
 speed is fine.)
 
 ## Versions
+### 1.8
+* Updated to SMAPI 1.15 & 2.0.
+
 ### 1.7
 * Updated to Stardew Valley 1.2.
 

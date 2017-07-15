@@ -17,6 +17,9 @@ Compatible with Stardew Valley 1.1+ on Linux, Mac, and Windows.
 The mod will automatically prevent all fences from decaying, no action needed on your part.
 
 ## Versions
+### 1.8
+* Updated to SMAPI 1.15 & 2.0.
+
 ### 1.7
 * Updated to Stardew Valley 1.2.
 
