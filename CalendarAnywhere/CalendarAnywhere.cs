@@ -15,7 +15,6 @@ namespace CalendarAnywhere
         *********/
         private MouseState MState;
 
-        private Rectangle MouseRect => new Rectangle(Game1.oldMouseState.X, Game1.oldMouseState.Y, 64, 64);
         private Point ClickPoint => new Point(this.MState.X, this.MState.Y);
 
 
@@ -38,10 +37,7 @@ namespace CalendarAnywhere
         {
             MState = e.NewState;
 
-            if (!Game1.hasLoadedGame || Game1.activeClickableMenu != null)
-                return;
-
-            if (Game1.didPlayerJustLeftClick())
+            if (Context.IsPlayerFree && Game1.didPlayerJustLeftClick())
             {
                 Rectangle target = this.GetTarget();
                 if (target.Contains(this.ClickPoint))
@@ -53,10 +49,7 @@ namespace CalendarAnywhere
         {
             MState = Game1.oldMouseState;
 
-            if (!Game1.hasLoadedGame || Game1.activeClickableMenu != null)
-                return;
-
-            if (e.ButtonPressed == Buttons.A && this.GetTarget().Contains(this.ClickPoint))
+            if (Context.IsPlayerFree && e.ButtonPressed == Buttons.A && this.GetTarget().Contains(this.ClickPoint))
                 Game1.activeClickableMenu = new Billboard();
         }
 
