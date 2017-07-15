@@ -23,6 +23,9 @@ The mod will automatically regenerate your health and stamina passively over tim
 * Whether health _drains_ over time instead.
 
 ## Versions
+### 1.8
+* Updated to SMAPI 1.15 & 2.0.
+
 ### 1.7
 * Updated to Stardew Valley 1.2.
 

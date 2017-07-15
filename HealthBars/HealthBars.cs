@@ -19,7 +19,7 @@ namespace HealthBars
         *********/
         private HealthBarConfig Config;
         private Monster[] Monsters;
-        private Texture2D TextureBar;
+        private Texture2D BarTexture;
 
 
         /*********
@@ -29,17 +29,13 @@ namespace HealthBars
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            // read config
             this.Config = helper.ReadConfig<HealthBarConfig>();
 
-            int innerBarWidth = this.Config.BarWidth - this.Config.BarBorderWidth * 2;
-            int innerBarHeight = this.Config.BarHeight - this.Config.BarBorderHeight * 2;
+            // build bar texture
+            this.BarTexture = this.GetBarTexture();
 
-            this.TextureBar = new Texture2D(Game1.graphics.GraphicsDevice, innerBarWidth, innerBarHeight);
-            var data = new uint[innerBarWidth * innerBarHeight];
-            for (int i = 0; i < data.Length; i++)
-                data[i] = 0xffffffff;
-            this.TextureBar.SetData(data);
-
+            // hook events
             GraphicsEvents.OnPostRenderEvent += this.GraphicsEvents_OnPostRenderEvent;
             ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
 
@@ -79,7 +75,7 @@ namespace HealthBars
 
                 float fill = monster.health / (float)monster.maxHealth;
 
-                batch.Draw(this.TextureBar, screenLoc + new Vector2(this.Config.BarBorderWidth, this.Config.BarBorderHeight), this.TextureBar.Bounds, Color.Lerp(this.Config.LowHealthColor, this.Config.HighHealthColor, fill), 0.0f, Vector2.Zero, new Vector2(fill, 1.0f), SpriteEffects.None, 0);
+                batch.Draw(this.BarTexture, screenLoc + new Vector2(this.Config.BarBorderWidth, this.Config.BarBorderHeight), this.BarTexture.Bounds, Color.Lerp(this.Config.LowHealthColor, this.Config.HighHealthColor, fill), 0.0f, Vector2.Zero, new Vector2(fill, 1.0f), SpriteEffects.None, 0);
 
                 if (this.Config.DisplayCurrentHealthNumber)
                 {
@@ -108,6 +104,24 @@ namespace HealthBars
                 this.Config = this.Helper.ReadConfig<HealthBarConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
+        }
+
+        /// <summary>Get a health bar texture.</summary>
+        private Texture2D GetBarTexture()
+        {
+            // calculate size
+            int innerBarWidth = this.Config.BarWidth - this.Config.BarBorderWidth * 2;
+            int innerBarHeight = this.Config.BarHeight - this.Config.BarBorderHeight * 2;
+
+            // get pixels
+            var data = new uint[innerBarWidth * innerBarHeight];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = 0xffffffff;
+
+            // build texture
+            var texture = new Texture2D(Game1.graphics.GraphicsDevice, innerBarWidth, innerBarHeight);
+            texture.SetData(data);
+            return texture;
         }
     }
 }

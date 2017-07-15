@@ -21,6 +21,9 @@ menu from your inventory.
 complete the bundle from the Community Center.**
 
 ## Versions
+### 1.8
+* Updated to SMAPI 1.15 & 2.0.
+
 ### 1.7.1
 * Fixed error in Stardew Valley 1.2.
 

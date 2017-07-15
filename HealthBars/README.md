@@ -19,6 +19,9 @@ The mod will automatically show health bars for monsters you encounter. You can 
 monster is at full health.
 
 ## Versions
+### 1.8
+* Updated to SMAPI 1.15 & 2.0.
+
 ### 1.7
 * Updated to Stardew Valley 1.2.
 
