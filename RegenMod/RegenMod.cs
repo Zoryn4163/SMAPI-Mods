@@ -33,8 +33,8 @@ namespace RegenMod
         {
             this.Config = helper.ReadConfig<RegenConfig>();
 
-            GameEvents.UpdateTick += GameEvents_UpdateTick;
-            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
+            GameEvents.UpdateTick += this.GameEvents_UpdateTick;
+            ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
@@ -57,9 +57,9 @@ namespace RegenMod
             if (!Game1.hasLoadedGame || Game1.paused || Game1.activeClickableMenu != null)
                 return;
 
-            if (UpdateIndex <= 60)
+            if (this.UpdateIndex <= 60)
             {
-                UpdateIndex += 1;
+                this.UpdateIndex += 1;
                 return;
             }
 

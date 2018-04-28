@@ -36,7 +36,7 @@ namespace BetterRNG
             //If it takes longer than that something isn't right.
             for (int i = 0; i < 4096; i++)
             {
-                choice = Choose(list);
+                choice = Weighted.Choose(list);
                 if (choice.Value is int)
                 {
                     int x = (int)choice.Value;

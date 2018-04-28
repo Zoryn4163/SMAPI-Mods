@@ -22,8 +22,8 @@ namespace FishingMod
         /// </summary>
         public float bobberPosition
         {
-            get { return (float)GetBaseFieldInfo("bobberPosition").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberPosition").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("bobberPosition").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberPosition").SetValue(this.BaseBobberBar, value); }
         }
 
         /// <summary>
@@ -32,116 +32,116 @@ namespace FishingMod
         /// </summary>
         public float distanceFromCatching
         {
-            get { return (float)GetBaseFieldInfo("distanceFromCatching").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("distanceFromCatching").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("distanceFromCatching").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("distanceFromCatching").SetValue(this.BaseBobberBar, value); }
         }
 
         public float difficulty
         {
-            get { return (float)GetBaseFieldInfo("difficulty").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("difficulty").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("difficulty").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("difficulty").SetValue(this.BaseBobberBar, value); }
         }
 
         public int motionType
         {
-            get { return (int)GetBaseFieldInfo("motionType").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("motionType").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("motionType").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("motionType").SetValue(this.BaseBobberBar, value); }
         }
 
         public int whichFish
         {
-            get { return (int)GetBaseFieldInfo("whichFish").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("whichFish").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("whichFish").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("whichFish").SetValue(this.BaseBobberBar, value); }
         }
 
         public float bobberSpeed
         {
-            get { return (float)GetBaseFieldInfo("bobberSpeed").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberSpeed").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("bobberSpeed").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberSpeed").SetValue(this.BaseBobberBar, value); }
         }
 
         public float bobberAcceleration
         {
-            get { return (float)GetBaseFieldInfo("bobberAcceleration").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberAcceleration").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("bobberAcceleration").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberAcceleration").SetValue(this.BaseBobberBar, value); }
         }
 
         public float bobberTargetPosition
         {
-            get { return (float)GetBaseFieldInfo("bobberTargetPosition").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberTargetPosition").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("bobberTargetPosition").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberTargetPosition").SetValue(this.BaseBobberBar, value); }
         }
 
         public float scale
         {
-            get { return (float)GetBaseFieldInfo("scale").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("scale").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("scale").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("scale").SetValue(this.BaseBobberBar, value); }
         }
 
         public float everythingShakeTimer
         {
-            get { return (float)GetBaseFieldInfo("everythingShakeTimer").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("everythingShakeTimer").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("everythingShakeTimer").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("everythingShakeTimer").SetValue(this.BaseBobberBar, value); }
         }
 
         public float floaterSinkerAcceleration
         {
-            get { return (float)GetBaseFieldInfo("floaterSinkerAcceleration").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("floaterSinkerAcceleration").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("floaterSinkerAcceleration").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("floaterSinkerAcceleration").SetValue(this.BaseBobberBar, value); }
         }
 
         public float treasurePosition
         {
-            get { return (float)GetBaseFieldInfo("treasurePosition").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("treasurePosition").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("treasurePosition").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("treasurePosition").SetValue(this.BaseBobberBar, value); }
         }
 
         public float treasureCatchLevel
         {
-            get { return (float)GetBaseFieldInfo("treasureCatchLevel").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("treasureCatchLevel").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("treasureCatchLevel").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("treasureCatchLevel").SetValue(this.BaseBobberBar, value); }
         }
 
         public float treasureAppearTimer
         {
-            get { return (float)GetBaseFieldInfo("treasureAppearTimer").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("treasureAppearTimer").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("treasureAppearTimer").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("treasureAppearTimer").SetValue(this.BaseBobberBar, value); }
         }
 
         public float treasureScale
         {
-            get { return (float)GetBaseFieldInfo("treasureScale").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("treasureScale").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("treasureScale").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("treasureScale").SetValue(this.BaseBobberBar, value); }
         }
 
         public bool bobberInBar
         {
-            get { return (bool)GetBaseFieldInfo("bobberInBar").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberInBar").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("bobberInBar").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberInBar").SetValue(this.BaseBobberBar, value); }
         }
 
         public bool buttonPressed
         {
-            get { return (bool)GetBaseFieldInfo("buttonPressed").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("buttonPressed").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("buttonPressed").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("buttonPressed").SetValue(this.BaseBobberBar, value); }
         }
 
         public bool flipBubble
         {
-            get { return (bool)GetBaseFieldInfo("flipBubble").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("flipBubble").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("flipBubble").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("flipBubble").SetValue(this.BaseBobberBar, value); }
         }
 
         public bool fadeIn
         {
-            get { return (bool)GetBaseFieldInfo("fadeIn").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("fadeIn").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("fadeIn").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("fadeIn").SetValue(this.BaseBobberBar, value); }
         }
 
         public bool fadeOut
         {
-            get { return (bool)GetBaseFieldInfo("fadeOut").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberPfadeOutosition").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("fadeOut").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberPfadeOutosition").SetValue(this.BaseBobberBar, value); }
         }
 
         /// <summary>
@@ -149,125 +149,125 @@ namespace FishingMod
         /// </summary>
         public bool treasure
         {
-            get { return (bool)GetBaseFieldInfo("treasure").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("treasure").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("treasure").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("treasure").SetValue(this.BaseBobberBar, value); }
         }
 
         public bool treasureCaught
         {
-            get { return (bool)GetBaseFieldInfo("treasureCaught").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("treasureCaught").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("treasureCaught").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("treasureCaught").SetValue(this.BaseBobberBar, value); }
         }
 
         public bool perfect
         {
-            get { return (bool)GetBaseFieldInfo("perfect").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("perfect").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("perfect").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("perfect").SetValue(this.BaseBobberBar, value); }
         }
 
         public bool bossFish
         {
-            get { return (bool)GetBaseFieldInfo("bossFish").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bossFish").SetValue(BaseBobberBar, value); }
+            get { return (bool)SBobberBar.GetBaseFieldInfo("bossFish").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bossFish").SetValue(this.BaseBobberBar, value); }
         }
 
         public int bobberBarHeight
         {
-            get { return (int)GetBaseFieldInfo("bobberBarHeight").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberBarHeight").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("bobberBarHeight").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberBarHeight").SetValue(this.BaseBobberBar, value); }
         }
 
         public int fishSize
         {
-            get { return (int)GetBaseFieldInfo("fishSize").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("fishSize").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("fishSize").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("fishSize").SetValue(this.BaseBobberBar, value); }
         }
 
         public int fishQuality
         {
-            get { return (int)GetBaseFieldInfo("fishQuality").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("fishQuality").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("fishQuality").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("fishQuality").SetValue(this.BaseBobberBar, value); }
         }
 
         public int minFishSize
         {
-            get { return (int)GetBaseFieldInfo("minFishSize").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("minFishSize").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("minFishSize").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("minFishSize").SetValue(this.BaseBobberBar, value); }
         }
 
         public int maxFishSize
         {
-            get { return (int)GetBaseFieldInfo("maxFishSize").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("maxFishSize").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("maxFishSize").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("maxFishSize").SetValue(this.BaseBobberBar, value); }
         }
 
         public int fishSizeReductionTimer
         {
-            get { return (int)GetBaseFieldInfo("fishSizeReductionTimer").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("fishSizeReductionTimer").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("fishSizeReductionTimer").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("fishSizeReductionTimer").SetValue(this.BaseBobberBar, value); }
         }
 
         public int whichBobber
         {
-            get { return (int)GetBaseFieldInfo("whichBobber").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("whichBobber").SetValue(BaseBobberBar, value); }
+            get { return (int)SBobberBar.GetBaseFieldInfo("whichBobber").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("whichBobber").SetValue(this.BaseBobberBar, value); }
         }
 
         public Vector2 barShake
         {
-            get { return (Vector2)GetBaseFieldInfo("barShake").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("barShake").SetValue(BaseBobberBar, value); }
+            get { return (Vector2)SBobberBar.GetBaseFieldInfo("barShake").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("barShake").SetValue(this.BaseBobberBar, value); }
         }
 
         public Vector2 fishShake
         {
-            get { return (Vector2)GetBaseFieldInfo("fishShake").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("fishShake").SetValue(BaseBobberBar, value); }
+            get { return (Vector2)SBobberBar.GetBaseFieldInfo("fishShake").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("fishShake").SetValue(this.BaseBobberBar, value); }
         }
 
         public Vector2 everythingShake
         {
-            get { return (Vector2)GetBaseFieldInfo("everythingShake").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("everythingShake").SetValue(BaseBobberBar, value); }
+            get { return (Vector2)SBobberBar.GetBaseFieldInfo("everythingShake").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("everythingShake").SetValue(this.BaseBobberBar, value); }
         }
 
         public Vector2 treasureShake
         {
-            get { return (Vector2)GetBaseFieldInfo("treasureShake").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("treasureShake").SetValue(BaseBobberBar, value); }
+            get { return (Vector2)SBobberBar.GetBaseFieldInfo("treasureShake").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("treasureShake").SetValue(this.BaseBobberBar, value); }
         }
 
         public float reelRotation
         {
-            get { return (float)GetBaseFieldInfo("reelRotation").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("reelRotation").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("reelRotation").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("reelRotation").SetValue(this.BaseBobberBar, value); }
         }
 
         public SparklingText sparkleText
         {
-            get { return (SparklingText)GetBaseFieldInfo("sparkleText").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("sparkleText").SetValue(BaseBobberBar, value); }
+            get { return (SparklingText)SBobberBar.GetBaseFieldInfo("sparkleText").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("sparkleText").SetValue(this.BaseBobberBar, value); }
         }
 
         public float bobberBarPos
         {
-            get { return (float)GetBaseFieldInfo("bobberBarPos").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberBarPos").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("bobberBarPos").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberBarPos").SetValue(this.BaseBobberBar, value); }
         }
 
         public float bobberBarSpeed
         {
-            get { return (float)GetBaseFieldInfo("bobberBarSpeed").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberBarSpeed").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("bobberBarSpeed").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberBarSpeed").SetValue(this.BaseBobberBar, value); }
         }
 
         public float bobberBarAcceleration
         {
-            get { return (float)GetBaseFieldInfo("bobberBarAcceleration").GetValue(BaseBobberBar); }
-            set { GetBaseFieldInfo("bobberBarAcceleration").SetValue(BaseBobberBar, value); }
+            get { return (float)SBobberBar.GetBaseFieldInfo("bobberBarAcceleration").GetValue(this.BaseBobberBar); }
+            set { SBobberBar.GetBaseFieldInfo("bobberBarAcceleration").SetValue(this.BaseBobberBar, value); }
         }
 
-        public static FieldInfo[] PrivateFields => GetPrivateFields();
+        public static FieldInfo[] PrivateFields => SBobberBar.GetPrivateFields();
 
         public static SBobberBar ConstructFromBaseClass(BobberBar baseClass)
         {

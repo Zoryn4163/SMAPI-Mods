@@ -50,7 +50,7 @@ namespace MovementMod
 
             if (Game1.currentLocation.currentEvent != null)
             {
-                CurrentSpeed = 0;
+                this.CurrentSpeed = 0;
                 return;
             }
 
@@ -84,7 +84,7 @@ namespace MovementMod
             if (this.Config.EnableDiagonalMovementSpeedFix)
                 player.movementDirections?.Clear();
 
-            PrevPosition = player.position;
+            this.PrevPosition = player.position;
         }
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)

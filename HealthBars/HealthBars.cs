@@ -67,7 +67,7 @@ namespace HealthBars
                 if (monster.MaxHealth == monster.Health && !this.Config.DisplayHealthWhenNotDamaged)
                     continue;
 
-                var size = new Vector2(monster.Sprite.SpriteWidth, monster.Sprite.SpriteHeight) * Game1.pixelZoom;
+                Vector2 size = new Vector2(monster.Sprite.SpriteWidth, monster.Sprite.SpriteHeight) * Game1.pixelZoom;
 
                 Vector2 screenLoc = monster.Position - new Vector2(viewport.X, viewport.Y);
                 screenLoc.X += size.X / 2 - this.Config.BarWidth / 2.0f;
