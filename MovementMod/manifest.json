@@ -1,14 +1,10 @@
 {
   "Name": "Movement Modifier",
   "Author": "Zoryn",
-  "Version": {
-    "MajorVersion": 1,
-    "MinorVersion": 8,
-    "PatchVersion": 0,
-    "Build": null
-  },
-  "MinimumApiVersion": "1.15",
+  "Version": "1.8.0",
   "Description": "Lets you change your movement based on a config.",
   "UniqueID": "Zoryn.MovementModifier",
-  "EntryDll": "MovementMod.dll"
+  "EntryDll": "MovementMod.dll",
+  "MinimumApiVersion": "2.0",
+  "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }
