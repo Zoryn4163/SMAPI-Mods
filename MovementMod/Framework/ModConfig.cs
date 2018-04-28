@@ -9,8 +9,6 @@ namespace MovementMod.Framework
         /*********
         ** Accessors
         *********/
-        public bool EnableDiagonalMovementSpeedFix { get; set; } = true;
-
         public bool EnableWalkingSpeedOverride { get; set; }
         public int PlayerWalkingSpeed { get; set; } = 2;
 

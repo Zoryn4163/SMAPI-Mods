@@ -82,9 +82,6 @@ namespace MovementMod
 
             player.addedSpeed = this.CurrentSpeed;
 
-            if (this.Config.EnableDiagonalMovementSpeedFix)
-                player.movementDirections?.Clear();
-
             this.PrevPosition = player.position;
         }
 

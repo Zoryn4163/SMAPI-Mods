@@ -27,6 +27,7 @@ speed is fine.)
 ## Versions
 ### 1.9
 * Updated to Stardew Valley 1.3 (including multiplayer).
+* Removed `EnableDiagonalMovementSpeedFix` setting.
 
 ### 1.8
 * Updated to SMAPI 1.15 & 2.0.
