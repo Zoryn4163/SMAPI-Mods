@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 
-namespace FishingMod
+namespace FishingMod.Framework
 {
     internal class SBobberBar : BobberBar
     {

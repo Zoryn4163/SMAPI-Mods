@@ -1,4 +1,5 @@
 ﻿using System;
+using FishingMod.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
@@ -10,7 +11,7 @@ using StardewValley.Tools;
 namespace FishingMod
 {
     /// <summary>The main entry point.</summary>
-    public class FishingMod : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
@@ -18,7 +19,7 @@ namespace FishingMod
         private SBobberBar Bobber;
         private bool BeganFishingGame;
         private int UpdateIndex;
-        private FishConfig Config;
+        private ModConfig Config;
 
 
         /*********
@@ -28,7 +29,7 @@ namespace FishingMod
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            this.Config = helper.ReadConfig<FishConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
 
             GameEvents.UpdateTick += this.GameEvents_OnUpdateTick;
             GameEvents.OneSecondTick += this.GameEvents_OneSecondTick;
@@ -129,7 +130,7 @@ namespace FishingMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<FishConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }

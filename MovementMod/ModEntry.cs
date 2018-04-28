@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MovementMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -9,12 +10,12 @@ using SFarmer = StardewValley.Farmer;
 namespace MovementMod
 {
     /// <summary>The main entry point.</summary>
-    public class MovementMod : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
         *********/
-        private MovementConfig Config;
+        private ModConfig Config;
         private Keys SprintKey;
 
         private int CurrentSpeed;
@@ -30,7 +31,7 @@ namespace MovementMod
         /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
         public override void Entry(IModHelper helper)
         {
-            this.Config = helper.ReadConfig<MovementConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
             this.SprintKey = this.Config.GetSprintKey(this.Monitor);
 
             GameEvents.UpdateTick += this.GameEvents_UpdateTick;
@@ -91,7 +92,7 @@ namespace MovementMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<MovementConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.SprintKey = this.Config.GetSprintKey(this.Monitor);
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }

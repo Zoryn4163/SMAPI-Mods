@@ -8,7 +8,7 @@ using StardewValley.Menus;
 namespace CalendarAnywhere
 {
     /// <summary>The main entry point.</summary>
-    public class CalendarAnywhere : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties

@@ -1,6 +1,6 @@
-namespace BetterRNG
+namespace BetterRNG.Framework
 {
-    internal class RngConfig
+    internal class ModConfig
     {
         public bool EnableDailyLuckOverride { get; set; }
         public bool EnableWeatherOverride { get; set; }
@@ -12,7 +12,7 @@ namespace BetterRNG
         public int HarshSnowyChance { get; set; }
 
         /// <summary>Construct an instance.</summary>
-        public RngConfig()
+        public ModConfig()
         {
             this.Info = new[]
             {

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace BetterRNG
+namespace BetterRNG.Framework
 {
     internal static class Weighted
     {
@@ -11,7 +11,7 @@ namespace BetterRNG
                 return default(T);
 
             int totalweight = list.Sum(c => c.Weight);
-            int choice = BetterRng.Twister.Next(totalweight);
+            int choice = ModEntry.Twister.Next(totalweight);
             int sum = 0;
 
             foreach (var obj in list)
@@ -49,7 +49,7 @@ namespace BetterRNG
             {
                 int w = choice.Weight;
                 choice = Activator.CreateInstance<T>();
-                choice.Value = min < max ? BetterRng.Twister.Next(min, max) : BetterRng.Twister.Next(Math.Max(min, max));
+                choice.Value = min < max ? ModEntry.Twister.Next(min, max) : ModEntry.Twister.Next(Math.Max(min, max));
                 choice.Weight = w;
                 return choice;
             }

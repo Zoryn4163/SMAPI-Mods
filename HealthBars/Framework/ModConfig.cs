@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 
-namespace HealthBars
+namespace HealthBars.Framework
 {
-    internal class HealthBarConfig
+    internal class ModConfig
     {
         public bool DisplayHealthWhenNotDamaged { get; set; }
 

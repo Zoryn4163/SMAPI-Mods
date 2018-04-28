@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HealthBars.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,12 +13,12 @@ using Rectangle = xTile.Dimensions.Rectangle;
 namespace HealthBars
 {
     /// <summary>The main entry point.</summary>
-    public class HealthBars : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
         *********/
-        private HealthBarConfig Config;
+        private ModConfig Config;
         private Monster[] Monsters;
         private Texture2D BarTexture;
 
@@ -30,7 +31,7 @@ namespace HealthBars
         public override void Entry(IModHelper helper)
         {
             // read config
-            this.Config = helper.ReadConfig<HealthBarConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
 
             // build bar texture
             this.BarTexture = this.GetBarTexture();
@@ -101,7 +102,7 @@ namespace HealthBars
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<HealthBarConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }

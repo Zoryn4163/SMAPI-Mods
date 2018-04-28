@@ -2,7 +2,7 @@
 
 using System;
 
-namespace BetterRNG
+namespace BetterRNG.Framework
 {
     internal class MersenneTwister : Random
     {

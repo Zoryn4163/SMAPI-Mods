@@ -1,4 +1,5 @@
 ﻿using System;
+using BetterRNG.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -7,13 +8,13 @@ using StardewValley;
 namespace BetterRNG
 {
     /// <summary>The main entry point.</summary>
-    public class BetterRng : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
         *********/
         private float[] RandomFloats;
-        private RngConfig Config;
+        private ModConfig Config;
         private WeightedGeneric<int>[] Weather;
 
 
@@ -30,13 +31,13 @@ namespace BetterRNG
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            this.Config = helper.ReadConfig<RngConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
 
             this.RandomFloats = new float[256];
-            BetterRng.Twister = new MersenneTwister();
+            ModEntry.Twister = new MersenneTwister();
 
             //Destroys the game's built-in random number generator for Twister.
-            Game1.random = BetterRng.Twister;
+            Game1.random = ModEntry.Twister;
 
             //Just fills the buffer with junk so that we know everything is good and random.
             this.RandomFloats.FillFloats();
@@ -100,7 +101,7 @@ namespace BetterRNG
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<RngConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
+using RegenMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -9,12 +10,12 @@ using SFarmer = StardewValley.Farmer;
 namespace RegenMod
 {
     /// <summary>The main entry point.</summary>
-    public class RegenMod : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
         *********/
-        private RegenConfig Config;
+        private ModConfig Config;
         private float Health;
         private float Stamina;
 
@@ -31,7 +32,7 @@ namespace RegenMod
         /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
         public override void Entry(IModHelper helper)
         {
-            this.Config = helper.ReadConfig<RegenConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
 
             GameEvents.UpdateTick += this.GameEvents_UpdateTick;
             ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
@@ -47,7 +48,7 @@ namespace RegenMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<RegenConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }

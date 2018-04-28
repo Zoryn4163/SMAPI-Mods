@@ -7,7 +7,7 @@ using StardewValley;
 namespace DurableFences
 {
     /// <summary>The main entry point.</summary>
-    public class DurableFences : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Public methods

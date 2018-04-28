@@ -2,9 +2,9 @@ using System;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 
-namespace MovementMod
+namespace MovementMod.Framework
 {
-    internal class MovementConfig
+    internal class ModConfig
     {
         /*********
         ** Accessors

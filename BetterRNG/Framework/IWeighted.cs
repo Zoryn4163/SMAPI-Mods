@@ -1,4 +1,4 @@
-﻿namespace BetterRNG
+﻿namespace BetterRNG.Framework
 {
     internal interface IWeighted
     {

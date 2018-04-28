@@ -4,7 +4,7 @@ using System.Linq;
 using StardewValley;
 using SFarmer = StardewValley.Farmer;
 
-namespace BetterRNG
+namespace BetterRNG.Framework
 {
     internal static class Extensions
     {
@@ -21,7 +21,7 @@ namespace BetterRNG
         public static void FillFloats(this float[] floats)
         {
             for (int i = 0; i < floats.Length; i++)
-                floats[i] = BetterRng.Twister.Next(-100, 100) / 100f;
+                floats[i] = ModEntry.Twister.Next(-100, 100) / 100f;
         }
 
         public static T Random<T>(this IEnumerable<T> enumerable)
@@ -32,7 +32,7 @@ namespace BetterRNG
             }
 
             var list = enumerable as IList<T> ?? enumerable.ToList();
-            return list.Count == 0 ? default(T) : list[BetterRng.Twister.Next(0, list.Count)];
+            return list.Count == 0 ? default(T) : list[ModEntry.Twister.Next(0, list.Count)];
         }
 
         public static float Abs(this float f)
