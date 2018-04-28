@@ -56,19 +56,19 @@ namespace MovementMod
             }
 
             SFarmer player = Game1.player;
-            if (this.Config.EnableHorseSpeedOverride && player.getMount() != null)
+            if (this.Config.HorseSpeed != 0 && player.getMount() != null)
                 this.CurrentSpeed = this.Config.HorseSpeed;
-            if (this.Config.EnableRunningSpeedOverride && player.running)
+            if (this.Config.PlayerRunningSpeed != 0 && player.running)
                 this.CurrentSpeed = this.Config.PlayerRunningSpeed;
             else
                 this.CurrentSpeed = 0;
 
             if (Game1.oldKBState.IsKeyDown(this.SprintKey))
             {
-                if (this.Config.SprintingDrainsStamina)
+                if (this.Config.SprintingStaminaDrainPerSecond != 0 && player.position != this.PrevPosition)
                 {
                     float loss = this.Config.SprintingStaminaDrainPerSecond * this.ElapsedSeconds;
-                    if (player.position != this.PrevPosition && player.stamina - loss > 0)
+                    if (player.stamina - loss > 0)
                     {
                         player.stamina -= loss;
                         this.CurrentSpeed *= this.Config.PlayerSprintingSpeedMultiplier;

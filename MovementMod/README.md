@@ -25,8 +25,9 @@ speed when walking, running, or riding the horse by editing the `config.json` fi
 ## Versions
 ### 1.9
 * Updated to Stardew Valley 1.3 (including multiplayer).
-* Removed diagonal movement speed fix (no longer needed).
-* Removed walking speed overrides (can break cutscenes).
+* Enabled speed boost and sprinting by default.
+* Simplified mod configuration.
+* Removed walking speed boost (can break cutscenes).
 
 ### 1.8
 * Updated to SMAPI 1.15 & 2.0.
