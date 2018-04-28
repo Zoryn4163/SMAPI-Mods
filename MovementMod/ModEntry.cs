@@ -60,8 +60,6 @@ namespace MovementMod
                 this.CurrentSpeed = this.Config.HorseSpeed;
             if (this.Config.EnableRunningSpeedOverride && player.running)
                 this.CurrentSpeed = this.Config.PlayerRunningSpeed;
-            else if (this.Config.EnableWalkingSpeedOverride && !player.running)
-                this.CurrentSpeed = this.Config.PlayerWalkingSpeed;
             else
                 this.CurrentSpeed = 0;
 

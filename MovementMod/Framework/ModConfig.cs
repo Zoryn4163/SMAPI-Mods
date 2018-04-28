@@ -9,9 +9,6 @@ namespace MovementMod.Framework
         /*********
         ** Accessors
         *********/
-        public bool EnableWalkingSpeedOverride { get; set; }
-        public int PlayerWalkingSpeed { get; set; } = 2;
-
         public bool EnableRunningSpeedOverride { get; set; }
         public int PlayerRunningSpeed { get; set; } = 5;
 

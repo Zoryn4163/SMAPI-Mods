@@ -16,8 +16,6 @@ your movement.
 The mod lets you walk diagonally, sprint quickly (optionally consumes stamina), and customise your
 speed when walking, running, or riding the horse by editing the `config.json` file.
 
-**WARNING:** changing the walking speed may cause event cutscenes to break. (Changing the running
-speed is fine.)
 
 ## Compatibility
 * Works with Stardew Valley 1.3 on Linux/Mac/Windows.
@@ -27,7 +25,8 @@ speed is fine.)
 ## Versions
 ### 1.9
 * Updated to Stardew Valley 1.3 (including multiplayer).
-* Removed `EnableDiagonalMovementSpeedFix` setting.
+* Removed diagonal movement speed fix (no longer needed).
+* Removed walking speed overrides (can break cutscenes).
 
 ### 1.8
 * Updated to SMAPI 1.15 & 2.0.
