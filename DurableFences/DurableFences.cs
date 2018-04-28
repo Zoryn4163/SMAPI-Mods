@@ -28,7 +28,7 @@ namespace DurableFences
             foreach (GameLocation location in Game1.locations)
             {
                 foreach (Fence fence in location.Objects.Values.OfType<Fence>())
-                    fence.health = fence.maxHealth;
+                    fence.health.Value = fence.maxHealth.Value;
             }
         }
     }

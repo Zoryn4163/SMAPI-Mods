@@ -5,6 +5,6 @@
   "Description": "Lets you deposit items into Junimo bundles from anywhere.",
   "UniqueID": "Zoryn.JunimoDepositAnywhere",
   "EntryDll": "JunimoDepositAnywhere.dll",
-  "MinimumApiVersion": "2.0",
+  "MinimumApiVersion": "2.6-beta",
   "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }

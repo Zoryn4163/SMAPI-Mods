@@ -65,7 +65,7 @@ namespace FishingMod
                         if (this.Config.InfiniteTackle)
                         {
                             rod.attachments[1].Stack = rod.attachments[1].maximumStackSize();
-                            rod.attachments[1].scale = new Vector2(rod.attachments[1].scale.X, 1.1f);
+                            rod.attachments[1].Scale = new Vector2(rod.attachments[1].Scale.X, 1.1f);
                         }
                     }
                 }
