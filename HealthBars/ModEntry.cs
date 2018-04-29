@@ -18,7 +18,9 @@ namespace HealthBars
         /*********
         ** Properties
         *********/
+        /// <summary>The mod configuration.</summary>
         private ModConfig Config;
+
         private Monster[] Monsters;
         private Texture2D BarTexture;
 

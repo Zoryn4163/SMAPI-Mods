@@ -16,10 +16,12 @@ namespace FishingMod
         /*********
         ** Properties
         *********/
+        /// <summary>The mod configuration.</summary>
+        private ModConfig Config;
+
         private SBobberBar Bobber;
         private bool BeganFishingGame;
         private int UpdateIndex;
-        private ModConfig Config;
 
 
         /*********

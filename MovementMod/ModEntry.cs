@@ -15,7 +15,9 @@ namespace MovementMod
         /*********
         ** Properties
         *********/
+        /// <summary>The mod configuration.</summary>
         private ModConfig Config;
+
         private Keys SprintKey;
 
         private int CurrentSpeed;

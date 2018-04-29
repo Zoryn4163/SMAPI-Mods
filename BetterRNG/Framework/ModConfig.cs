@@ -1,31 +1,27 @@
 namespace BetterRNG.Framework
 {
+    /// <summary>The mod configuration.</summary>
     internal class ModConfig
     {
+        /// <summary>Whether to randomise your daily luck.</summary>
         public bool EnableDailyLuckOverride { get; set; }
-        public bool EnableWeatherOverride { get; set; }
-        public string[][] Info { get; set; }
-        public int SunnyChance { get; set; }
-        public int CloudySnowyChance { get; set; }
-        public int RainyChance { get; set; }
-        public int StormyChance { get; set; }
-        public int HarshSnowyChance { get; set; }
 
-        /// <summary>Construct an instance.</summary>
-        public ModConfig()
-        {
-            this.Info = new[]
-            {
-                new [] {
-                    "The weather chances are whole numbers as percentages.",
-                    "They can add up to be any number. 60 = 60% or 0.60, but you must type 60"
-                }
-            };
-            this.SunnyChance = 60;
-            this.CloudySnowyChance = 15;
-            this.RainyChance = 15;
-            this.StormyChance = 5;
-            this.HarshSnowyChance = 5;
-        }
+        /// <summary>Whether to randomise tomorrow's weather.</summary>
+        public bool EnableWeatherOverride { get; set; }
+
+        /// <summary>The weight for sunny weather when randomising weather.</summary>
+        public int SunnyChance { get; set; } = 60;
+
+        /// <summary>The weight for debris weather (e.g. blowing leaves, wind, etc) when randomising weather.</summary>
+        public int CloudySnowyChance { get; set; } = 15;
+
+        /// <summary>The weight for rain when randomising weather.</summary>
+        public int RainyChance { get; set; } = 15;
+
+        /// <summary>The weight for storms when randomising weather.</summary>
+        public int StormyChance { get; set; } = 5;
+
+        /// <summary>The weight for snow when randomising weather.</summary>
+        public int HarshSnowyChance { get; set; } = 5;
     }
 }
