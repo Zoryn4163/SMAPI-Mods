@@ -1,22 +1,29 @@
 ﻿﻿**Durable Fences** is a [Stardew Valley](http://stardewvalley.net/) mod which makes fences last
 forever.
 
-Compatible with Stardew Valley 1.1+ on Linux, Mac, and Windows.
-
 ## Contents
 * [Install](#install)
 * [Use](#use)
+* [Compatibility](#compatibility)
 * [Versions](#versions)
 
 ## Install
-1. [Install the latest version of SMAPI](https://github.com/Pathoschild/SMAPI/releases).
-3. Install this mod from the releases page.
-4. Run the game using SMAPI.
+1. [Install the latest version of SMAPI](https://smapi.io).
+2. Install this mod from the releases page.
+3. Run the game using SMAPI.
 
 ## Use
 The mod will automatically prevent all fences from decaying, no action needed on your part.
 
+## Compatibility
+* Works with Stardew Valley 1.3 on Linux/Mac/Windows.
+* Works in single-player and multiplayer.
+* No known mod conflicts.
+
 ## Versions
+### 1.9
+* Updated to Stardew Valley 1.3 (including multiplayer).
+
 ### 1.8
 * Updated to SMAPI 1.15 & 2.0.
 

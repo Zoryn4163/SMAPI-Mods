@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
+using RegenMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -9,12 +10,12 @@ using SFarmer = StardewValley.Farmer;
 namespace RegenMod
 {
     /// <summary>The main entry point.</summary>
-    public class RegenMod : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
         *********/
-        private RegenConfig Config;
+        private ModConfig Config;
         private float Health;
         private float Stamina;
 
@@ -31,10 +32,10 @@ namespace RegenMod
         /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
         public override void Entry(IModHelper helper)
         {
-            this.Config = helper.ReadConfig<RegenConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
 
-            GameEvents.UpdateTick += GameEvents_UpdateTick;
-            ControlEvents.KeyPressed += ControlEvents_KeyPressed;
+            GameEvents.UpdateTick += this.GameEvents_UpdateTick;
+            ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
@@ -47,7 +48,7 @@ namespace RegenMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<RegenConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
@@ -57,9 +58,9 @@ namespace RegenMod
             if (!Game1.hasLoadedGame || Game1.paused || Game1.activeClickableMenu != null)
                 return;
 
-            if (UpdateIndex <= 60)
+            if (this.UpdateIndex <= 60)
             {
-                UpdateIndex += 1;
+                this.UpdateIndex += 1;
                 return;
             }
 
@@ -71,11 +72,11 @@ namespace RegenMod
 
             // health regen
             if (this.Config.RegenHealthConstant)
-                this.Health += (this.Config.RegenHealthConstantIsNegative ? -this.Config.RegenHealthConstantAmountPerSecond : this.Config.RegenHealthConstantAmountPerSecond) * this.ElapsedSeconds;
+                this.Health += this.Config.RegenHealthConstantAmountPerSecond * this.ElapsedSeconds;
             if (this.Config.RegenHealthStill)
             {
                 if (this.TimeSinceLastMoved > this.Config.RegenHealthStillTimeRequiredMS)
-                    this.Health += (this.Config.RegenHealthStillIsNegative ? -this.Config.RegenHealthStillAmountPerSecond : this.Config.RegenHealthStillAmountPerSecond) * this.ElapsedSeconds;
+                    this.Health += this.Config.RegenHealthStillAmountPerSecond * this.ElapsedSeconds;
             }
             if (player.health + this.Health >= player.maxHealth)
             {
@@ -95,11 +96,11 @@ namespace RegenMod
 
             // stamina regen
             if (this.Config.RegenStaminaConstant)
-                this.Stamina += (this.Config.RegenStaminaConstantIsNegative ? -this.Config.RegenStaminaConstantAmountPerSecond : this.Config.RegenStaminaConstantAmountPerSecond) * this.ElapsedSeconds;
+                this.Stamina += this.Config.RegenStaminaConstantAmountPerSecond * this.ElapsedSeconds;
             if (this.Config.RegenStaminaStill)
             {
                 if (this.TimeSinceLastMoved > this.Config.RegenStaminaStillTimeRequiredMS)
-                    this.Stamina += (this.Config.RegenStaminaStillIsNegative ? -this.Config.RegenStaminaStillAmountPerSecond : this.Config.RegenStaminaStillAmountPerSecond) * this.ElapsedSeconds;
+                    this.Stamina += this.Config.RegenStaminaStillAmountPerSecond * this.ElapsedSeconds;
             }
             if (player.Stamina + this.Stamina >= player.maxStamina)
             {

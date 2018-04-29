@@ -1,4 +1,5 @@
 ﻿using System;
+using FishingMod.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
@@ -10,15 +11,17 @@ using StardewValley.Tools;
 namespace FishingMod
 {
     /// <summary>The main entry point.</summary>
-    public class FishingMod : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
         *********/
+        /// <summary>The mod configuration.</summary>
+        private ModConfig Config;
+
         private SBobberBar Bobber;
         private bool BeganFishingGame;
         private int UpdateIndex;
-        private FishConfig Config;
 
 
         /*********
@@ -28,7 +31,7 @@ namespace FishingMod
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            this.Config = helper.ReadConfig<FishConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
 
             GameEvents.UpdateTick += this.GameEvents_OnUpdateTick;
             GameEvents.OneSecondTick += this.GameEvents_OneSecondTick;
@@ -65,7 +68,7 @@ namespace FishingMod
                         if (this.Config.InfiniteTackle)
                         {
                             rod.attachments[1].Stack = rod.attachments[1].maximumStackSize();
-                            rod.attachments[1].scale = new Vector2(rod.attachments[1].scale.X, 1.1f);
+                            rod.attachments[1].Scale = new Vector2(rod.attachments[1].Scale.X, 1.1f);
                         }
                     }
                 }
@@ -129,7 +132,7 @@ namespace FishingMod
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<FishConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }

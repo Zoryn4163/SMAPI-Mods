@@ -1,4 +1,5 @@
 ﻿using System;
+using BetterRNG.Framework;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -7,13 +8,16 @@ using StardewValley;
 namespace BetterRNG
 {
     /// <summary>The main entry point.</summary>
-    public class BetterRng : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
         *********/
+        /// <summary>The mod configuration.</summary>
+        private ModConfig Config;
+
         private float[] RandomFloats;
-        private RngConfig Config;
+
         private WeightedGeneric<int>[] Weather;
 
 
@@ -30,13 +34,13 @@ namespace BetterRNG
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            this.Config = helper.ReadConfig<RngConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
 
             this.RandomFloats = new float[256];
-            BetterRng.Twister = new MersenneTwister();
+            ModEntry.Twister = new MersenneTwister();
 
             //Destroys the game's built-in random number generator for Twister.
-            Game1.random = BetterRng.Twister;
+            Game1.random = ModEntry.Twister;
 
             //Just fills the buffer with junk so that we know everything is good and random.
             this.RandomFloats.FillFloats();
@@ -44,11 +48,11 @@ namespace BetterRNG
             //Define base randoms
             this.Weather = new[]
             {
-                WeightedGeneric<int>.Create(this.Config.SunnyChance, 0),
-                WeightedGeneric<int>.Create(this.Config.CloudySnowyChance, 2),
-                WeightedGeneric<int>.Create(this.Config.RainyChance, 1),
-                WeightedGeneric<int>.Create(this.Config.StormyChance, 3),
-                WeightedGeneric<int>.Create(this.Config.HarshSnowyChance, 5)
+                WeightedGeneric<int>.Create(this.Config.SunnyChance, Game1.weather_sunny),
+                WeightedGeneric<int>.Create(this.Config.CloudySnowyChance, Game1.weather_debris),
+                WeightedGeneric<int>.Create(this.Config.RainyChance, Game1.weather_rain),
+                WeightedGeneric<int>.Create(this.Config.StormyChance, Game1.weather_lightning),
+                WeightedGeneric<int>.Create(this.Config.HarshSnowyChance, Game1.weather_snow)
             };
 
             /*
@@ -100,7 +104,7 @@ namespace BetterRNG
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<RngConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
@@ -117,14 +121,14 @@ namespace BetterRNG
             if (this.Config.EnableWeatherOverride)
             {
                 int targetWeather = this.Weather.Choose().TValue;
-                if (targetWeather == 5 && Game1.currentSeason != "winter")
-                    targetWeather = 3;
-                if (targetWeather == 1 && Game1.currentSeason == "winter")
-                    targetWeather = 2;
-                if (targetWeather == 3 && Game1.currentSeason == "winter")
-                    targetWeather = 5;
-                if (targetWeather == 4)
-                    targetWeather = 0;
+                if (targetWeather == Game1.weather_snow && Game1.currentSeason != "winter")
+                    targetWeather = Game1.weather_lightning;
+                if (targetWeather == Game1.weather_rain && Game1.currentSeason == "winter")
+                    targetWeather = Game1.weather_debris;
+                if (targetWeather == Game1.weather_lightning && Game1.currentSeason == "winter")
+                    targetWeather = Game1.weather_snow;
+                if (targetWeather == Game1.weather_festival)
+                    targetWeather = Game1.weather_sunny;
 
                 Game1.weatherForTomorrow = targetWeather;
             }

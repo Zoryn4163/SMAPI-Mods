@@ -1,24 +1,31 @@
 ﻿﻿**Calendar Anywhere** is a [Stardew Valley](http://stardewvalley.net/) mod which lets you open the
 calendar from anywhere by clicking on the date in the top-right corner.
 
-Compatible with Stardew Valley 1.1+ on Linux, Mac, and Windows.
-
 ## Contents
 * [Install](#install)
 * [Use](#use)
+* [Compatibility](#compatibility)
 * [Versions](#versions)
 
 ## Install
-1. [Install the latest version of SMAPI](https://github.com/Pathoschild/SMAPI/releases).
-3. Install this mod from the releases page.
-4. Run the game using SMAPI.
+1. [Install the latest version of SMAPI](https://smapi.io).
+2. Install this mod from the releases page.
+3. Run the game using SMAPI.
 
 ## Use
 To open the calendar, place the cursor over the date in the top-right corner. The text should
 change temporarily to "Calendar", and clicking that (or pressing `A` on a controller) will open the
 calendar.
 
+## Compatibility
+* Works with Stardew Valley 1.3 on Linux/Mac/Windows.
+* Works in single-player and multiplayer.
+* No known mod conflicts.
+
 ## Versions
+### 1.9
+* Updated to Stardew Valley 1.3 (including multiplayer).
+
 ### 1.8
 * Updated to SMAPI 1.15 & 2.0.
 * Fixed crash if you open the calendar while warping to a new area.

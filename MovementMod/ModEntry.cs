@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MovementMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -9,12 +10,14 @@ using SFarmer = StardewValley.Farmer;
 namespace MovementMod
 {
     /// <summary>The main entry point.</summary>
-    public class MovementMod : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Properties
         *********/
-        private MovementConfig Config;
+        /// <summary>The mod configuration.</summary>
+        private ModConfig Config;
+
         private Keys SprintKey;
 
         private int CurrentSpeed;
@@ -30,7 +33,7 @@ namespace MovementMod
         /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
         public override void Entry(IModHelper helper)
         {
-            this.Config = helper.ReadConfig<MovementConfig>();
+            this.Config = helper.ReadConfig<ModConfig>();
             this.SprintKey = this.Config.GetSprintKey(this.Monitor);
 
             GameEvents.UpdateTick += this.GameEvents_UpdateTick;
@@ -50,26 +53,24 @@ namespace MovementMod
 
             if (Game1.currentLocation.currentEvent != null)
             {
-                CurrentSpeed = 0;
+                this.CurrentSpeed = 0;
                 return;
             }
 
             SFarmer player = Game1.player;
-            if (this.Config.EnableHorseSpeedOverride && player.getMount() != null)
+            if (this.Config.HorseSpeed != 0 && player.getMount() != null)
                 this.CurrentSpeed = this.Config.HorseSpeed;
-            if (this.Config.EnableRunningSpeedOverride && player.running)
+            if (this.Config.PlayerRunningSpeed != 0 && player.running)
                 this.CurrentSpeed = this.Config.PlayerRunningSpeed;
-            else if (this.Config.EnableWalkingSpeedOverride && !player.running)
-                this.CurrentSpeed = this.Config.PlayerWalkingSpeed;
             else
                 this.CurrentSpeed = 0;
 
             if (Game1.oldKBState.IsKeyDown(this.SprintKey))
             {
-                if (this.Config.SprintingDrainsStamina)
+                if (this.Config.SprintingStaminaDrainPerSecond != 0 && player.position != this.PrevPosition)
                 {
                     float loss = this.Config.SprintingStaminaDrainPerSecond * this.ElapsedSeconds;
-                    if (player.position != this.PrevPosition && player.stamina - loss > 0)
+                    if (player.stamina - loss > 0)
                     {
                         player.stamina -= loss;
                         this.CurrentSpeed *= this.Config.PlayerSprintingSpeedMultiplier;
@@ -81,17 +82,14 @@ namespace MovementMod
 
             player.addedSpeed = this.CurrentSpeed;
 
-            if (this.Config.EnableDiagonalMovementSpeedFix)
-                player.movementDirections?.Clear();
-
-            PrevPosition = player.position;
+            this.PrevPosition = player.position;
         }
 
         private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
         {
             if (e.KeyPressed == Keys.F5)
             {
-                this.Config = this.Helper.ReadConfig<MovementConfig>();
+                this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.SprintKey = this.Config.GetSprintKey(this.Monitor);
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }

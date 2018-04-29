@@ -7,7 +7,7 @@ using StardewValley.Menus;
 namespace JunimoDepositAnywhere
 {
     /// <summary>The main entry point.</summary>
-    public class JunimoDepositAnywhere : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Public methods

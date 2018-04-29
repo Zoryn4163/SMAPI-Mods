@@ -7,7 +7,7 @@ using StardewValley;
 namespace DurableFences
 {
     /// <summary>The main entry point.</summary>
-    public class DurableFences : Mod
+    public class ModEntry : Mod
     {
         /*********
         ** Public methods
@@ -28,7 +28,7 @@ namespace DurableFences
             foreach (GameLocation location in Game1.locations)
             {
                 foreach (Fence fence in location.Objects.Values.OfType<Fence>())
-                    fence.health = fence.maxHealth;
+                    fence.health.Value = fence.maxHealth.Value;
             }
         }
     }

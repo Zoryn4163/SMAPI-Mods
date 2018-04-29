@@ -1,14 +1,10 @@
 {
   "Name": "Fishing Mod",
   "Author": "Zoryn",
-  "Version": {
-    "MajorVersion": 1,
-    "MinorVersion": 8,
-    "PatchVersion": 0,
-    "Build": null
-  },
-  "MinimumApiVersion": "1.15",
+  "Version": "1.9.0",
   "Description": "Lets you change some things about fishing based on a config file.",
   "UniqueID": "Zoryn.FishingMod",
-  "EntryDll": "FishingMod.dll"
+  "EntryDll": "FishingMod.dll",
+  "MinimumApiVersion": "2.6-beta",
+  "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }

@@ -2,28 +2,27 @@ using System;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 
-namespace MovementMod
+namespace MovementMod.Framework
 {
-    internal class MovementConfig
+    /// <summary>The mod configuration.</summary>
+    internal class ModConfig
     {
         /*********
         ** Accessors
         *********/
-        public bool EnableDiagonalMovementSpeedFix { get; set; } = true;
-
-        public bool EnableWalkingSpeedOverride { get; set; }
-        public int PlayerWalkingSpeed { get; set; } = 2;
-
-        public bool EnableRunningSpeedOverride { get; set; }
+        /// <summary>The player speed to add when running (or 0 for no change).</summary>
         public int PlayerRunningSpeed { get; set; } = 5;
 
-        public bool EnableHorseSpeedOverride { get; set; }
+        /// <summary>The player speed to add when riding the horse (or 0 for no change).</summary>
         public int HorseSpeed { get; set; } = 5;
 
-        public bool EnableSprinting { get; set; }
-        public int PlayerSprintingSpeedMultiplier { get; set; } = 2;
+        /// <summary>The key which causes the player to sprint.</summary>
         public string SprintKey { get; set; } = "LeftShift";
-        public bool SprintingDrainsStamina { get; set; } = true;
+        
+        /// <summary>The multiplier applied to the player speed when sprinting.</summary>
+        public int PlayerSprintingSpeedMultiplier { get; set; } = 2;
+
+        /// <summary>The stamina drain each second while sprinting.</summary>
         public float SprintingStaminaDrainPerSecond { get; set; } = 15;
 
 
