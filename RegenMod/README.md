@@ -32,17 +32,13 @@ Available fields:
 field                            | purpose
 -------------------------------- | -------
 `RegenStaminaConstant`           | Whether to constantly regenerate stamina. Default false.
-`RegenStaminaConstantIsNegative` | Whether the constant stamina regen is negative. Default false.
 `RegenStaminaConstantAmountPerSecond` | The amount of stamina to constantly regenerate per second. Default 0.
 `RegenStaminaStill`              | Whether to regenerate stamina while standing still. Default false.
-`RegenStaminaStillIsNegative`    | Whether the stamina regen while standing still is negative. Default false.
 `RegenStaminaStillAmountPerSecond` | The amount of stamina to regenerate per second while standing still. Default false.
 `RegenStaminaStillTimeRequiredMS`  | The amount of time the player must stand still to regenerate stamina, in milliseconds. Default 1000.
 `RegenHealthConstant`            | Whether to constantly regenerate health. Default false.
-`RegenHealthConstantIsNegative`  | Whether the constant health regen is negative. Default false.
 `RegenHealthConstantAmountPerSecond` | The amount of stamina to constantly regenerate per second. Default 0.
 `RegenHealthStill`               | Whether to regenerate health while standing still. Default false.
-`RegenHealthStillIsNegative`     | Whether the health regen while standing still is negative. Default false.
 `RegenHealthStillAmountPerSecond` | The amount of health to regenerate per second while standing still. Default 0.
 `RegenHealthStillTimeRequiredMS`  | The amount of time the player must stand still to regenerate health. Default 1000.
 

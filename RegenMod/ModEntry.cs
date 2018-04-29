@@ -72,11 +72,11 @@ namespace RegenMod
 
             // health regen
             if (this.Config.RegenHealthConstant)
-                this.Health += (this.Config.RegenHealthConstantIsNegative ? -this.Config.RegenHealthConstantAmountPerSecond : this.Config.RegenHealthConstantAmountPerSecond) * this.ElapsedSeconds;
+                this.Health += this.Config.RegenHealthConstantAmountPerSecond * this.ElapsedSeconds;
             if (this.Config.RegenHealthStill)
             {
                 if (this.TimeSinceLastMoved > this.Config.RegenHealthStillTimeRequiredMS)
-                    this.Health += (this.Config.RegenHealthStillIsNegative ? -this.Config.RegenHealthStillAmountPerSecond : this.Config.RegenHealthStillAmountPerSecond) * this.ElapsedSeconds;
+                    this.Health += this.Config.RegenHealthStillAmountPerSecond * this.ElapsedSeconds;
             }
             if (player.health + this.Health >= player.maxHealth)
             {
@@ -96,11 +96,11 @@ namespace RegenMod
 
             // stamina regen
             if (this.Config.RegenStaminaConstant)
-                this.Stamina += (this.Config.RegenStaminaConstantIsNegative ? -this.Config.RegenStaminaConstantAmountPerSecond : this.Config.RegenStaminaConstantAmountPerSecond) * this.ElapsedSeconds;
+                this.Stamina += this.Config.RegenStaminaConstantAmountPerSecond * this.ElapsedSeconds;
             if (this.Config.RegenStaminaStill)
             {
                 if (this.TimeSinceLastMoved > this.Config.RegenStaminaStillTimeRequiredMS)
-                    this.Stamina += (this.Config.RegenStaminaStillIsNegative ? -this.Config.RegenStaminaStillAmountPerSecond : this.Config.RegenStaminaStillAmountPerSecond) * this.ElapsedSeconds;
+                    this.Stamina += this.Config.RegenStaminaStillAmountPerSecond * this.ElapsedSeconds;
             }
             if (player.Stamina + this.Stamina >= player.maxStamina)
             {
