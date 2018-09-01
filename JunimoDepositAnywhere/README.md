@@ -26,6 +26,9 @@ complete the bundle from the Community Center.**
 * No known mod conflicts.
 
 ## Versions
+### 2.6
+* Updated to latest Stardew Valley 1.3.
+
 ### 1.9
 * Updated to Stardew Valley 1.3 (including multiplayer).
 

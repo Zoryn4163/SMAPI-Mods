@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterRNG", "BetterRNG\BetterRNG.csproj", "{F7F751E2-8FF4-480A-9B64-541B0AC393E4}"
 EndProject
@@ -18,14 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JunimoDepositAnywhere", "JunimoDepositAnywhere\JunimoDepositAnywhere.csproj", "{E576D252-25BA-491A-A1BE-4D24E47BA095}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegenMod", "RegenMod\RegenMod.csproj", "{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "~metadata", "~metadata", "{F71B419E-D517-4B15-AA0C-674519D99239}"
-	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
-		README.md = README.md
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,5 +60,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5896DFD-302D-4CE1-B29F-144185C24D93}
 	EndGlobalSection
 EndGlobal

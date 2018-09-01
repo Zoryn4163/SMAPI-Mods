@@ -58,7 +58,7 @@ namespace MovementMod
             }
 
             SFarmer player = Game1.player;
-            if (this.Config.HorseSpeed != 0 && player.getMount() != null)
+            if (this.Config.HorseSpeed != 0 && player.mount != null)
                 this.CurrentSpeed = this.Config.HorseSpeed;
             if (this.Config.PlayerRunningSpeed != 0 && player.running)
                 this.CurrentSpeed = this.Config.PlayerRunningSpeed;
