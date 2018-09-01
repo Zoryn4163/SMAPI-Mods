@@ -21,6 +21,9 @@ The mod will automatically prevent all fences from decaying, no action needed on
 * No known mod conflicts.
 
 ## Versions
+### 2.6.1
+* Updated to Stardew Valley 1.3.29.
+
 ### 2.6
 * Updated to latest Stardew Valley 1.3.
 
