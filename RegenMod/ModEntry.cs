@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using RegenMod.Framework;
 using StardewModdingAPI;
@@ -19,7 +20,6 @@ namespace RegenMod
         private float Health;
         private float Stamina;
 
-        private int UpdateIndex;
         private double TimeSinceLastMoved;
 
         private float ElapsedSeconds => (float)(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000);
@@ -58,17 +58,14 @@ namespace RegenMod
             if (!Game1.hasLoadedGame || Game1.paused || Game1.activeClickableMenu != null)
                 return;
 
-            if (this.UpdateIndex <= 60)
-            {
-                this.UpdateIndex += 1;
-                return;
-            }
-
-            this.TimeSinceLastMoved += Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
-            if (Game1.oldKBState.GetPressedKeys().Any() || Game1.oldMouseState.LeftButton == ButtonState.Pressed || Game1.oldMouseState.RightButton == ButtonState.Pressed)
-                this.TimeSinceLastMoved = 0;
-
             SFarmer player = Game1.player;
+
+            //detect movement or tool use
+            this.TimeSinceLastMoved += Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
+            if (player.timerSinceLastMovement == 0)
+                this.TimeSinceLastMoved = 0;
+            if (player.UsingTool)
+                this.TimeSinceLastMoved = 0;
 
             // health regen
             if (this.Config.RegenHealthConstant)
@@ -102,9 +99,9 @@ namespace RegenMod
                 if (this.TimeSinceLastMoved > this.Config.RegenStaminaStillTimeRequiredMS)
                     this.Stamina += this.Config.RegenStaminaStillAmountPerSecond * this.ElapsedSeconds;
             }
-            if (player.Stamina + this.Stamina >= player.maxStamina)
+            if (player.Stamina + this.Stamina >= player.MaxStamina)
             {
-                player.Stamina = player.maxStamina;
+                player.Stamina = player.MaxStamina;
                 this.Stamina = 0;
             }
             else if (this.Stamina >= 1)
