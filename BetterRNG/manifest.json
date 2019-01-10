@@ -5,6 +5,6 @@
   "Description": "Makes the game's randomness more random.",
   "UniqueID": "Zoryn.BetterRNG",
   "EntryDll": "BetterRNG.dll",
-  "MinimumApiVersion": "2.6-beta",
+  "MinimumApiVersion": "2.10.1",
   "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }

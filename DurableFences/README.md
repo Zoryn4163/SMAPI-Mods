@@ -21,6 +21,9 @@ The mod will automatically prevent all fences from decaying, no action needed on
 * No known mod conflicts.
 
 ## Versions
+## Upcoming release
+* Updated for the upcoming SMAPI 3.0.
+
 ### 2.6.1
 * Updated to Stardew Valley 1.3.29.
 

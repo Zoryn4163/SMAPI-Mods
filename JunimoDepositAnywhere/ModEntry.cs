@@ -1,5 +1,4 @@
-﻿using System;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
@@ -16,19 +15,19 @@ namespace JunimoDepositAnywhere
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            GameEvents.QuarterSecondTick += this.GameEvents_QuarterSecondTick;
+            helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
         }
 
 
         /*********
         ** Protected methods methods
         *********/
-        /// <summary>A method invoked roughly four times per second.</summary>
+        /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event data.</param>
-        private void GameEvents_QuarterSecondTick(object sender, EventArgs e)
+        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            if (!Game1.hasLoadedGame || Game1.activeClickableMenu == null)
+            if (!Context.IsWorldReady || !e.IsMultipleOf(15)) // quarter-second
                 return;
 
             if (Game1.activeClickableMenu is JunimoNoteMenu menu)

@@ -51,6 +51,9 @@ field                      | purpose
 * No known mod conflicts.
 
 ## Versions
+## Upcoming release
+* Updated for the upcoming SMAPI 3.0.
+
 ### 2.6.1
 * Fixed unlimited tackles no longer being unlimited.
 

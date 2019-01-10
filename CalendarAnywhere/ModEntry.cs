@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -11,48 +10,29 @@ namespace CalendarAnywhere
     public class ModEntry : Mod
     {
         /*********
-        ** Properties
-        *********/
-        private MouseState MState;
-
-        private Point ClickPoint => new Point(this.MState.X, this.MState.Y);
-
-
-        /*********
         ** Public methods
         *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            ControlEvents.MouseChanged += this.ControlEvents_MouseChanged;
-            ControlEvents.ControllerButtonPressed += this.ControlEvents_ControllerButtonPressed;
+            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
         }
 
 
         /*********
         ** Private methods
         *********/
-        private void ControlEvents_MouseChanged(object sender, EventArgsMouseStateChanged e)
+        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
-            MState = e.NewState;
-
-            if (Context.IsPlayerFree && Game1.didPlayerJustLeftClick())
-            {
-                Rectangle target = this.GetTarget();
-                if (target.Contains(this.ClickPoint))
-                    Game1.activeClickableMenu = new Billboard();
-            }
-        }
-
-        private void ControlEvents_ControllerButtonPressed(object sender, EventArgsControllerButtonPressed e)
-        {
-            MState = Game1.oldMouseState;
-
-            if (Context.IsPlayerFree && e.ButtonPressed == Buttons.A && this.GetTarget().Contains(this.ClickPoint))
+            if (Context.IsPlayerFree && e.Button.IsUseToolButton() && this.GetTarget().Contains((int)e.Cursor.ScreenPixels.X, (int)e.Cursor.ScreenPixels.Y))
                 Game1.activeClickableMenu = new Billboard();
         }
 
+        /// <summary>Get the clickable screen area that should open the billboard menu.</summary>
         private Rectangle GetTarget()
         {
             return new Rectangle(

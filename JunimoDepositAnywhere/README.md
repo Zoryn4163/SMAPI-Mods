@@ -26,6 +26,9 @@ complete the bundle from the Community Center.**
 * No known mod conflicts.
 
 ## Versions
+## Upcoming release
+* Updated for the upcoming SMAPI 3.0.
+
 ### 2.6
 * Updated to latest Stardew Valley 1.3.
 

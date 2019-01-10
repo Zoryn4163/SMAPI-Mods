@@ -5,6 +5,6 @@
   "Description": "Lets you change some things about fishing based on a config file.",
   "UniqueID": "Zoryn.FishingMod",
   "EntryDll": "FishingMod.dll",
-  "MinimumApiVersion": "2.6-beta",
+  "MinimumApiVersion": "2.10.1",
   "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }
