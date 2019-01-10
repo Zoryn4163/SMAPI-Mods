@@ -21,7 +21,7 @@ The mod will automatically prevent all fences from decaying, no action needed on
 * No known mod conflicts.
 
 ## Versions
-## Upcoming release
+## 2.7.1
 * Updated for the upcoming SMAPI 3.0.
 
 ### 2.6.1
