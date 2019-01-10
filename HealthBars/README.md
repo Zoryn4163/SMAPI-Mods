@@ -44,6 +44,9 @@ field                         | purpose
 * No known mod conflicts.
 
 ## Versions
+## 2.7.1
+* Updated for the upcoming SMAPI 3.0.
+
 ### 2.6
 * Updated to latest Stardew Valley 1.3.
 

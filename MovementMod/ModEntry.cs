@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MovementMod.Framework;
 using StardewModdingAPI;
@@ -36,8 +35,8 @@ namespace MovementMod
             this.Config = helper.ReadConfig<ModConfig>();
             this.SprintKey = this.Config.GetSprintKey(this.Monitor);
 
-            GameEvents.UpdateTick += this.GameEvents_UpdateTick;
-            ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
+            helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
+            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
@@ -46,9 +45,12 @@ namespace MovementMod
         /*********
         ** Private methods
         *********/
-        private void GameEvents_UpdateTick(object sender, EventArgs e)
+        /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            if (!Game1.hasLoadedGame || Game1.paused || Game1.activeClickableMenu != null)
+            if (!Context.IsWorldReady || Game1.paused || Game1.activeClickableMenu != null)
                 return;
 
             if (Game1.currentLocation.currentEvent != null)
@@ -85,9 +87,12 @@ namespace MovementMod
             this.PrevPosition = player.position;
         }
 
-        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
-            if (e.KeyPressed == Keys.F5)
+            if (e.Button == SButton.F5)
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.SprintKey = this.Config.GetSprintKey(this.Monitor);

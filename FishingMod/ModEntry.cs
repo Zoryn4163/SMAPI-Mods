@@ -1,7 +1,5 @@
 ﻿using System;
 using FishingMod.Framework;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -33,10 +31,9 @@ namespace FishingMod
         {
             this.Config = helper.ReadConfig<ModConfig>();
 
-            GameEvents.UpdateTick += this.GameEvents_OnUpdateTick;
-            GameEvents.OneSecondTick += this.GameEvents_OneSecondTick;
-            MenuEvents.MenuChanged += this.MenuEvents_MenuChanged;
-            ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
+            helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
+            helper.Events.Display.MenuChanged += this.OnMenuChanged;
+            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
@@ -45,37 +42,34 @@ namespace FishingMod
         /*********
         ** Private methods
         *********/
-        private void MenuEvents_MenuChanged(object sender, EventArgsClickableMenuChanged e)
+        /// <summary>Raised after a game menu is opened, closed, or replaced.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
             if (e.NewMenu is BobberBar menu)
                 this.Bobber = SBobberBar.ConstructFromBaseClass(menu);
         }
 
-        private void GameEvents_OneSecondTick(object sender, EventArgs e)
+        /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            if (!Game1.hasLoadedGame)
-                return;
-
-            if (this.Config.InfiniteBait || this.Config.InfiniteTackle)
+            // apply infinite bait/tackle
+            if (Context.IsWorldReady && e.IsOneSecond && (this.Config.InfiniteBait || this.Config.InfiniteTackle))
             {
                 if (Game1.player.CurrentTool is FishingRod rod && rod.attachments?.Length > 0 && rod.attachments[0] != null)
                 {
                     if (this.Config.InfiniteBait)
                         rod.attachments[0].Stack = rod.attachments[0].maximumStackSize();
 
-                    if (rod.attachments?.Length > 1 && rod.attachments[1] != null)
-                    {
-                        if (this.Config.InfiniteTackle)
-                        {
-                            rod.attachments[1].uses.Value = 0;
-                        }
-                    }
+                    if (this.Config.InfiniteTackle && rod.attachments?.Length > 1 && rod.attachments[1] != null)
+                        rod.attachments[1].uses.Value = 0;
                 }
             }
-        }
 
-        private void GameEvents_OnUpdateTick(object sender, EventArgs e)
-        {
+            // apply fishing minigame changes
             if (Game1.activeClickableMenu is BobberBar && this.Bobber != null)
             {
                 SBobberBar bobber = this.Bobber;
@@ -127,9 +121,12 @@ namespace FishingMod
             }
         }
 
-        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
-            if (e.KeyPressed == Keys.F5)
+            if (e.Button == SButton.F5)
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);

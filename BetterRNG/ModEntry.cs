@@ -1,6 +1,4 @@
-﻿using System;
-using BetterRNG.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using BetterRNG.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -34,18 +32,13 @@ namespace BetterRNG
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            // read config
             this.Config = helper.ReadConfig<ModConfig>();
 
+            // init randomness
+            Game1.random = ModEntry.Twister = new MersenneTwister();
             this.RandomFloats = new float[256];
-            ModEntry.Twister = new MersenneTwister();
-
-            //Destroys the game's built-in random number generator for Twister.
-            Game1.random = ModEntry.Twister;
-
-            //Just fills the buffer with junk so that we know everything is good and random.
-            this.RandomFloats.FillFloats();
-
-            //Define base randoms
+            this.RandomFloats.FillFloats(); // fill buffer with junk so everything is good and random
             this.Weather = new[]
             {
                 WeightedGeneric<int>.Create(this.Config.SunnyChance, Game1.weather_sunny),
@@ -54,6 +47,7 @@ namespace BetterRNG
                 WeightedGeneric<int>.Create(this.Config.StormyChance, Game1.weather_lightning),
                 WeightedGeneric<int>.Create(this.Config.HarshSnowyChance, Game1.weather_snow)
             };
+            this.DetermineRng();
 
             /*
             //Debugging for my randoms
@@ -82,11 +76,9 @@ namespace BetterRNG
             }
             */
 
-            //Determine base RNG to get everything up and running.
-            this.DetermineRng();
-
-            SaveEvents.AfterLoad += this.SaveEvents_AfterLoad;
-            ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
+            // hook events
+            helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
+            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
@@ -95,14 +87,20 @@ namespace BetterRNG
         /*********
         ** Private methods
         *********/
-        private void SaveEvents_AfterLoad(object sender, EventArgs e)
+        /// <summary>Raised after the player loads a save slot and the world is initialised.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
             this.DetermineRng();
         }
 
-        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
-            if (e.KeyPressed == Keys.F5)
+            if (e.Button == SButton.F5)
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);

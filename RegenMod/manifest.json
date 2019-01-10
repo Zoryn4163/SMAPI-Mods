@@ -1,10 +1,10 @@
 {
   "Name": "Regen Mod",
   "Author": "Zoryn",
-  "Version": "2.7.0",
+  "Version": "2.7.1",
   "Description": "Lets the player regenerate health and stamina based on config values.",
   "UniqueID": "Zoryn.RegenMod",
   "EntryDll": "RegenMod.dll",
-  "MinimumApiVersion": "2.6-beta",
+  "MinimumApiVersion": "2.10.1",
   "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }

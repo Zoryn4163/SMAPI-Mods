@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using HealthBars.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -39,8 +37,8 @@ namespace HealthBars
             this.BarTexture = this.GetBarTexture();
 
             // hook events
-            GraphicsEvents.OnPostRenderEvent += this.GraphicsEvents_OnPostRenderEvent;
-            ControlEvents.KeyPressed += this.ControlEvents_KeyPressed;
+            helper.Events.Display.Rendered += this.OnRendered;
+            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
@@ -49,9 +47,12 @@ namespace HealthBars
         /*********
         ** Private methods
         *********/
-        private void GraphicsEvents_OnPostRenderEvent(object sender, EventArgs e)
+        /// <summary>Raised after the game draws to the sprite patch in a draw tick, just before the final sprite batch is rendered to the screen.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnRendered(object sender, RenderedEventArgs e)
         {
-            if (!Game1.hasLoadedGame)
+            if (!Context.IsWorldReady)
                 return;
 
             this.Monsters = Game1.currentLocation.characters.OfType<Monster>().ToArray();
@@ -100,9 +101,12 @@ namespace HealthBars
             }
         }
 
-        private void ControlEvents_KeyPressed(object sender, EventArgsKeyPressed e)
+        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
-            if (e.KeyPressed == Keys.F5)
+            if (e.Button == SButton.F5)
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
