@@ -49,33 +49,6 @@ namespace BetterRNG
             };
             this.DetermineRng();
 
-            /*
-            //Debugging for my randoms
-            while (true)
-            {
-                List<int> got = new List<int>();
-                int v = 0;
-                int gen = 1024;
-                float genf = gen;
-                for (int i = 0; i < gen; i++)
-                {
-                    v = Weighted.ChooseRange(OneToTen, 1, 5).TValue;
-                    got.Add(v);
-
-                    if (gen <= 1024)
-                        Console.Write(v + ", ");
-                }
-                Console.Write("\n");
-                Console.WriteLine("Generated {0} Randoms", got.Count);
-                Console.WriteLine("1: {0} | 2: {1} | 3: {2} | 4: {3} | 5: {4} | 6: {5} | 7: {6} | 8: {7} | 9: {8} | 10: {9} | ?: {10}", got.Count(x => x == 1), got.Count(x => x == 2), got.Count(x => x == 3), got.Count(x => x == 4), got.Count(x => x == 5), got.Count(x => x == 6), got.Count(x => x == 7), got.Count(x => x == 8), got.Count(x => x == 9), got.Count(x => x == 10), got.Count(x => x > 10));
-                Console.WriteLine("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9}", got.Count(x => x == 1) / genf * 100 + "%", got.Count(x => x == 2) / genf * 100 + "%", got.Count(x => x == 3) / genf * 100 + "%", got.Count(x => x == 4) / genf * 100 + "%", got.Count(x => x == 5) / genf * 100 + "%", got.Count(x => x == 6) / genf * 100 + "%", got.Count(x => x == 7) / genf * 100 + "%", got.Count(x => x == 8) / genf * 100 + "%", got.Count(x => x == 9) / genf * 100 + "%", got.Count(x => x == 10) / genf * 100 + "%");
-
-                //Console.WriteLine(OneToTen.ChooseRange(0, 10).TValue);
-
-                Console.ReadKey();
-            }
-            */
-
             // hook events
             helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
             helper.Events.Input.ButtonPressed += this.OnButtonPressed;
@@ -109,7 +82,6 @@ namespace BetterRNG
 
         private void DetermineRng()
         {
-            //0 = SUNNY, 1 = RAIN, 2 = CLOUDY/SNOWY, 3 = THUNDER STORM, 4 = FESTIVAL/EVENT/SUNNY, 5 = SNOW
             //Generate a good set of new random numbers to choose from for daily luck every morning.
             this.RandomFloats.FillFloats();
 

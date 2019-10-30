@@ -7,11 +7,6 @@
 
         public T TValue => (T)this.Value;
 
-        public WeightedGeneric()
-        {
-            //Nothing
-        }
-
         public WeightedGeneric(int weight, T value)
         {
             this.Weight = weight;
