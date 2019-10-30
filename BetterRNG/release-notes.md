@@ -2,6 +2,7 @@
 
 ## Release notes
 ### Upcoming release
+* Updated to Stardew Valley 1.4.
 * Fixed error in rare cases when another mod changes monster data.
 
 ### 2.7.1

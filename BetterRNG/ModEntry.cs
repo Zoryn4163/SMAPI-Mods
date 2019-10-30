@@ -1,4 +1,5 @@
-﻿using BetterRNG.Framework;
+﻿using System;
+using BetterRNG.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -13,8 +14,6 @@ namespace BetterRNG
         *********/
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
-
-        private float[] RandomFloats;
 
         private WeightedGeneric<int>[] Weather;
 
@@ -37,8 +36,6 @@ namespace BetterRNG
 
             // init randomness
             Game1.random = ModEntry.Twister = new MersenneTwister();
-            this.RandomFloats = new float[256];
-            this.RandomFloats.FillFloats(); // fill buffer with junk so everything is good and random
             this.Weather = new[]
             {
                 WeightedGeneric<int>.Create(this.Config.SunnyChance, Game1.weather_sunny),
@@ -80,13 +77,11 @@ namespace BetterRNG
             }
         }
 
+        /// <summary>Randomise the daily luck and weather.</summary>
         private void DetermineRng()
         {
-            //Generate a good set of new random numbers to choose from for daily luck every morning.
-            this.RandomFloats.FillFloats();
-
             if (this.Config.EnableDailyLuckOverride)
-                Game1.dailyLuck = RandomFloats.Random() / 10;
+                Game1.player.team.sharedDailyLuck.Value = Math.Min(0.100000001490116, ModEntry.Twister.Next(-100, 101) / 1000.0);
 
             if (this.Config.EnableWeatherOverride)
             {

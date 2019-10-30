@@ -6,12 +6,6 @@ namespace BetterRNG.Framework
 {
     internal static class Extensions
     {
-        public static void FillFloats(this float[] floats)
-        {
-            for (int i = 0; i < floats.Length; i++)
-                floats[i] = ModEntry.Twister.Next(-100, 100) / 100f;
-        }
-
         public static T Random<T>(this IEnumerable<T> enumerable)
         {
             if (enumerable == null)
