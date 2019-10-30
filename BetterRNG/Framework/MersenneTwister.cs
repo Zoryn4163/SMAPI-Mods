@@ -142,7 +142,7 @@ namespace BetterRNG.Framework
         /// </exception>
         public override int Next(int minValue, int maxValue)
         {
-            if (maxValue <= minValue)
+            if (maxValue < minValue)
             {
                 throw new ArgumentOutOfRangeException();
             }
