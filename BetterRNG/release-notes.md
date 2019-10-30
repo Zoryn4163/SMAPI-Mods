@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
+### Upcoming release
+* Fixed error in rare cases when another mod changes monster data.
+
 ### 2.7.1
 * Updated for the upcoming SMAPI 3.0.
 
