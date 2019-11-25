@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>MovementMod</AssemblyName>
     <RootNamespace>MovementMod</RootNamespace>
-    <Version>2.7.1</Version>
+    <Version>2.7.2</Version>
     <TargetFramework>net452</TargetFramework>
     <Platforms>x86</Platforms>
     <PlatformTarget>x86</PlatformTarget>
