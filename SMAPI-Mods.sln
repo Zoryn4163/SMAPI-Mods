@@ -1,23 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterRNG", "BetterRNG\BetterRNG.csproj", "{F7F751E2-8FF4-480A-9B64-541B0AC393E4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{D25CE26A-DE3F-47CD-AB0F-19B580C2CB6C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarAnywhere", "CalendarAnywhere\CalendarAnywhere.csproj", "{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetterRNG", "BetterRNG\BetterRNG.csproj", "{8BE2D59D-E1F3-4902-9F8C-81CBF4B1A1B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurableFences", "DurableFences\DurableFences.csproj", "{AC807882-2BA7-4C81-AB2A-5A81EF361F40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarAnywhere", "CalendarAnywhere\CalendarAnywhere.csproj", "{37A3CBC3-5DE0-4A3F-902F-904139EFAA34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishingMod", "FishingMod\FishingMod.csproj", "{C9C3BF63-10BF-40A3-92A8-EE1AA18F2FD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DurableFences", "DurableFences\DurableFences.csproj", "{7B37DC4C-21FA-4979-918B-818C2FCF988E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthBars", "HealthBars\HealthBars.csproj", "{F9BE8383-E5DD-48A7-9819-0FB6DE6839E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FishingMod", "FishingMod\FishingMod.csproj", "{9C9E4913-482D-4176-B072-96BC08697E3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovementMod", "MovementMod\MovementMod.csproj", "{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthBars", "HealthBars\HealthBars.csproj", "{8911BA55-65A5-4022-A797-84F3AAE6BAC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JunimoDepositAnywhere", "JunimoDepositAnywhere\JunimoDepositAnywhere.csproj", "{E576D252-25BA-491A-A1BE-4D24E47BA095}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JunimoDepositAnywhere", "JunimoDepositAnywhere\JunimoDepositAnywhere.csproj", "{69D62815-3349-422A-BD3C-DBA89DB1B5E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegenMod", "RegenMod\RegenMod.csproj", "{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovementMod", "MovementMod\MovementMod.csproj", "{F3A942EC-D60A-44E0-900B-B673F73419C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegenMod", "RegenMod\RegenMod.csproj", "{1082CA14-2E7A-441E-90E3-E6E7F448E58F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,38 +32,38 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F7F751E2-8FF4-480A-9B64-541B0AC393E4}.Debug|x86.ActiveCfg = Debug|x86
-		{F7F751E2-8FF4-480A-9B64-541B0AC393E4}.Debug|x86.Build.0 = Debug|x86
-		{F7F751E2-8FF4-480A-9B64-541B0AC393E4}.Release|x86.ActiveCfg = Release|x86
-		{F7F751E2-8FF4-480A-9B64-541B0AC393E4}.Release|x86.Build.0 = Release|x86
-		{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}.Debug|x86.ActiveCfg = Debug|x86
-		{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}.Debug|x86.Build.0 = Debug|x86
-		{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}.Release|x86.ActiveCfg = Release|x86
-		{02A9FF32-12F5-44F0-9F0A-977BA8B56DC4}.Release|x86.Build.0 = Release|x86
-		{AC807882-2BA7-4C81-AB2A-5A81EF361F40}.Debug|x86.ActiveCfg = Debug|x86
-		{AC807882-2BA7-4C81-AB2A-5A81EF361F40}.Debug|x86.Build.0 = Debug|x86
-		{AC807882-2BA7-4C81-AB2A-5A81EF361F40}.Release|x86.ActiveCfg = Release|x86
-		{AC807882-2BA7-4C81-AB2A-5A81EF361F40}.Release|x86.Build.0 = Release|x86
-		{C9C3BF63-10BF-40A3-92A8-EE1AA18F2FD4}.Debug|x86.ActiveCfg = Debug|x86
-		{C9C3BF63-10BF-40A3-92A8-EE1AA18F2FD4}.Debug|x86.Build.0 = Debug|x86
-		{C9C3BF63-10BF-40A3-92A8-EE1AA18F2FD4}.Release|x86.ActiveCfg = Release|x86
-		{C9C3BF63-10BF-40A3-92A8-EE1AA18F2FD4}.Release|x86.Build.0 = Release|x86
-		{F9BE8383-E5DD-48A7-9819-0FB6DE6839E2}.Debug|x86.ActiveCfg = Debug|x86
-		{F9BE8383-E5DD-48A7-9819-0FB6DE6839E2}.Debug|x86.Build.0 = Debug|x86
-		{F9BE8383-E5DD-48A7-9819-0FB6DE6839E2}.Release|x86.ActiveCfg = Release|x86
-		{F9BE8383-E5DD-48A7-9819-0FB6DE6839E2}.Release|x86.Build.0 = Release|x86
-		{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}.Debug|x86.ActiveCfg = Debug|x86
-		{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}.Debug|x86.Build.0 = Debug|x86
-		{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}.Release|x86.ActiveCfg = Release|x86
-		{E3E545BB-9CF4-45E1-9F5B-12C6EA1B6D88}.Release|x86.Build.0 = Release|x86
-		{E576D252-25BA-491A-A1BE-4D24E47BA095}.Debug|x86.ActiveCfg = Debug|x86
-		{E576D252-25BA-491A-A1BE-4D24E47BA095}.Debug|x86.Build.0 = Debug|x86
-		{E576D252-25BA-491A-A1BE-4D24E47BA095}.Release|x86.ActiveCfg = Release|x86
-		{E576D252-25BA-491A-A1BE-4D24E47BA095}.Release|x86.Build.0 = Release|x86
-		{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}.Debug|x86.ActiveCfg = Debug|x86
-		{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}.Debug|x86.Build.0 = Debug|x86
-		{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}.Release|x86.ActiveCfg = Release|x86
-		{F0A0F913-A1AB-49AC-A1D9-EEFCD7A5E0BC}.Release|x86.Build.0 = Release|x86
+		{8BE2D59D-E1F3-4902-9F8C-81CBF4B1A1B5}.Debug|x86.ActiveCfg = Debug|x86
+		{8BE2D59D-E1F3-4902-9F8C-81CBF4B1A1B5}.Debug|x86.Build.0 = Debug|x86
+		{8BE2D59D-E1F3-4902-9F8C-81CBF4B1A1B5}.Release|x86.ActiveCfg = Release|x86
+		{8BE2D59D-E1F3-4902-9F8C-81CBF4B1A1B5}.Release|x86.Build.0 = Release|x86
+		{37A3CBC3-5DE0-4A3F-902F-904139EFAA34}.Debug|x86.ActiveCfg = Debug|x86
+		{37A3CBC3-5DE0-4A3F-902F-904139EFAA34}.Debug|x86.Build.0 = Debug|x86
+		{37A3CBC3-5DE0-4A3F-902F-904139EFAA34}.Release|x86.ActiveCfg = Release|x86
+		{37A3CBC3-5DE0-4A3F-902F-904139EFAA34}.Release|x86.Build.0 = Release|x86
+		{7B37DC4C-21FA-4979-918B-818C2FCF988E}.Debug|x86.ActiveCfg = Debug|x86
+		{7B37DC4C-21FA-4979-918B-818C2FCF988E}.Debug|x86.Build.0 = Debug|x86
+		{7B37DC4C-21FA-4979-918B-818C2FCF988E}.Release|x86.ActiveCfg = Release|x86
+		{7B37DC4C-21FA-4979-918B-818C2FCF988E}.Release|x86.Build.0 = Release|x86
+		{9C9E4913-482D-4176-B072-96BC08697E3D}.Debug|x86.ActiveCfg = Debug|x86
+		{9C9E4913-482D-4176-B072-96BC08697E3D}.Debug|x86.Build.0 = Debug|x86
+		{9C9E4913-482D-4176-B072-96BC08697E3D}.Release|x86.ActiveCfg = Release|x86
+		{9C9E4913-482D-4176-B072-96BC08697E3D}.Release|x86.Build.0 = Release|x86
+		{8911BA55-65A5-4022-A797-84F3AAE6BAC1}.Debug|x86.ActiveCfg = Debug|x86
+		{8911BA55-65A5-4022-A797-84F3AAE6BAC1}.Debug|x86.Build.0 = Debug|x86
+		{8911BA55-65A5-4022-A797-84F3AAE6BAC1}.Release|x86.ActiveCfg = Release|x86
+		{8911BA55-65A5-4022-A797-84F3AAE6BAC1}.Release|x86.Build.0 = Release|x86
+		{69D62815-3349-422A-BD3C-DBA89DB1B5E7}.Debug|x86.ActiveCfg = Debug|x86
+		{69D62815-3349-422A-BD3C-DBA89DB1B5E7}.Debug|x86.Build.0 = Debug|x86
+		{69D62815-3349-422A-BD3C-DBA89DB1B5E7}.Release|x86.ActiveCfg = Release|x86
+		{69D62815-3349-422A-BD3C-DBA89DB1B5E7}.Release|x86.Build.0 = Release|x86
+		{F3A942EC-D60A-44E0-900B-B673F73419C6}.Debug|x86.ActiveCfg = Debug|x86
+		{F3A942EC-D60A-44E0-900B-B673F73419C6}.Debug|x86.Build.0 = Debug|x86
+		{F3A942EC-D60A-44E0-900B-B673F73419C6}.Release|x86.ActiveCfg = Release|x86
+		{F3A942EC-D60A-44E0-900B-B673F73419C6}.Release|x86.Build.0 = Release|x86
+		{1082CA14-2E7A-441E-90E3-E6E7F448E58F}.Debug|x86.ActiveCfg = Debug|x86
+		{1082CA14-2E7A-441E-90E3-E6E7F448E58F}.Debug|x86.Build.0 = Debug|x86
+		{1082CA14-2E7A-441E-90E3-E6E7F448E58F}.Release|x86.ActiveCfg = Release|x86
+		{1082CA14-2E7A-441E-90E3-E6E7F448E58F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
