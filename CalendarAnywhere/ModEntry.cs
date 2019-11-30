@@ -36,7 +36,7 @@ namespace CalendarAnywhere
         private Rectangle GetTarget()
         {
             return new Rectangle(
-                x: (Game1.graphics.GraphicsDevice.Viewport.Width - 300) + 108,
+                x: (Game1.viewport.Width - 300) + 108,
                 y: (Game1.tileSize / 8) + 20,
                 width: 160,
                 height: 41

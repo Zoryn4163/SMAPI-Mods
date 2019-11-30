@@ -44,7 +44,6 @@ namespace BetterRNG
                 WeightedGeneric<int>.Create(this.Config.StormyChance, Game1.weather_lightning),
                 WeightedGeneric<int>.Create(this.Config.HarshSnowyChance, Game1.weather_snow)
             };
-            this.DetermineRng();
 
             // hook events
             helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
