@@ -1,6 +1,10 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
+### Upcoming release
+
+* Fixed clickable area misaligned when zoomed in/out.
+
 ### 2.7.1
 Released 09 January 2019 for SMAPI 2.10.1 or later. Updated by Pathoschild.
 
