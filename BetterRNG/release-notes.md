@@ -1,7 +1,8 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
-### Upcoming release
+### 2.7.3
+Released 29 November 2019 for SMAPI 3.0 or later. Updated by Pathoschild.
 
 * Fixed error logged before the save is loaded.
 
