@@ -3,7 +3,6 @@
   <PropertyGroup>
     <AssemblyName>DurableFences</AssemblyName>
     <RootNamespace>DurableFences</RootNamespace>
-    <Version>2.7.2</Version>
     <TargetFramework>net452</TargetFramework>
     <Platforms>x86</Platforms>
     <PlatformTarget>x86</PlatformTarget>
@@ -12,5 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.0.0" />
   </ItemGroup>
+
+  <Import Project="..\common.targets" />
 
 </Project>
