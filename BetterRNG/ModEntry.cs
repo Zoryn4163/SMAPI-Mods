@@ -46,7 +46,7 @@ namespace BetterRNG
             };
 
             // hook events
-            helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
+            helper.Events.GameLoop.DayStarted += this.OnDayStarted;
             helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
@@ -59,7 +59,7 @@ namespace BetterRNG
         /// <summary>Raised after the player loads a save slot and the world is initialised.</summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+        private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             this.DetermineRng();
         }
