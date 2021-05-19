@@ -14,20 +14,14 @@ namespace HealthBars.Framework
         /// <summary>Whether to show the current health number.</summary>
         public bool DisplayCurrentHealthNumber { get; set; } = true;
 
-        /// <summary>Whether to draw a border around text so it's more visible on some backgrounds.</summary>
-        public bool DisplayTextBorder { get; set; } = true;
-
         /// <summary>The text color.</summary>
-        public Color TextColor { get; set; } = Color.White;
-
-        /// <summary>The text border color.</summary>
-        public Color TextBorderColor { get; set; } = Color.Black;
-
+        public Color TextColor { get; set; } = Color.GhostWhite;
+        
         /// <summary>The health bar color when the monster has low health.</summary>
-        public Color LowHealthColor { get; set; } = Color.DarkRed;
+        public Color LowHealthColor { get; set; } = Color.OrangeRed;
 
         /// <summary>The health bar color when the monster has high health.</summary>
-        public Color HighHealthColor { get; set; } = Color.LimeGreen;
+        public Color HighHealthColor { get; set; } = Color.Lime;
 
         /// <summary>The health bar width in pixels.</summary>
         public int BarWidth { get; set; } = 90;
