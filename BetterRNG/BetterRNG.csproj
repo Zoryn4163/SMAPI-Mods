@@ -2,11 +2,11 @@
   <PropertyGroup>
     <AssemblyName>BetterRNG</AssemblyName>
     <RootNamespace>BetterRNG</RootNamespace>
-    <TargetFramework>net452</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.2.2" />
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.0" />
   </ItemGroup>
 
   <Import Project="..\common.targets" />
