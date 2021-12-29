@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>RegenMod</AssemblyName>
-    <RootNamespace>RegenMod</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 

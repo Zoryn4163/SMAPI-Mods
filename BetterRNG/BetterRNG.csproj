@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>BetterRNG</AssemblyName>
-    <RootNamespace>BetterRNG</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 

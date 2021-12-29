@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>JunimoDepositAnywhere</AssemblyName>
-    <RootNamespace>JunimoDepositAnywhere</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 

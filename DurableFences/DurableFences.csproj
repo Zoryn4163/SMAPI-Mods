@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>DurableFences</AssemblyName>
-    <RootNamespace>DurableFences</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
