@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <AssemblyName>RegenMod</AssemblyName>
     <RootNamespace>RegenMod</RootNamespace>
     <TargetFramework>net452</TargetFramework>
-    <Platforms>x86</Platforms>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,5 +10,4 @@
   </ItemGroup>
 
   <Import Project="..\common.targets" />
-
 </Project>
