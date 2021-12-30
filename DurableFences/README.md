@@ -16,8 +16,8 @@ forever.
 The mod will automatically prevent all fences from decaying, no action needed on your part.
 
 ## Compatibility
-* Works with Stardew Valley 1.3 on Linux/Mac/Windows.
-* Works in single-player and multiplayer.
+* Works with Stardew Valley 1.5.5+ on Linux/macOS/Windows.
+* Works in single-player, multiplayer, and split-screen.
 * No known mod conflicts.
 
 ## See also
