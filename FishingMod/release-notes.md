@@ -4,6 +4,7 @@
 ## Upcoming release
 * Added split-screen support.
 * The reload key is now configurable.
+* Internal optimizations.
 
 ### 2.7.1
 Released 09 January 2019 for SMAPI 2.10.1 or later. Updated by Pathoschild.

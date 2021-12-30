@@ -52,10 +52,9 @@ namespace FishingMod
         /// <param name="e">The event arguments.</param>
         private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
-            if (e.NewMenu is BobberBar menu)
-                this.Bobber.Value = SBobberBar.ConstructFromBaseClass(menu);
-            else
-                this.Bobber.Value = null;
+            this.Bobber.Value = e.NewMenu is BobberBar menu
+                ? new SBobberBar(menu, this.Helper.Reflection)
+                : null;
         }
 
         /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
@@ -88,27 +87,27 @@ namespace FishingMod
                 if (!this.BeganFishingGame.Value && this.UpdateIndex.Value > 15)
                 {
                     //Do these things once per fishing minigame, 1/4 second after it updates
-                    bobber.difficulty *= this.Config.FishDifficultyMultiplier;
-                    bobber.difficulty += this.Config.FishDifficultyAdditive;
+                    bobber.Difficulty *= this.Config.FishDifficultyMultiplier;
+                    bobber.Difficulty += this.Config.FishDifficultyAdditive;
 
                     if (this.Config.AlwaysFindTreasure)
-                        bobber.treasure = true;
+                        bobber.Treasure = true;
 
                     if (this.Config.InstantCatchFish)
                     {
-                        if (bobber.treasure)
-                            bobber.treasureCaught = true;
-                        bobber.distanceFromCatching += 100;
+                        if (bobber.Treasure)
+                            bobber.TreasureCaught = true;
+                        bobber.DistanceFromCatching += 100;
                     }
 
                     if (this.Config.InstantCatchTreasure)
-                        if (bobber.treasure || this.Config.AlwaysFindTreasure)
-                            bobber.treasureCaught = true;
+                        if (bobber.Treasure || this.Config.AlwaysFindTreasure)
+                            bobber.TreasureCaught = true;
 
                     if (this.Config.EasierFishing)
                     {
-                        bobber.difficulty = Math.Max(15, Math.Max(bobber.difficulty, 60));
-                        bobber.motionType = 2;
+                        bobber.Difficulty = Math.Max(15, Math.Max(bobber.Difficulty, 60));
+                        bobber.MotionType = 2;
                     }
 
                     this.BeganFishingGame.Value = true;
@@ -118,10 +117,10 @@ namespace FishingMod
                     this.UpdateIndex.Value++;
 
                 if (this.Config.AlwaysPerfect)
-                    bobber.perfect = true;
+                    bobber.Perfect = true;
 
-                if (!bobber.bobberInBar)
-                    bobber.distanceFromCatching += this.Config.LossAdditive;
+                if (!bobber.BobberInBar)
+                    bobber.DistanceFromCatching += this.Config.LossAdditive;
             }
             else
             {
