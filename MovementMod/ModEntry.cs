@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using MovementMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using SFarmer = StardewValley.Farmer;
 
@@ -17,11 +17,12 @@ namespace MovementMod
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
 
-        private Keys SprintKey;
+        /// <summary>The current speed boost applied to the player.</summary>
+        private readonly PerScreen<int> CurrentSpeed = new();
 
-        private int CurrentSpeed;
+        /// <summary>The last known player position.</summary>
+        private readonly PerScreen<Vector2> PrevPosition = new();
 
-        private Vector2 PrevPosition;
         private float ElapsedSeconds => (float)Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
 
 
@@ -33,10 +34,9 @@ namespace MovementMod
         public override void Entry(IModHelper helper)
         {
             this.Config = helper.ReadConfig<ModConfig>();
-            this.SprintKey = this.Config.GetSprintKey(this.Monitor);
 
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
-            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
+            helper.Events.Input.ButtonsChanged += this.OnButtonChanged;
 
             this.Monitor.Log("Initialized (press F5 to reload config)");
         }
@@ -55,47 +55,46 @@ namespace MovementMod
 
             if (Game1.currentLocation.currentEvent != null)
             {
-                this.CurrentSpeed = 0;
+                this.CurrentSpeed.Value = 0;
                 return;
             }
 
             SFarmer player = Game1.player;
             if (this.Config.HorseSpeed != 0 && player.mount != null)
-                this.CurrentSpeed = this.Config.HorseSpeed;
+                this.CurrentSpeed.Value = this.Config.HorseSpeed;
             if (this.Config.PlayerRunningSpeed != 0 && player.running)
-                this.CurrentSpeed = this.Config.PlayerRunningSpeed;
+                this.CurrentSpeed.Value = this.Config.PlayerRunningSpeed;
             else
-                this.CurrentSpeed = 0;
+                this.CurrentSpeed.Value = 0;
 
-            if (Game1.oldKBState.IsKeyDown(this.SprintKey))
+            if (this.Config.SprintKey.IsDown())
             {
-                if (this.Config.SprintingStaminaDrainPerSecond != 0 && player.position != this.PrevPosition)
+                if (this.Config.SprintingStaminaDrainPerSecond != 0 && player.position != this.PrevPosition.Value)
                 {
                     float loss = this.Config.SprintingStaminaDrainPerSecond * this.ElapsedSeconds;
                     if (player.stamina - loss > 0)
                     {
                         player.stamina -= loss;
-                        this.CurrentSpeed *= this.Config.PlayerSprintingSpeedMultiplier;
+                        this.CurrentSpeed.Value *= this.Config.PlayerSprintingSpeedMultiplier;
                     }
                 }
                 else
-                    this.CurrentSpeed *= this.Config.PlayerSprintingSpeedMultiplier;
+                    this.CurrentSpeed.Value *= this.Config.PlayerSprintingSpeedMultiplier;
             }
 
-            player.addedSpeed = this.CurrentSpeed;
+            player.addedSpeed = this.CurrentSpeed.Value;
 
-            this.PrevPosition = player.position;
+            this.PrevPosition.Value = player.position;
         }
 
-        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        private void OnButtonChanged(object sender, ButtonsChangedEventArgs e)
         {
-            if (e.Button == SButton.F5)
+            if (this.Config.ReloadKey.JustPressed())
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
-                this.SprintKey = this.Config.GetSprintKey(this.Monitor);
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }

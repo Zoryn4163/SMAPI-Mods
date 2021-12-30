@@ -1,6 +1,5 @@
-using System;
-using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
 
 namespace MovementMod.Framework
 {
@@ -17,28 +16,15 @@ namespace MovementMod.Framework
         public int HorseSpeed { get; set; } = 5;
 
         /// <summary>The key which causes the player to sprint.</summary>
-        public string SprintKey { get; set; } = "LeftShift";
-        
+        public KeybindList SprintKey { get; set; } = new(SButton.LeftShift);
+
+        /// <summary>The keys which reload the mod config.</summary>
+        public KeybindList ReloadKey { get; set; } = new(SButton.F5);
+
         /// <summary>The multiplier applied to the player speed when sprinting.</summary>
         public int PlayerSprintingSpeedMultiplier { get; set; } = 2;
 
         /// <summary>The stamina drain each second while sprinting.</summary>
         public float SprintingStaminaDrainPerSecond { get; set; } = 15;
-
-
-        /*********
-        ** Public methods
-        *********/
-        public Keys GetSprintKey(IMonitor monitor)
-        {
-            if (Enum.TryParse(this.SprintKey, out Keys key))
-            {
-                monitor.Log($"Bound key '{key}' for sprinting.");
-                return key;
-            }
-
-            monitor.Log($"Failed to find specified key '{this.SprintKey}', using default 'LeftShift' for sprinting.", LogLevel.Warn);
-            return Keys.LeftShift;
-        }
     }
 }

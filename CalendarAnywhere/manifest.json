@@ -1,10 +1,10 @@
 {
   "Name": "Calendar Anywhere",
   "Author": "Zoryn",
-  "Version": "2.7.3",
+  "Version": "2.8.0",
   "Description": "Lets you open the calendar from anywhere.",
   "UniqueID": "Zoryn.CalendarAnywhere",
   "EntryDll": "CalendarAnywhere.dll",
-  "MinimumApiVersion": "3.0.0",
+  "MinimumApiVersion": "3.13.0",
   "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }

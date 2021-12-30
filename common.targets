@@ -1,7 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
-  <PropertyGroup>
-    <Version>2.7.3</Version>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<Version>2.8.0</Version>
+		<ModZipPath>$(SolutionDir)\_releases</ModZipPath>
+	</PropertyGroup>
 </Project>

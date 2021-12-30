@@ -46,30 +46,28 @@ namespace BetterRNG
             };
 
             // hook events
-            helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
-            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
-
-            this.Monitor.Log("Initialized (press F5 to reload config)");
+            helper.Events.GameLoop.DayStarted += this.OnDayStarted;
+            helper.Events.Input.ButtonsChanged += this.OnButtonsChanged;
         }
 
 
         /*********
         ** Private methods
         *********/
-        /// <summary>Raised after the player loads a save slot and the world is initialised.</summary>
+        /// <summary>Raised after the player starts a new day.</summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+        private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             this.DetermineRng();
         }
 
-        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
         {
-            if (e.Button == SButton.F5)
+            if (this.Config.ReloadKey.JustPressed())
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
@@ -82,7 +80,7 @@ namespace BetterRNG
             if (this.Config.EnableDailyLuckOverride)
                 Game1.player.team.sharedDailyLuck.Value = Math.Min(0.100000001490116, ModEntry.Twister.Next(-100, 101) / 1000.0);
 
-            if (this.Config.EnableWeatherOverride)
+            if (Context.IsMainPlayer && this.Config.EnableWeatherOverride)
             {
                 int targetWeather = this.Weather.Choose().TValue;
                 if (targetWeather == Game1.weather_snow && Game1.currentSeason != "winter")

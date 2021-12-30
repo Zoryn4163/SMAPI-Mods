@@ -19,7 +19,7 @@ namespace HealthBars
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
 
-        private Monster[] Monsters;
+        /// <summary>The cached health bar texture.</summary>
         private Texture2D BarTexture;
 
 
@@ -38,9 +38,7 @@ namespace HealthBars
 
             // hook events
             helper.Events.Display.Rendered += this.OnRendered;
-            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
-
-            this.Monitor.Log("Initialized (press F5 to reload config)");
+            helper.Events.Input.ButtonsChanged += this.OnButtonsChanged;
         }
 
 
@@ -55,15 +53,15 @@ namespace HealthBars
             if (!Context.IsWorldReady)
                 return;
 
-            this.Monsters = Game1.currentLocation.characters.OfType<Monster>().ToArray();
-            if (!this.Monsters.Any())
+            Monster[] monsters = Game1.currentLocation.characters.OfType<Monster>().ToArray();
+            if (!monsters.Any())
                 return;
 
             SpriteFont font = Game1.smallFont;
             SpriteBatch batch = Game1.spriteBatch;
             Rectangle viewport = Game1.viewport;
 
-            foreach (Monster monster in this.Monsters)
+            foreach (Monster monster in monsters)
             {
                 if (monster.MaxHealth < monster.Health)
                     monster.MaxHealth = monster.Health;
@@ -101,12 +99,12 @@ namespace HealthBars
             }
         }
 
-        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
         {
-            if (e.Button == SButton.F5)
+            if (this.Config.ReloadKey.JustPressed())
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);

@@ -39,8 +39,8 @@ field                         | purpose
 `BarBorderHeight`             | The health bar's horizontal border width in pixels. Default 2.
 
 ## Compatibility
-* Works with Stardew Valley 1.3 on Linux/Mac/Windows.
-* Works in single-player and multiplayer.
+* Works with Stardew Valley 1.5.5+ on Linux/macOS/Windows.
+* Works in single-player, multiplayer, and split-screen.
 * No known mod conflicts.
 
 ## See also

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using FishingMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Tools;
@@ -17,9 +19,14 @@ namespace FishingMod
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
 
-        private SBobberBar Bobber;
-        private bool BeganFishingGame;
-        private int UpdateIndex;
+        /// <summary>The current fishing bobber bar.</summary>
+        private readonly PerScreen<SBobberBar> Bobber = new();
+
+        /// <summary>Whether the player is in the fishing minigame.</summary>
+        private readonly PerScreen<bool> BeganFishingGame = new();
+
+        /// <summary>The number of ticks since the player opened the fishing minigame.</summary>
+        private readonly PerScreen<int> UpdateIndex = new();
 
 
         /*********
@@ -33,9 +40,7 @@ namespace FishingMod
 
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
             helper.Events.Display.MenuChanged += this.OnMenuChanged;
-            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
-
-            this.Monitor.Log("Initialized (press F5 to reload config)");
+            helper.Events.Input.ButtonsChanged += this.OnButtonsChanged;
         }
 
 
@@ -47,8 +52,9 @@ namespace FishingMod
         /// <param name="e">The event arguments.</param>
         private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
-            if (e.NewMenu is BobberBar menu)
-                this.Bobber = SBobberBar.ConstructFromBaseClass(menu);
+            this.Bobber.Value = e.NewMenu is BobberBar menu
+                ? new SBobberBar(menu, this.Helper.Reflection)
+                : null;
         }
 
         /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
@@ -56,10 +62,13 @@ namespace FishingMod
         /// <param name="e">The event arguments.</param>
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
+            if (!Context.IsWorldReady)
+                return;
+
             // apply infinite bait/tackle
-            if (Context.IsWorldReady && e.IsOneSecond && (this.Config.InfiniteBait || this.Config.InfiniteTackle))
+            if (e.IsOneSecond && (this.Config.InfiniteBait || this.Config.InfiniteTackle))
             {
-                if (Game1.player.CurrentTool is FishingRod rod && rod.attachments?.Length > 0 && rod.attachments[0] != null)
+                if (Game1.player.CurrentTool is FishingRod rod && rod.attachments?.FirstOrDefault() != null)
                 {
                     if (this.Config.InfiniteBait)
                         rod.attachments[0].Stack = rod.attachments[0].maximumStackSize();
@@ -70,63 +79,63 @@ namespace FishingMod
             }
 
             // apply fishing minigame changes
-            if (Game1.activeClickableMenu is BobberBar && this.Bobber != null)
+            if (Game1.activeClickableMenu is BobberBar && this.Bobber.Value != null)
             {
-                SBobberBar bobber = this.Bobber;
+                SBobberBar bobber = this.Bobber.Value;
 
                 //Begin fishing game
-                if (!this.BeganFishingGame && this.UpdateIndex > 15)
+                if (!this.BeganFishingGame.Value && this.UpdateIndex.Value > 15)
                 {
                     //Do these things once per fishing minigame, 1/4 second after it updates
-                    bobber.difficulty *= this.Config.FishDifficultyMultiplier;
-                    bobber.difficulty += this.Config.FishDifficultyAdditive;
+                    bobber.Difficulty *= this.Config.FishDifficultyMultiplier;
+                    bobber.Difficulty += this.Config.FishDifficultyAdditive;
 
                     if (this.Config.AlwaysFindTreasure)
-                        bobber.treasure = true;
+                        bobber.Treasure = true;
 
                     if (this.Config.InstantCatchFish)
                     {
-                        if (bobber.treasure)
-                            bobber.treasureCaught = true;
-                        bobber.distanceFromCatching += 100;
+                        if (bobber.Treasure)
+                            bobber.TreasureCaught = true;
+                        bobber.DistanceFromCatching += 100;
                     }
 
                     if (this.Config.InstantCatchTreasure)
-                        if (bobber.treasure || this.Config.AlwaysFindTreasure)
-                            bobber.treasureCaught = true;
+                        if (bobber.Treasure || this.Config.AlwaysFindTreasure)
+                            bobber.TreasureCaught = true;
 
                     if (this.Config.EasierFishing)
                     {
-                        bobber.difficulty = Math.Max(15, Math.Max(bobber.difficulty, 60));
-                        bobber.motionType = 2;
+                        bobber.Difficulty = Math.Max(15, Math.Max(bobber.Difficulty, 60));
+                        bobber.MotionType = 2;
                     }
 
-                    this.BeganFishingGame = true;
+                    this.BeganFishingGame.Value = true;
                 }
 
-                if (this.UpdateIndex < 20)
-                    this.UpdateIndex++;
+                if (this.UpdateIndex.Value < 20)
+                    this.UpdateIndex.Value++;
 
                 if (this.Config.AlwaysPerfect)
-                    bobber.perfect = true;
+                    bobber.Perfect = true;
 
-                if (!bobber.bobberInBar)
-                    bobber.distanceFromCatching += this.Config.LossAdditive;
+                if (!bobber.BobberInBar)
+                    bobber.DistanceFromCatching += this.Config.LossAdditive;
             }
             else
             {
                 //End fishing game
-                this.BeganFishingGame = false;
-                this.UpdateIndex = 0;
+                this.BeganFishingGame.Value = false;
+                this.UpdateIndex.Value = 0;
             }
         }
 
-        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
         {
-            if (e.Button == SButton.F5)
+            if (this.Config.ReloadKey.JustPressed())
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);

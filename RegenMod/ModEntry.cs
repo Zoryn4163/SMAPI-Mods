@@ -1,6 +1,7 @@
 ﻿using RegenMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using SFarmer = StardewValley.Farmer;
 
@@ -12,11 +13,17 @@ namespace RegenMod
         /*********
         ** Properties
         *********/
+        /// <summary>The mod configuration.</summary>
         private ModConfig Config;
-        private float Health;
-        private float Stamina;
 
-        private double TimeSinceLastMoved;
+        /// <summary>The health regen carried over from the previous tick.</summary>
+        private readonly PerScreen<float> Health = new();
+
+        /// <summary>The stamina regen carried over from the previous tick.</summary>
+        private readonly PerScreen<float> Stamina = new();
+
+        /// <summary>The time in milliseconds since the player last moved or used a tool.</summary>
+        private readonly PerScreen<double> TimeSinceLastMoved = new();
 
         private float ElapsedSeconds => (float)(Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000);
 
@@ -31,21 +38,19 @@ namespace RegenMod
             this.Config = helper.ReadConfig<ModConfig>();
 
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
-            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
-
-            this.Monitor.Log("Initialized (press F5 to reload config)");
+            helper.Events.Input.ButtonsChanged += this.OnButtonChanged;
         }
 
 
         /*********
         ** Private methods
         *********/
-        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        private void OnButtonChanged(object sender, ButtonsChangedEventArgs e)
         {
-            if (e.Button == SButton.F5)
+            if (this.Config.ReloadKey.JustPressed())
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
@@ -63,58 +68,58 @@ namespace RegenMod
             SFarmer player = Game1.player;
 
             //detect movement or tool use
-            this.TimeSinceLastMoved += Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
+            this.TimeSinceLastMoved.Value += Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
             if (player.timerSinceLastMovement == 0)
-                this.TimeSinceLastMoved = 0;
+                this.TimeSinceLastMoved.Value = 0;
             if (player.UsingTool)
-                this.TimeSinceLastMoved = 0;
+                this.TimeSinceLastMoved.Value = 0;
 
             // health regen
             if (this.Config.RegenHealthConstant)
-                this.Health += this.Config.RegenHealthConstantAmountPerSecond * this.ElapsedSeconds;
+                this.Health.Value += this.Config.RegenHealthConstantAmountPerSecond * this.ElapsedSeconds;
             if (this.Config.RegenHealthStill)
             {
-                if (this.TimeSinceLastMoved > this.Config.RegenHealthStillTimeRequiredMS)
-                    this.Health += this.Config.RegenHealthStillAmountPerSecond * this.ElapsedSeconds;
+                if (this.TimeSinceLastMoved.Value > this.Config.RegenHealthStillTimeRequiredMS)
+                    this.Health.Value += this.Config.RegenHealthStillAmountPerSecond * this.ElapsedSeconds;
             }
-            if (player.health + this.Health >= player.maxHealth)
+            if (player.health + this.Health.Value >= player.maxHealth)
             {
                 player.health = player.maxHealth;
-                this.Health = 0;
+                this.Health.Value = 0;
             }
-            else if (this.Health >= 1)
+            else if (this.Health.Value >= 1)
             {
                 player.health += 1;
-                this.Health -= 1;
+                this.Health.Value -= 1;
             }
-            else if (this.Health <= -1)
+            else if (this.Health.Value <= -1)
             {
                 player.health -= 1;
-                this.Health += 1;
+                this.Health.Value += 1;
             }
 
             // stamina regen
             if (this.Config.RegenStaminaConstant)
-                this.Stamina += this.Config.RegenStaminaConstantAmountPerSecond * this.ElapsedSeconds;
+                this.Stamina.Value += this.Config.RegenStaminaConstantAmountPerSecond * this.ElapsedSeconds;
             if (this.Config.RegenStaminaStill)
             {
-                if (this.TimeSinceLastMoved > this.Config.RegenStaminaStillTimeRequiredMS)
-                    this.Stamina += this.Config.RegenStaminaStillAmountPerSecond * this.ElapsedSeconds;
+                if (this.TimeSinceLastMoved.Value > this.Config.RegenStaminaStillTimeRequiredMS)
+                    this.Stamina.Value += this.Config.RegenStaminaStillAmountPerSecond * this.ElapsedSeconds;
             }
-            if (player.Stamina + this.Stamina >= player.MaxStamina)
+            if (player.Stamina + this.Stamina.Value >= player.MaxStamina)
             {
                 player.Stamina = player.MaxStamina;
-                this.Stamina = 0;
+                this.Stamina.Value = 0;
             }
-            else if (this.Stamina >= 1)
+            else if (this.Stamina.Value >= 1)
             {
                 player.Stamina += 1;
-                this.Stamina -= 1;
+                this.Stamina.Value -= 1;
             }
-            else if (this.Stamina <= -1)
+            else if (this.Stamina.Value <= -1)
             {
                 player.Stamina -= 1;
-                this.Stamina += 1;
+                this.Stamina.Value += 1;
             }
         }
     }
