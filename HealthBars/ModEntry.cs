@@ -19,7 +19,7 @@ namespace HealthBars
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
 
-        private Monster[] Monsters;
+        /// <summary>The cached health bar texture.</summary>
         private Texture2D BarTexture;
 
 
@@ -53,15 +53,15 @@ namespace HealthBars
             if (!Context.IsWorldReady)
                 return;
 
-            this.Monsters = Game1.currentLocation.characters.OfType<Monster>().ToArray();
-            if (!this.Monsters.Any())
+            Monster[] monsters = Game1.currentLocation.characters.OfType<Monster>().ToArray();
+            if (!monsters.Any())
                 return;
 
             SpriteFont font = Game1.smallFont;
             SpriteBatch batch = Game1.spriteBatch;
             Rectangle viewport = Game1.viewport;
 
-            foreach (Monster monster in this.Monsters)
+            foreach (Monster monster in monsters)
             {
                 if (monster.MaxHealth < monster.Health)
                     monster.MaxHealth = monster.Health;

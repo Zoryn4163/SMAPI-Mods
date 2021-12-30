@@ -80,7 +80,7 @@ namespace BetterRNG
             if (this.Config.EnableDailyLuckOverride)
                 Game1.player.team.sharedDailyLuck.Value = Math.Min(0.100000001490116, ModEntry.Twister.Next(-100, 101) / 1000.0);
 
-            if (this.Config.EnableWeatherOverride)
+            if (Context.IsMainPlayer && this.Config.EnableWeatherOverride)
             {
                 int targetWeather = this.Weather.Choose().TValue;
                 if (targetWeather == Game1.weather_snow && Game1.currentSeason != "winter")

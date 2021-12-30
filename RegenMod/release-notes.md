@@ -2,6 +2,7 @@
 
 ## Release notes
 ## Upcoming release
+* Added split-screen support.
 * The reload key is now configurable.
 
 ### 2.7.1

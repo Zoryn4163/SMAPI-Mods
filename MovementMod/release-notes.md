@@ -2,6 +2,7 @@
 
 ## Release notes
 ## Upcoming release
+* Added split-screen support.
 * Added support for [newer keybind features in SMAPI](https://stardewvalleywiki.com/Modding:Player_Guide/Key_Bindings) (controller/mouse buttons, multi-key combos, and alternate keybinds).
 * The reload key is now configurable.
 

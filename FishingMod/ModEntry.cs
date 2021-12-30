@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using FishingMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Tools;
@@ -17,9 +19,14 @@ namespace FishingMod
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
 
-        private SBobberBar Bobber;
-        private bool BeganFishingGame;
-        private int UpdateIndex;
+        /// <summary>The current fishing bobber bar.</summary>
+        private readonly PerScreen<SBobberBar> Bobber = new();
+
+        /// <summary>Whether the player is in the fishing minigame.</summary>
+        private readonly PerScreen<bool> BeganFishingGame = new();
+
+        /// <summary>The number of ticks since the player opened the fishing minigame.</summary>
+        private readonly PerScreen<int> UpdateIndex = new();
 
 
         /*********
@@ -46,7 +53,9 @@ namespace FishingMod
         private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
             if (e.NewMenu is BobberBar menu)
-                this.Bobber = SBobberBar.ConstructFromBaseClass(menu);
+                this.Bobber.Value = SBobberBar.ConstructFromBaseClass(menu);
+            else
+                this.Bobber.Value = null;
         }
 
         /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
@@ -54,10 +63,13 @@ namespace FishingMod
         /// <param name="e">The event arguments.</param>
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
+            if (!Context.IsWorldReady)
+                return;
+
             // apply infinite bait/tackle
-            if (Context.IsWorldReady && e.IsOneSecond && (this.Config.InfiniteBait || this.Config.InfiniteTackle))
+            if (e.IsOneSecond && (this.Config.InfiniteBait || this.Config.InfiniteTackle))
             {
-                if (Game1.player.CurrentTool is FishingRod rod && rod.attachments?.Length > 0 && rod.attachments[0] != null)
+                if (Game1.player.CurrentTool is FishingRod rod && rod.attachments?.FirstOrDefault() != null)
                 {
                     if (this.Config.InfiniteBait)
                         rod.attachments[0].Stack = rod.attachments[0].maximumStackSize();
@@ -68,12 +80,12 @@ namespace FishingMod
             }
 
             // apply fishing minigame changes
-            if (Game1.activeClickableMenu is BobberBar && this.Bobber != null)
+            if (Game1.activeClickableMenu is BobberBar && this.Bobber.Value != null)
             {
-                SBobberBar bobber = this.Bobber;
+                SBobberBar bobber = this.Bobber.Value;
 
                 //Begin fishing game
-                if (!this.BeganFishingGame && this.UpdateIndex > 15)
+                if (!this.BeganFishingGame.Value && this.UpdateIndex.Value > 15)
                 {
                     //Do these things once per fishing minigame, 1/4 second after it updates
                     bobber.difficulty *= this.Config.FishDifficultyMultiplier;
@@ -99,11 +111,11 @@ namespace FishingMod
                         bobber.motionType = 2;
                     }
 
-                    this.BeganFishingGame = true;
+                    this.BeganFishingGame.Value = true;
                 }
 
-                if (this.UpdateIndex < 20)
-                    this.UpdateIndex++;
+                if (this.UpdateIndex.Value < 20)
+                    this.UpdateIndex.Value++;
 
                 if (this.Config.AlwaysPerfect)
                     bobber.perfect = true;
@@ -114,8 +126,8 @@ namespace FishingMod
             else
             {
                 //End fishing game
-                this.BeganFishingGame = false;
-                this.UpdateIndex = 0;
+                this.BeganFishingGame.Value = false;
+                this.UpdateIndex.Value = 0;
             }
         }
 

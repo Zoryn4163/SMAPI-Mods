@@ -2,6 +2,7 @@
 using MovementMod.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using SFarmer = StardewValley.Farmer;
 
@@ -16,9 +17,12 @@ namespace MovementMod
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
 
-        private int CurrentSpeed;
+        /// <summary>The current speed boost applied to the player.</summary>
+        private readonly PerScreen<int> CurrentSpeed = new();
 
-        private Vector2 PrevPosition;
+        /// <summary>The last known player position.</summary>
+        private readonly PerScreen<Vector2> PrevPosition = new();
+
         private float ElapsedSeconds => (float)Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
 
 
@@ -51,36 +55,36 @@ namespace MovementMod
 
             if (Game1.currentLocation.currentEvent != null)
             {
-                this.CurrentSpeed = 0;
+                this.CurrentSpeed.Value = 0;
                 return;
             }
 
             SFarmer player = Game1.player;
             if (this.Config.HorseSpeed != 0 && player.mount != null)
-                this.CurrentSpeed = this.Config.HorseSpeed;
+                this.CurrentSpeed.Value = this.Config.HorseSpeed;
             if (this.Config.PlayerRunningSpeed != 0 && player.running)
-                this.CurrentSpeed = this.Config.PlayerRunningSpeed;
+                this.CurrentSpeed.Value = this.Config.PlayerRunningSpeed;
             else
-                this.CurrentSpeed = 0;
+                this.CurrentSpeed.Value = 0;
 
             if (this.Config.SprintKey.IsDown())
             {
-                if (this.Config.SprintingStaminaDrainPerSecond != 0 && player.position != this.PrevPosition)
+                if (this.Config.SprintingStaminaDrainPerSecond != 0 && player.position != this.PrevPosition.Value)
                 {
                     float loss = this.Config.SprintingStaminaDrainPerSecond * this.ElapsedSeconds;
                     if (player.stamina - loss > 0)
                     {
                         player.stamina -= loss;
-                        this.CurrentSpeed *= this.Config.PlayerSprintingSpeedMultiplier;
+                        this.CurrentSpeed.Value *= this.Config.PlayerSprintingSpeedMultiplier;
                     }
                 }
                 else
-                    this.CurrentSpeed *= this.Config.PlayerSprintingSpeedMultiplier;
+                    this.CurrentSpeed.Value *= this.Config.PlayerSprintingSpeedMultiplier;
             }
 
-            player.addedSpeed = this.CurrentSpeed;
+            player.addedSpeed = this.CurrentSpeed.Value;
 
-            this.PrevPosition = player.position;
+            this.PrevPosition.Value = player.position;
         }
 
         /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
