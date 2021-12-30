@@ -1,6 +1,10 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
+## Upcoming release
+* The reload key is now configurable.
+* Fixed RNG not re-randomized each day (thanks to randomC0der!).
+
 ### 2.7.3
 Released 29 November 2019 for SMAPI 3.0 or later. Updated by Pathoschild.
 

@@ -1,4 +1,7 @@
-﻿namespace FishingMod.Framework
+﻿using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+
+namespace FishingMod.Framework
 {
     /// <summary>The mod configuration.</summary>
     internal class ModConfig
@@ -32,5 +35,8 @@
 
         /// <summary>Whether fishing bait lasts forever.</summary>
         public bool InfiniteBait { get; set; } = true;
+
+        /// <summary>The keys which reload the mod config.</summary>
+        public KeybindList ReloadKey { get; set; } = new(SButton.F5);
     }
 }

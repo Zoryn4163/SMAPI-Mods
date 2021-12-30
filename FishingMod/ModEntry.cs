@@ -33,9 +33,7 @@ namespace FishingMod
 
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
             helper.Events.Display.MenuChanged += this.OnMenuChanged;
-            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
-
-            this.Monitor.Log("Initialized (press F5 to reload config)");
+            helper.Events.Input.ButtonsChanged += this.OnButtonsChanged;
         }
 
 
@@ -121,12 +119,12 @@ namespace FishingMod
             }
         }
 
-        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
+        /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
         {
-            if (e.Button == SButton.F5)
+            if (this.Config.ReloadKey.JustPressed())
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);

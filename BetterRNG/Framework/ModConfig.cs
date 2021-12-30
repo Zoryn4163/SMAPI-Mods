@@ -1,3 +1,6 @@
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+
 namespace BetterRNG.Framework
 {
     /// <summary>The mod configuration.</summary>
@@ -23,5 +26,8 @@ namespace BetterRNG.Framework
 
         /// <summary>The weight for snow when randomising weather.</summary>
         public int HarshSnowyChance { get; set; } = 5;
+
+        /// <summary>The keys which reload the mod config.</summary>
+        public KeybindList ReloadKey { get; set; } = new(SButton.F5);
     }
 }

@@ -1,5 +1,9 @@
+using StardewModdingAPI;
+using StardewModdingAPI.Utilities;
+
 namespace RegenMod.Framework
 {
+    /// <summary>The mod configuration.</summary>
     internal class ModConfig
     {
         /// <summary>Whether to constantly regenerate stamina.</summary>
@@ -31,5 +35,8 @@ namespace RegenMod.Framework
 
         /// <summary>The amount of time the player must stand still to regenerate health.</summary>
         public int RegenHealthStillTimeRequiredMS { get; set; } = 1000;
+
+        /// <summary>The keys which reload the mod config.</summary>
+        public KeybindList ReloadKey { get; set; } = new(SButton.F5);
     }
 }
