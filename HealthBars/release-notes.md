@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
+## Upcoming release
+* Fixed health bar position when UI scale doesn't match zoom level (thanks to Vlad-00003!).
+
 ### 2.8.0
 Released 30 December 2021 for SMAPI 3.13.0 or later. Updated by Pathoschild.
 
