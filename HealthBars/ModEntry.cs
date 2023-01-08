@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using HealthBars.Framework;
+﻿using HealthBars.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
@@ -52,15 +51,14 @@ namespace HealthBars
             if (!Context.IsWorldReady)
                 return;
 
-            Monster[] monsters = Game1.currentLocation.characters.OfType<Monster>().ToArray();
-            if (!monsters.Any())
-                return;
-
             SpriteFont font = Game1.smallFont;
             SpriteBatch batch = Game1.spriteBatch;
 
-            foreach (Monster monster in monsters)
-                this.DrawHealthBar(batch, monster, font);
+            foreach (NPC npc in Game1.currentLocation.characters)
+            {
+                if (npc is Monster monster)
+                    this.DrawHealthBar(batch, monster, font);
+            }
         }
 
         /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>

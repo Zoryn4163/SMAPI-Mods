@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -29,8 +28,11 @@ namespace DurableFences
         {
             foreach (GameLocation location in Game1.locations)
             {
-                foreach (Fence fence in location.Objects.Values.OfType<Fence>())
-                    fence.health.Value = fence.maxHealth.Value;
+                foreach (Object obj in location.Objects.Values)
+                {
+                    if (obj is Fence fence)
+                        fence.health.Value = fence.maxHealth.Value;
+                }
             }
         }
     }
