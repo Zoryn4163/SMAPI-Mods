@@ -37,7 +37,7 @@ namespace HealthBars
             this.BarTexture = this.GetBarTexture();
 
             // hook events
-            helper.Events.Display.Rendered += this.OnRendered;
+            helper.Events.Display.RenderedWorld += this.OnRenderedWorld;
             helper.Events.Input.ButtonsChanged += this.OnButtonsChanged;
         }
 
@@ -45,10 +45,10 @@ namespace HealthBars
         /*********
         ** Private methods
         *********/
-        /// <summary>Raised after the game draws to the sprite patch in a draw tick, just before the final sprite batch is rendered to the screen.</summary>
+        /// <inheritdoc cref="IDisplayEvents.RenderedWorld"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnRendered(object sender, RenderedEventArgs e)
+        private void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
         {
             if (!Context.IsWorldReady)
                 return;
@@ -71,7 +71,6 @@ namespace HealthBars
                 Vector2 size = new Vector2(monster.Sprite.SpriteWidth, monster.Sprite.SpriteHeight) * Game1.pixelZoom;
 
                 Vector2 screenLoc = Game1.GlobalToLocal(monster.position);
-                screenLoc *= Game1.options.zoomLevel / Game1.options.uiScale;
                 screenLoc.X += size.X / 2 - this.Config.BarWidth / 2.0f;
                 screenLoc.Y -= this.Config.BarHeight;
 

@@ -2,6 +2,7 @@
 
 ## Release notes
 ## Upcoming release
+* Fixed health bars drawn over menus and the HUD.
 * Fixed health bar position when UI scale doesn't match zoom level (thanks to Vlad-00003!).
 
 ### 2.8.0
