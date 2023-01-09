@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
-### Upcoming release
+### 2.8.1
+Released 08 January 2023 for SMAPI 3.13.0 or later. Updated by Pathoschild.
+
 * Fixed health bars drawn over menus and the HUD.
 * Fixed health bar position when UI scale doesn't match zoom level (thanks to Vlad-00003!).
 * Minor optimization.

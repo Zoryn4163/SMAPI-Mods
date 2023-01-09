@@ -1,7 +1,7 @@
 {
   "Name": "Movement Modifier",
   "Author": "Zoryn",
-  "Version": "2.8.0",
+  "Version": "2.8.1",
   "Description": "Lets you change your movement based on a config.",
   "UniqueID": "Zoryn.MovementModifier",
   "EntryDll": "MovementMod.dll",

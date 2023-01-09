@@ -1,7 +1,7 @@
 {
   "Name": "Regen Mod",
   "Author": "Zoryn",
-  "Version": "2.8.0",
+  "Version": "2.8.1",
   "Description": "Lets the player regenerate health and stamina based on config values.",
   "UniqueID": "Zoryn.RegenMod",
   "EntryDll": "RegenMod.dll",

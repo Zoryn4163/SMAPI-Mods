@@ -1,7 +1,7 @@
 {
   "Name": "Junimo Deposit Anywhere",
   "Author": "Zoryn",
-  "Version": "2.8.0",
+  "Version": "2.8.1",
   "Description": "Lets you deposit items into Junimo bundles from anywhere.",
   "UniqueID": "Zoryn.JunimoDepositAnywhere",
   "EntryDll": "JunimoDepositAnywhere.dll",
