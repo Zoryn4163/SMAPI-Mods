@@ -37,7 +37,7 @@ field                      | purpose
 `AlwaysPerfect`            | Whether the game should consider every catch to be perfectly executed, even if it wasn't. Default false.
 `AlwaysFindTreasure`       | Whether to always find treasure. Default false.
 `InstantCatchFish`         | Whether to catch fish instantly. Default false.
-`InstantCatchTreasure`     | Whether to catch treasure instantly. Defalt false.
+`InstantCatchTreasure`     | Whether to catch treasure instantly. Default false.
 `EasierFishing`            | Whether to significantly lower the max fish difficulty.
 `FishDifficultyMultiplier` | A multiplier applied to the fish difficulty. This can a number between 0 and 1 to lower difficulty, or more than 1 to increase it.
 `FishDifficultyAdditive`   | A value added to the fish difficulty. This can be less than 0 to decrease difficulty, or more than 0 to increase it.

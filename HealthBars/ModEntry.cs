@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using HealthBars.Framework;
+﻿using HealthBars.Framework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Monsters;
-using Rectangle = xTile.Dimensions.Rectangle;
 
 namespace HealthBars
 {
@@ -37,7 +35,7 @@ namespace HealthBars
             this.BarTexture = this.GetBarTexture();
 
             // hook events
-            helper.Events.Display.Rendered += this.OnRendered;
+            helper.Events.Display.RenderedWorld += this.OnRenderedWorld;
             helper.Events.Input.ButtonsChanged += this.OnButtonsChanged;
         }
 
@@ -45,57 +43,21 @@ namespace HealthBars
         /*********
         ** Private methods
         *********/
-        /// <summary>Raised after the game draws to the sprite patch in a draw tick, just before the final sprite batch is rendered to the screen.</summary>
+        /// <inheritdoc cref="IDisplayEvents.RenderedWorld"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void OnRendered(object sender, RenderedEventArgs e)
+        private void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
         {
             if (!Context.IsWorldReady)
                 return;
 
-            Monster[] monsters = Game1.currentLocation.characters.OfType<Monster>().ToArray();
-            if (!monsters.Any())
-                return;
-
             SpriteFont font = Game1.smallFont;
             SpriteBatch batch = Game1.spriteBatch;
-            Rectangle viewport = Game1.viewport;
 
-            foreach (Monster monster in monsters)
+            foreach (NPC npc in Game1.currentLocation.characters)
             {
-                if (monster.MaxHealth < monster.Health)
-                    monster.MaxHealth = monster.Health;
-
-                if (monster.MaxHealth == monster.Health && !this.Config.DisplayHealthWhenNotDamaged)
-                    continue;
-
-                Vector2 size = new Vector2(monster.Sprite.SpriteWidth, monster.Sprite.SpriteHeight) * Game1.pixelZoom;
-
-                Vector2 screenLoc = monster.Position - new Vector2(viewport.X, viewport.Y);
-                screenLoc.X += size.X / 2 - this.Config.BarWidth / 2.0f;
-                screenLoc.Y -= this.Config.BarHeight;
-
-                float fill = monster.Health / (float)monster.MaxHealth;
-
-                batch.Draw(this.BarTexture, screenLoc + new Vector2(this.Config.BarBorderWidth, this.Config.BarBorderHeight), this.BarTexture.Bounds, Color.Lerp(this.Config.LowHealthColor, this.Config.HighHealthColor, fill), 0.0f, Vector2.Zero, new Vector2(fill, 1.0f), SpriteEffects.None, 0);
-
-                if (this.Config.DisplayCurrentHealthNumber)
-                {
-                    string textLeft = monster.Health.ToString();
-                    Vector2 textSizeL = font.MeasureString(textLeft);
-                    if (this.Config.DisplayTextBorder)
-                        batch.DrawString(Game1.smallFont, textLeft, screenLoc - new Vector2(-1.0f, textSizeL.Y + 1.65f), this.Config.TextBorderColor, 0.0f, Vector2.Zero, 0.66f, SpriteEffects.None, 0);
-                    batch.DrawString(font, textLeft, screenLoc - new Vector2(0.0f, textSizeL.Y + 1.0f), this.Config.TextColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
-                }
-
-                if (this.Config.DisplayMaxHealthNumber)
-                {
-                    string textRight = monster.MaxHealth.ToString();
-                    Vector2 textSizeR = font.MeasureString(textRight);
-                    if (this.Config.DisplayTextBorder)
-                        batch.DrawString(Game1.smallFont, textRight, screenLoc + new Vector2(this.Config.BarWidth, 0.0f) - new Vector2(textSizeR.X - 1f, textSizeR.Y + 1.65f), this.Config.TextBorderColor, 0.0f, Vector2.Zero, 0.66f, SpriteEffects.None, 0);
-                    batch.DrawString(font, textRight, screenLoc + new Vector2(this.Config.BarWidth, 0.0f) - new Vector2(textSizeR.X, textSizeR.Y + 1.0f), this.Config.TextColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
-                }
+                if (npc is Monster monster)
+                    this.DrawHealthBar(batch, monster, font);
             }
         }
 
@@ -108,6 +70,47 @@ namespace HealthBars
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
+            }
+        }
+
+        /// <summary>Draw a health bar for the given monster, if needed.</summary>
+        /// <param name="batch">The sprite batch being drawn.</param>
+        /// <param name="monster">The monster whose health to display.</param>
+        /// <param name="font">The font to use for the health numbers.</param>
+        private void DrawHealthBar(SpriteBatch batch, Monster monster, SpriteFont font)
+        {
+            if (monster.MaxHealth < monster.Health)
+                monster.MaxHealth = monster.Health;
+
+            if (monster.MaxHealth == monster.Health && !this.Config.DisplayHealthWhenNotDamaged)
+                return;
+
+            Vector2 size = new Vector2(monster.Sprite.SpriteWidth, monster.Sprite.SpriteHeight) * Game1.pixelZoom;
+
+            Vector2 screenLoc = Game1.GlobalToLocal(monster.position);
+            screenLoc.X += size.X / 2 - this.Config.BarWidth / 2.0f;
+            screenLoc.Y -= this.Config.BarHeight;
+
+            float fill = monster.Health / (float)monster.MaxHealth;
+
+            batch.Draw(this.BarTexture, screenLoc + new Vector2(this.Config.BarBorderWidth, this.Config.BarBorderHeight), this.BarTexture.Bounds, Color.Lerp(this.Config.LowHealthColor, this.Config.HighHealthColor, fill), 0.0f, Vector2.Zero, new Vector2(fill, 1.0f), SpriteEffects.None, 0);
+
+            if (this.Config.DisplayCurrentHealthNumber)
+            {
+                string textLeft = monster.Health.ToString();
+                Vector2 textSizeL = font.MeasureString(textLeft);
+                if (this.Config.DisplayTextBorder)
+                    batch.DrawString(Game1.smallFont, textLeft, screenLoc - new Vector2(-1.0f, textSizeL.Y + 1.65f), this.Config.TextBorderColor, 0.0f, Vector2.Zero, 0.66f, SpriteEffects.None, 0);
+                batch.DrawString(font, textLeft, screenLoc - new Vector2(0.0f, textSizeL.Y + 1.0f), this.Config.TextColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+            }
+
+            if (this.Config.DisplayMaxHealthNumber)
+            {
+                string textRight = monster.MaxHealth.ToString();
+                Vector2 textSizeR = font.MeasureString(textRight);
+                if (this.Config.DisplayTextBorder)
+                    batch.DrawString(Game1.smallFont, textRight, screenLoc + new Vector2(this.Config.BarWidth, 0.0f) - new Vector2(textSizeR.X - 1f, textSizeR.Y + 1.65f), this.Config.TextBorderColor, 0.0f, Vector2.Zero, 0.66f, SpriteEffects.None, 0);
+                batch.DrawString(font, textRight, screenLoc + new Vector2(this.Config.BarWidth, 0.0f) - new Vector2(textSizeR.X, textSizeR.Y + 1.0f), this.Config.TextColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
             }
         }
 
