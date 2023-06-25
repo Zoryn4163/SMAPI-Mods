@@ -3,6 +3,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using Zoryn.Common;
 using SFarmer = StardewValley.Farmer;
 
 namespace RegenMod
@@ -35,6 +36,8 @@ namespace RegenMod
         /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
         public override void Entry(IModHelper helper)
         {
+            CommonHelper.RemoveObsoleteFiles(this, "RegenMod.pdb");
+
             this.Config = helper.ReadConfig<ModConfig>();
 
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;

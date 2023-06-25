@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
+## Upcoming release
+* Embedded `.pdb` data into the DLL, which fixes error line numbers in Linux/macOS logs.
+
 ### 2.8.0
 Released 30 December 2021 for SMAPI 3.13.0 or later. Updated by Pathoschild.
 

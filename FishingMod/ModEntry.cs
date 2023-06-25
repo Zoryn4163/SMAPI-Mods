@@ -6,6 +6,7 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Tools;
+using Zoryn.Common;
 
 namespace FishingMod
 {
@@ -35,6 +36,8 @@ namespace FishingMod
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            CommonHelper.RemoveObsoleteFiles(this, "FishingMod.pdb");
+
             this.Config = helper.ReadConfig<ModConfig>();
 
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;

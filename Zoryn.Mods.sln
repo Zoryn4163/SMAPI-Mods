@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29324.140
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{D25CE26A-DE3F-47CD-AB0F-19B580C2CB6C}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovementMod", "MovementMod\MovementMod.csproj", "{F3A942EC-D60A-44E0-900B-B673F73419C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegenMod", "RegenMod\RegenMod.csproj", "{1082CA14-2E7A-441E-90E3-E6E7F448E58F}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_Common", "_Common\_Common.shproj", "{98B203BA-0D08-4789-B857-E3143330AB64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,5 +73,16 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5896DFD-302D-4CE1-B29F-144185C24D93}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		_Common\_Common.projitems*{1082ca14-2e7a-441e-90e3-e6e7f448e58f}*SharedItemsImports = 5
+		_Common\_Common.projitems*{37a3cbc3-5de0-4a3f-902f-904139efaa34}*SharedItemsImports = 5
+		_Common\_Common.projitems*{69d62815-3349-422a-bd3c-dba89db1b5e7}*SharedItemsImports = 5
+		_Common\_Common.projitems*{7b37dc4c-21fa-4979-918b-818c2fcf988e}*SharedItemsImports = 5
+		_Common\_Common.projitems*{8911ba55-65a5-4022-a797-84f3aae6bac1}*SharedItemsImports = 5
+		_Common\_Common.projitems*{8be2d59d-e1f3-4902-9f8c-81cbf4b1a1b5}*SharedItemsImports = 5
+		_Common\_Common.projitems*{98b203ba-0d08-4789-b857-e3143330ab64}*SharedItemsImports = 13
+		_Common\_Common.projitems*{9c9e4913-482d-4176-b072-96bc08697e3d}*SharedItemsImports = 5
+		_Common\_Common.projitems*{f3a942ec-d60a-44e0-900b-b673f73419c6}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
