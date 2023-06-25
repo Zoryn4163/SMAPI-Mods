@@ -2,6 +2,7 @@
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
+using Zoryn.Common;
 
 namespace JunimoDepositAnywhere
 {
@@ -15,6 +16,8 @@ namespace JunimoDepositAnywhere
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            CommonHelper.RemoveObsoleteFiles(this, "JunimoDepositAnywhere.pdb");
+
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
         }
 

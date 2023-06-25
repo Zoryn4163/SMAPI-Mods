@@ -5,6 +5,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Monsters;
+using Zoryn.Common;
 
 namespace HealthBars
 {
@@ -28,6 +29,8 @@ namespace HealthBars
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            CommonHelper.RemoveObsoleteFiles(this, "HealthBars.pdb");
+
             // read config
             this.Config = helper.ReadConfig<ModConfig>();
 

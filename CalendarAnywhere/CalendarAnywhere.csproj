@@ -4,8 +4,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.0" />
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
   </ItemGroup>
+
+  <Import Project="..\_Common\_Common.projitems" Label="Shared" />
 
   <Import Project="..\common.targets" />
 </Project>

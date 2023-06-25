@@ -4,7 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
-using SFarmer = StardewValley.Farmer;
+using Zoryn.Common;
 
 namespace MovementMod
 {
@@ -33,6 +33,8 @@ namespace MovementMod
         /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
         public override void Entry(IModHelper helper)
         {
+            CommonHelper.RemoveObsoleteFiles(this, "MovementMod.pdb");
+
             this.Config = helper.ReadConfig<ModConfig>();
 
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
@@ -59,7 +61,7 @@ namespace MovementMod
                 return;
             }
 
-            SFarmer player = Game1.player;
+            Farmer player = Game1.player;
             if (this.Config.HorseSpeed != 0 && player.mount != null)
                 this.CurrentSpeed.Value = this.Config.HorseSpeed;
             if (this.Config.PlayerRunningSpeed != 0 && player.running)

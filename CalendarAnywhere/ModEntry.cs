@@ -3,6 +3,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
+using Zoryn.Common;
 
 namespace CalendarAnywhere
 {
@@ -16,6 +17,8 @@ namespace CalendarAnywhere
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            CommonHelper.RemoveObsoleteFiles(this, "CalendarAnywhere.pdb");
+
             helper.Events.Input.ButtonPressed += this.OnButtonPressed;
         }
 

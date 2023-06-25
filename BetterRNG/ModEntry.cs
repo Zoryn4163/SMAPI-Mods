@@ -3,6 +3,7 @@ using BetterRNG.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using Zoryn.Common;
 
 namespace BetterRNG
 {
@@ -31,6 +32,8 @@ namespace BetterRNG
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            CommonHelper.RemoveObsoleteFiles(this, "BetterRNG.pdb");
+
             // read config
             this.Config = helper.ReadConfig<ModConfig>();
 
