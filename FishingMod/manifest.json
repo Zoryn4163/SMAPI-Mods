@@ -1,7 +1,7 @@
 {
   "Name": "Fishing Mod",
   "Author": "Zoryn",
-  "Version": "2.8.1",
+  "Version": "2.8.2",
   "Description": "Lets you change some things about fishing based on a config file.",
   "UniqueID": "Zoryn.FishingMod",
   "EntryDll": "FishingMod.dll",

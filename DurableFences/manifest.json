@@ -1,7 +1,7 @@
 {
   "Name": "Durable Fences",
   "Author": "Zoryn",
-  "Version": "2.8.1",
+  "Version": "2.8.2",
   "Description": "Makes fences more durable.",
   "UniqueID": "Zoryn.DurableFences",
   "EntryDll": "DurableFences.dll",

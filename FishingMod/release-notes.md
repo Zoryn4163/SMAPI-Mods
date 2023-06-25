@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
-## Upcoming release
+## 2.8.2
+Released 25 June 2023 for SMAPI 3.13.0 or later. Updated by Pathoschild.
+
 * Embedded `.pdb` data into the DLL, which fixes error line numbers in Linux/macOS logs.
 
 ### 2.8.1
