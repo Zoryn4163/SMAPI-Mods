@@ -90,7 +90,7 @@ namespace HealthBars
 
             Vector2 size = new Vector2(monster.Sprite.SpriteWidth, monster.Sprite.SpriteHeight) * Game1.pixelZoom;
 
-            Vector2 screenLoc = Game1.GlobalToLocal(monster.position);
+            Vector2 screenLoc = Game1.GlobalToLocal(monster.position.Value);
             screenLoc.X += size.X / 2 - this.Config.BarWidth / 2.0f;
             screenLoc.Y -= this.Config.BarHeight;
 

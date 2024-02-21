@@ -13,9 +13,9 @@
             this.Value = value;
         }
 
-        public static WeightedGeneric<Ty> Create<Ty>(int weight, Ty value)
+        public static WeightedGeneric<T> Create(int weight, T value)
         {
-            return new WeightedGeneric<Ty>(weight, value);
+            return new WeightedGeneric<T>(weight, value);
         }
     }
 }

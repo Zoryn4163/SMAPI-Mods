@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
+## Upcoming release
+* Updated for Stardew Valley 1.6.
+
 ## 2.8.2
 Released 25 June 2023 for SMAPI 3.13.0 or later. Updated by Pathoschild.
 
