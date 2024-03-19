@@ -16,7 +16,7 @@ namespace BetterRNG
         /// <summary>The mod configuration.</summary>
         private ModConfig Config;
 
-        private WeightedGeneric<int>[] Weather;
+        private WeightedGeneric<string>[] Weather;
 
 
         /*********
@@ -41,11 +41,11 @@ namespace BetterRNG
             Game1.random = ModEntry.Twister = new MersenneTwister();
             this.Weather = new[]
             {
-                WeightedGeneric<int>.Create(this.Config.SunnyChance, Game1.weather_sunny),
-                WeightedGeneric<int>.Create(this.Config.CloudySnowyChance, Game1.weather_debris),
-                WeightedGeneric<int>.Create(this.Config.RainyChance, Game1.weather_rain),
-                WeightedGeneric<int>.Create(this.Config.StormyChance, Game1.weather_lightning),
-                WeightedGeneric<int>.Create(this.Config.HarshSnowyChance, Game1.weather_snow)
+                WeightedGeneric<string>.Create(this.Config.SunnyChance, Game1.weather_sunny),
+                WeightedGeneric<string>.Create(this.Config.CloudySnowyChance, Game1.weather_debris),
+                WeightedGeneric<string>.Create(this.Config.RainyChance, Game1.weather_rain),
+                WeightedGeneric<string>.Create(this.Config.StormyChance, Game1.weather_lightning),
+                WeightedGeneric<string>.Create(this.Config.HarshSnowyChance, Game1.weather_snow)
             };
 
             // hook events
@@ -85,12 +85,12 @@ namespace BetterRNG
 
             if (Context.IsMainPlayer && this.Config.EnableWeatherOverride)
             {
-                int targetWeather = this.Weather.Choose().TValue;
-                if (targetWeather == Game1.weather_snow && Game1.currentSeason != "winter")
+                string targetWeather = this.Weather.Choose().TValue;
+                if (targetWeather == Game1.weather_snow && Game1.season != Season.Winter)
                     targetWeather = Game1.weather_lightning;
-                if (targetWeather == Game1.weather_rain && Game1.currentSeason == "winter")
+                if (targetWeather == Game1.weather_rain && Game1.season == Season.Winter)
                     targetWeather = Game1.weather_debris;
-                if (targetWeather == Game1.weather_lightning && Game1.currentSeason == "winter")
+                if (targetWeather == Game1.weather_lightning && Game1.season == Season.Winter)
                     targetWeather = Game1.weather_snow;
                 if (targetWeather == Game1.weather_festival)
                     targetWeather = Game1.weather_sunny;

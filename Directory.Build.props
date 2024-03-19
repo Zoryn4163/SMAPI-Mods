@@ -1,0 +1,19 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- common build settings -->
+  <PropertyGroup>
+    <Authors>Zoryn</Authors>
+    <RepositoryUrl>https://github.com/Zoryn4163/SMAPI-Mods</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <Version>2.8.3</Version>
+
+    <TargetFramework>net6.0</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ModZipPath>$(SolutionDir)\_releases</ModZipPath>
+  </PropertyGroup>
+
+  <!-- mod build package -->
+  <ItemGroup>
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
+  </ItemGroup>
+</Project>

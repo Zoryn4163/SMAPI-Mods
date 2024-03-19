@@ -71,7 +71,7 @@ namespace MovementMod
 
             if (this.Config.SprintKey.IsDown())
             {
-                if (this.Config.SprintingStaminaDrainPerSecond != 0 && player.position != this.PrevPosition.Value)
+                if (this.Config.SprintingStaminaDrainPerSecond != 0 && player.position.Value != this.PrevPosition.Value)
                 {
                     float loss = this.Config.SprintingStaminaDrainPerSecond * this.ElapsedSeconds;
                     if (player.stamina - loss > 0)
@@ -84,9 +84,9 @@ namespace MovementMod
                     this.CurrentSpeed.Value *= this.Config.PlayerSprintingSpeedMultiplier;
             }
 
-            player.addedSpeed = this.CurrentSpeed.Value;
+            this.UpdateBuff(player, this.CurrentSpeed.Value);
 
-            this.PrevPosition.Value = player.position;
+            this.PrevPosition.Value = player.position.Value;
         }
 
         /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
@@ -98,6 +98,30 @@ namespace MovementMod
             {
                 this.Config = this.Helper.ReadConfig<ModConfig>();
                 this.Monitor.Log("Config reloaded", LogLevel.Info);
+            }
+        }
+
+        /// <summary>Update the speed buff applied to the player.</summary>
+        /// <param name="player">The player whose buffs to manage.</param>
+        /// <param name="speed">The speed to set.</param>
+        private void UpdateBuff(Farmer player, int speed)
+        {
+            string buffId = this.ModManifest.UniqueID;
+
+            if (speed == 0)
+                player.buffs.Remove(buffId);
+
+            else if (!player.buffs.AppliedBuffs.TryGetValue(buffId, out Buff buff) || (int)buff.effects.Speed.Value != speed)
+            {
+                player.applyBuff(
+                    new Buff(buffId, duration: Buff.ENDLESS)
+                    {
+                        effects = {
+                            Speed = { speed }
+                        },
+                        visible = false
+                    }
+                );
             }
         }
     }
