@@ -1,10 +1,10 @@
-{
-  "Name": "Junimo Deposit Anywhere",
-  "Author": "Zoryn",
-  "Version": "2.8.3",
-  "Description": "Lets you deposit items into Junimo bundles from anywhere.",
-  "UniqueID": "Zoryn.JunimoDepositAnywhere",
-  "EntryDll": "JunimoDepositAnywhere.dll",
-  "MinimumApiVersion": "4.0.0",
-  "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
+﻿{
+    "Name": "Junimo Deposit Anywhere",
+    "Author": "Zoryn",
+    "Version": "2.8.4",
+    "Description": "Lets you deposit items into Junimo bundles from anywhere.",
+    "UniqueID": "Zoryn.JunimoDepositAnywhere",
+    "EntryDll": "JunimoDepositAnywhere.dll",
+    "MinimumApiVersion": "4.1.0",
+    "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }

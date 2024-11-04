@@ -1,3 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" />
+  </ItemGroup>
+
   <Import Project="..\_Common\_Common.projitems" Label="Shared" />
 </Project>

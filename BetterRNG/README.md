@@ -49,7 +49,7 @@ field                     | purpose
 `HarshSnowyChance`        | The weight for snow when randomising weather. Default 5.
 
 ## Compatibility
-* Works with Stardew Valley 1.6+ on Linux/macOS/Windows.
+* Works with Stardew Valley 1.6.9+ on Linux/macOS/Windows.
 * Works in single-player, multiplayer, and split-screen. Some things may use the main player's RNG.
 * No known mod conflicts.
 

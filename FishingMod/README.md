@@ -46,7 +46,7 @@ field                      | purpose
 `InfiniteBait`             | Whether fishing bait lasts forever.
 
 ## Compatibility
-* Works with Stardew Valley 1.6+ on Linux/macOS/Windows.
+* Works with Stardew Valley 1.6.9+ on Linux/macOS/Windows.
 * Works in single-player, multiplayer, and split-screen.
 * No known mod conflicts.
 

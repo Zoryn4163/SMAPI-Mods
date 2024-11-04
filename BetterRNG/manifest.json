@@ -1,10 +1,10 @@
-{
-  "Name": "Better RNG",
-  "Author": "Zoryn",
-  "Version": "2.8.3",
-  "Description": "Makes the game's randomness more random.",
-  "UniqueID": "Zoryn.BetterRNG",
-  "EntryDll": "BetterRNG.dll",
-  "MinimumApiVersion": "4.0.0",
-  "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
+﻿{
+    "Name": "Better RNG",
+    "Author": "Zoryn",
+    "Version": "2.8.4",
+    "Description": "Makes the game's randomness more random.",
+    "UniqueID": "Zoryn.BetterRNG",
+    "EntryDll": "BetterRNG.dll",
+    "MinimumApiVersion": "4.1.0",
+    "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }
