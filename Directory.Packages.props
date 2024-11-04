@@ -4,6 +4,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
+    <PackageVersion Include="Pathoschild.Stardew.ModBuildConfig" Version="4.3.0" />
   </ItemGroup>
 </Project>
