@@ -1,10 +1,10 @@
 ﻿{
-  "Name": "Health Bars",
-  "Author": "Zoryn",
-  "Version": "2.8.3",
-  "Description": "Shows monster health bars.",
-  "UniqueID": "Zoryn.HealthBars",
-  "EntryDll": "HealthBars.dll",
-  "MinimumApiVersion": "4.0.0",
-  "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
+    "Name": "Health Bars",
+    "Author": "Zoryn",
+    "Version": "2.8.3",
+    "Description": "Shows monster health bars.",
+    "UniqueID": "Zoryn.HealthBars",
+    "EntryDll": "HealthBars.dll",
+    "MinimumApiVersion": "4.0.0",
+    "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }

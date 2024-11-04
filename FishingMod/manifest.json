@@ -1,10 +1,10 @@
-{
-  "Name": "Fishing Mod",
-  "Author": "Zoryn",
-  "Version": "2.8.3",
-  "Description": "Lets you change some things about fishing based on a config file.",
-  "UniqueID": "Zoryn.FishingMod",
-  "EntryDll": "FishingMod.dll",
-  "MinimumApiVersion": "4.0.0",
-  "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
+﻿{
+    "Name": "Fishing Mod",
+    "Author": "Zoryn",
+    "Version": "2.8.3",
+    "Description": "Lets you change some things about fishing based on a config file.",
+    "UniqueID": "Zoryn.FishingMod",
+    "EntryDll": "FishingMod.dll",
+    "MinimumApiVersion": "4.0.0",
+    "UpdateKeys": [ "GitHub:Zoryn4163/SMAPI-Mods" ]
 }
