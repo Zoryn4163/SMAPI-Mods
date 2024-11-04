@@ -11,9 +11,4 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <ModZipPath>$(SolutionDir)\_releases</ModZipPath>
   </PropertyGroup>
-
-  <!-- mod build package -->
-  <ItemGroup>
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
-  </ItemGroup>
 </Project>
