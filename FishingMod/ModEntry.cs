@@ -19,9 +19,6 @@ public class ModEntry : Mod
     /// <summary>The mod configuration.</summary>
     private ModConfig Config;
 
-    /// <summary>The current fishing bobber bar.</summary>
-    private readonly PerScreen<SBobberBar> Bobber = new();
-
     /// <summary>Whether the player is in the fishing minigame.</summary>
     private readonly PerScreen<bool> BeganFishingGame = new();
 
@@ -41,7 +38,6 @@ public class ModEntry : Mod
         this.Config = helper.ReadConfig<ModConfig>();
 
         helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
-        helper.Events.Display.MenuChanged += this.OnMenuChanged;
         helper.Events.Input.ButtonsChanged += this.OnButtonsChanged;
     }
 
@@ -49,16 +45,6 @@ public class ModEntry : Mod
     /*********
     ** Private methods
     *********/
-    /// <summary>Raised after a game menu is opened, closed, or replaced.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnMenuChanged(object sender, MenuChangedEventArgs e)
-    {
-        this.Bobber.Value = e.NewMenu is BobberBar menu
-            ? new SBobberBar(menu, this.Helper.Reflection)
-            : null;
-    }
-
     /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
@@ -81,35 +67,33 @@ public class ModEntry : Mod
         }
 
         // apply fishing minigame changes
-        if (Game1.activeClickableMenu is BobberBar && this.Bobber.Value != null)
+        if (Game1.activeClickableMenu is BobberBar bobber)
         {
-            SBobberBar bobber = this.Bobber.Value;
-
             //Begin fishing game
             if (!this.BeganFishingGame.Value && this.UpdateIndex.Value > 15)
             {
                 //Do these things once per fishing minigame, 1/4 second after it updates
-                bobber.Difficulty *= this.Config.FishDifficultyMultiplier;
-                bobber.Difficulty += this.Config.FishDifficultyAdditive;
+                bobber.difficulty *= this.Config.FishDifficultyMultiplier;
+                bobber.difficulty += this.Config.FishDifficultyAdditive;
 
                 if (this.Config.AlwaysFindTreasure)
-                    bobber.Treasure = true;
+                    bobber.treasure = true;
 
                 if (this.Config.InstantCatchFish)
                 {
-                    if (bobber.Treasure)
-                        bobber.TreasureCaught = true;
-                    bobber.DistanceFromCatching += 100;
+                    if (bobber.treasure)
+                        bobber.treasureCaught = true;
+                    bobber.distanceFromCatching += 100;
                 }
 
                 if (this.Config.InstantCatchTreasure)
-                    if (bobber.Treasure || this.Config.AlwaysFindTreasure)
-                        bobber.TreasureCaught = true;
+                    if (bobber.treasure || this.Config.AlwaysFindTreasure)
+                        bobber.treasureCaught = true;
 
                 if (this.Config.EasierFishing)
                 {
-                    bobber.Difficulty = Math.Max(15, Math.Max(bobber.Difficulty, 60));
-                    bobber.MotionType = 2;
+                    bobber.difficulty = Math.Max(15, Math.Max(bobber.difficulty, 60));
+                    bobber.motionType = 2;
                 }
 
                 this.BeganFishingGame.Value = true;
@@ -119,10 +103,10 @@ public class ModEntry : Mod
                 this.UpdateIndex.Value++;
 
             if (this.Config.AlwaysPerfect)
-                bobber.Perfect = true;
+                bobber.perfect = true;
 
-            if (!bobber.BobberInBar)
-                bobber.DistanceFromCatching += this.Config.LossAdditive;
+            if (!bobber.bobberInBar)
+                bobber.distanceFromCatching += this.Config.LossAdditive;
         }
         else
         {
