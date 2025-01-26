@@ -63,6 +63,10 @@ public class ModEntry : Mod
 
                 if (this.Config.InfiniteTackle && rod.attachments?.Length > 1 && rod.attachments[1] != null)
                     rod.attachments[1].uses.Value = 0;
+
+                if (this.Config.InfiniteTackle && rod.attachments?.Length > 2 && rod.attachments[2] != null)
+                    rod.attachments[2].uses.Value = 0;
+                    
             }
         }
 
