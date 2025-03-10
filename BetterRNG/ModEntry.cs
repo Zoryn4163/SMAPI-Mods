@@ -85,7 +85,7 @@ public class ModEntry : Mod
 
         if (Context.IsMainPlayer && this.Config.EnableWeatherOverride)
         {
-            string targetWeather = this.Weather.Choose().TValue;
+            string targetWeather = this.Weather.Choose().Value;
             if (targetWeather == Game1.weather_snow && Game1.season != Season.Winter)
                 targetWeather = Game1.weather_lightning;
             if (targetWeather == Game1.weather_rain && Game1.season == Season.Winter)
