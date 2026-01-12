@@ -1,8 +1,10 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
-## Upcoming release
-* Fixed support for fences inside buildings.
+## 2.9.0
+Released 11 January 2026 for SMAPI 4.1.2 or later. Updated by Pathoschild.
+
+* Added support for fences inside buildings.
 
 ## 2.8.5
 Released 04 November 2024 for SMAPI 4.1.2 or later. Updated by Pathoschild.
