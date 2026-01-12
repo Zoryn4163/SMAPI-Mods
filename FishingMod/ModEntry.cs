@@ -7,6 +7,7 @@ using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Tools;
 using Zoryn.Common;
+using SObject = StardewValley.Object;
 
 namespace FishingMod;
 
@@ -56,13 +57,23 @@ public class ModEntry : Mod
         // apply infinite bait/tackle
         if (e.IsOneSecond && (this.Config.InfiniteBait || this.Config.InfiniteTackle))
         {
-            if (Game1.player.CurrentTool is FishingRod rod)
+            if (Game1.player.CurrentTool is FishingRod rod && rod.attachments.Count > 0)
             {
-                if (this.Config.InfiniteBait && rod.attachments?.Length > 0 && rod.attachments[0] != null)
-                    rod.attachments[0].Stack = rod.attachments[0].maximumStackSize();
+                if (this.Config.InfiniteBait)
+                {
+                    SObject bait = rod.GetBait();
+                    if (bait != null)
+                        bait.Stack = bait.maximumStackSize();
+                }
 
-                if (this.Config.InfiniteTackle && rod.attachments?.Length > 1 && rod.attachments[1] != null)
-                    rod.attachments[1].uses.Value = 0;
+                if (this.Config.InfiniteTackle)
+                {
+                    foreach (SObject tackle in rod.GetTackle())
+                    {
+                        if (tackle != null)
+                            tackle.uses.Value = 0;
+                    }
+                }
             }
         }
 

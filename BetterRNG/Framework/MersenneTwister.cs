@@ -48,53 +48,6 @@ internal class MersenneTwister : Random
     }
 
     /// <summary>
-    /// Returns the next pseudo-random <see cref="UInt32"/>.
-    /// </summary>
-    /// <returns>A pseudo-random <see cref="UInt32"/> value.</returns>
-    public virtual uint NextUInt32()
-    {
-        return this.GenerateUInt32();
-    }
-
-    /// <summary>
-    /// Returns the next pseudo-random <see cref="UInt32"/> 
-    /// up to <paramref name="maxValue"/>.
-    /// </summary>
-    /// <param name="maxValue">
-    /// The maximum value of the pseudo-random number to create.
-    /// </param>
-    /// <returns>
-    /// A pseudo-random <see cref="UInt32"/> value which is at most <paramref name="maxValue"/>.
-    /// </returns>
-    public virtual uint NextUInt32(uint maxValue)
-    {
-        return (uint)(this.GenerateUInt32() / ((double)uint.MaxValue / maxValue));
-    }
-
-    /// <summary>
-    /// Returns the next pseudo-random <see cref="UInt32"/> at least 
-    /// <paramref name="minValue"/> and up to <paramref name="maxValue"/>.
-    /// </summary>
-    /// <param name="minValue">The minimum value of the pseudo-random number to create.</param>
-    /// <param name="maxValue">The maximum value of the pseudo-random number to create.</param>
-    /// <returns>
-    /// A pseudo-random <see cref="UInt32"/> value which is at least 
-    /// <paramref name="minValue"/> and at most <paramref name="maxValue"/>.
-    /// </returns>
-    /// <exception cref="ArgumentOutOfRangeException">
-    /// If <c><paramref name="minValue"/> &gt;= <paramref name="maxValue"/></c>.
-    /// </exception>
-    public virtual uint NextUInt32(uint minValue, uint maxValue) /* throws ArgumentOutOfRangeException */
-    {
-        if (minValue >= maxValue)
-        {
-            throw new ArgumentOutOfRangeException();
-        }
-
-        return (uint)(this.GenerateUInt32() / ((double)uint.MaxValue / (maxValue - minValue)) + minValue);
-    }
-
-    /// <summary>
     /// Returns the next pseudo-random <see cref="Int32"/>.
     /// </summary>
     /// <returns>A pseudo-random <see cref="Int32"/> value.</returns>
@@ -209,101 +162,6 @@ internal class MersenneTwister : Random
     public override double NextDouble()
     {
         return this.compute53BitRandom(0, MersenneTwister.InverseOnePlus53BitsOf1s);
-    }
-
-    /// <summary>
-    /// Returns a pseudo-random number greater than or equal to zero, and 
-    /// either strictly less than one, or less than or equal to one, 
-    /// depending on the value of the given parameter.
-    /// </summary>
-    /// <param name="includeOne">
-    /// If <see langword="true"/>, the pseudo-random number returned will be 
-    /// less than or equal to one; otherwise, the pseudo-random number returned will
-    /// be strictly less than one.
-    /// </param>
-    /// <returns>
-    /// If <paramref name="includeOne"/> is <see langword="true"/>, 
-    /// this method returns a double-precision pseudo-random number greater than 
-    /// or equal to zero, and less than or equal to one. 
-    /// If <paramref name="includeOne"/> is <see langword="false"/>, this method
-    /// returns a double-precision pseudo-random number greater than or equal to zero and
-    /// strictly less than one.
-    /// </returns>
-    public double NextDouble(bool includeOne)
-    {
-        return includeOne ? this.compute53BitRandom(0, MersenneTwister.Inverse53BitsOf1s) : this.NextDouble();
-    }
-
-    /// <summary>
-    /// Returns a pseudo-random number greater than 0.0 and less than 1.0.
-    /// </summary>
-    /// <returns>A pseudo-random number greater than 0.0 and less than 1.0.</returns>
-    public double NextDoublePositive()
-    {
-        return this.compute53BitRandom(0.5, MersenneTwister.Inverse53BitsOf1s);
-    }
-
-    /// <summary>
-    /// Returns a pseudo-random number between 0.0 and 1.0.
-    /// </summary>
-    /// <returns>
-    /// A single-precision floating point number greater than or equal to 0.0, 
-    /// and less than 1.0.
-    /// </returns>
-    public float NextSingle()
-    {
-        return (float)this.NextDouble();
-    }
-
-    /// <summary>
-    /// Returns a pseudo-random number greater than or equal to zero, and either strictly
-    /// less than one, or less than or equal to one, depending on the value of the
-    /// given boolean parameter.
-    /// </summary>
-    /// <param name="includeOne">
-    /// If <see langword="true"/>, the pseudo-random number returned will be 
-    /// less than or equal to one; otherwise, the pseudo-random number returned will
-    /// be strictly less than one.
-    /// </param>
-    /// <returns>
-    /// If <paramref name="includeOne"/> is <see langword="true"/>, this method returns a
-    /// single-precision pseudo-random number greater than or equal to zero, and less
-    /// than or equal to one. If <paramref name="includeOne"/> is <see langword="false"/>, 
-    /// this method returns a single-precision pseudo-random number greater than or equal to zero and
-    /// strictly less than one.
-    /// </returns>
-    public float NextSingle(bool includeOne)
-    {
-        return (float)this.NextDouble(includeOne);
-    }
-
-    /// <summary>
-    /// Returns a pseudo-random number greater than 0.0 and less than 1.0.
-    /// </summary>
-    /// <returns>A pseudo-random number greater than 0.0 and less than 1.0.</returns>
-    public float NextSinglePositive()
-    {
-        return (float)this.NextDoublePositive();
-    }
-
-    public float NextSinglePositive(float max)
-    {
-        return (this.Next((int)Math.Round(max)) + this.NextSinglePositive()) * this.NextSinglePositive();
-    }
-
-
-    /// <summary>
-    /// Returns a pseudo-random bool based off of an array of floats
-    /// </summary>
-    /// <returns></returns>
-    public bool NextComplexBool(float[] f)
-    {
-        return Math.Abs(f.Random()) <= 0.5f;
-    }
-
-    public bool NextBool()
-    {
-        return Math.Abs(this.NextSingle()) <= 0.5f;
     }
 
     /// <summary>
@@ -454,7 +312,6 @@ internal class MersenneTwister : Random
     // can hold when the exponent is 0.
     private const double FiftyThreeBitsOf1s = 9007199254740991.0;
     // Multiply by inverse to (vainly?) try to avoid a division.
-    private const double Inverse53BitsOf1s = 1.0 / MersenneTwister.FiftyThreeBitsOf1s;
     private const double OnePlus53BitsOf1s = MersenneTwister.FiftyThreeBitsOf1s + 1;
     private const double InverseOnePlus53BitsOf1s = 1.0 / MersenneTwister.OnePlus53BitsOf1s;
 

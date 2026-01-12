@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/root/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="BetterRNG/BetterRNG.csproj" />
+  <Project Path="CalendarAnywhere/CalendarAnywhere.csproj" />
+  <Project Path="DurableFences/DurableFences.csproj" />
+  <Project Path="FishingMod/FishingMod.csproj" />
+  <Project Path="HealthBars/HealthBars.csproj" />
+  <Project Path="JunimoDepositAnywhere/JunimoDepositAnywhere.csproj" />
+  <Project Path="MovementMod/MovementMod.csproj" />
+  <Project Path="RegenMod/RegenMod.csproj" />
+  <Project Path="_Common/_Common.shproj" />
+</Solution>

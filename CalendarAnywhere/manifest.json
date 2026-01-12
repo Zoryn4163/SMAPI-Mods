@@ -1,7 +1,7 @@
 ﻿{
     "Name": "Calendar Anywhere",
     "Author": "Zoryn",
-    "Version": "2.8.5",
+    "Version": "%ProjectVersion%",
     "Description": "Lets you open the calendar from anywhere.",
     "UniqueID": "Zoryn.CalendarAnywhere",
     "EntryDll": "CalendarAnywhere.dll",

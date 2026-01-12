@@ -29,13 +29,15 @@ public class ModEntry : Mod
     /// <param name="e">The event arguments.</param>
     private void OnOneSecondUpdateTicked(object sender, OneSecondUpdateTickedEventArgs e)
     {
-        foreach (GameLocation location in Game1.locations)
+        Utility.ForEachLocation(location =>
         {
             foreach (Object obj in location.Objects.Values)
             {
                 if (obj is Fence fence)
                     fence.health.Value = fence.maxHealth.Value;
             }
-        }
+
+            return true;
+        });
     }
 }

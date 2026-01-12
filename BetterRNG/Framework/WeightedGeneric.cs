@@ -2,10 +2,8 @@ namespace BetterRNG.Framework;
 
 internal class WeightedGeneric<T> : IWeighted
 {
-    public object Value { get; set; }
-    public int Weight { get; set; }
-
-    public T TValue => (T)this.Value;
+    public int Weight { get; }
+    public T Value { get; }
 
     public WeightedGeneric(int weight, T value)
     {

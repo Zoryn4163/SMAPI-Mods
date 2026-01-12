@@ -23,7 +23,7 @@ public class ModEntry : Mod
 
 
     /*********
-    ** Protected methods methods
+    ** Protected methods
     *********/
     /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
     /// <param name="sender">The event sender.</param>
