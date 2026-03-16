@@ -1,6 +1,13 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
+## 2.9.1
+Released 15 March 2026 for SMAPI 4.1.2 or later. Updated by Pathoschild.
+
+* Calendar Anywhere downloads are now created via [automated and attested builds](https://www.patreon.com/posts/automated-builds-148417912).  
+  _This guarantees that the download only contains what's in the public source code and hasn't been tampered with._
+* Internal changes to simplify maintenance.
+
 ## 2.8.5
 Released 04 November 2024 for SMAPI 4.1.2 or later. Updated by Pathoschild.
 

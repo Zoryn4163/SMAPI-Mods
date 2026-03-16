@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
@@ -6,6 +8,9 @@ namespace BetterRNG.Framework;
 /// <summary>The mod configuration.</summary>
 internal class ModConfig
 {
+    /*********
+    ** Accessors
+    *********/
     /// <summary>Whether to randomise your daily luck.</summary>
     public bool EnableDailyLuckOverride { get; set; }
 
@@ -29,4 +34,17 @@ internal class ModConfig
 
     /// <summary>The keys which reload the mod config.</summary>
     public KeybindList ReloadKey { get; set; } = new(SButton.F5);
+
+
+    /*********
+    ** Private methods
+    *********/
+    /// <summary>The method called after the config file is deserialized.</summary>
+    /// <param name="context">The deserialization context.</param>
+    [OnDeserialized]
+    [SuppressMessage("ReSharper", "NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract", Justification = "")]
+    private void OnDeserializedMethod(StreamingContext context)
+    {
+        this.ReloadKey ??= new KeybindList(SButton.None);
+    }
 }

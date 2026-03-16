@@ -14,22 +14,21 @@ public class ModEntry : Mod
     ** Properties
     *********/
     /// <summary>The mod configuration.</summary>
-    private ModConfig Config;
+    private ModConfig Config = null!; // set in Entry
 
-    private WeightedGeneric<string>[] Weather;
+    private WeightedGeneric<string>[] Weather = null!; // set in Entry
 
 
     /*********
     ** Accessors
     *********/
-    internal static MersenneTwister Twister { get; private set; }
+    internal static MersenneTwister Twister { get; private set; } = null!; // set in Entry
 
 
     /*********
     ** Public methods
     *********/
-    /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-    /// <param name="helper">Provides simplified APIs for writing mods.</param>
+    /// <inheritdoc />
     public override void Entry(IModHelper helper)
     {
         CommonHelper.RemoveObsoleteFiles(this, "BetterRNG.pdb");
@@ -57,18 +56,14 @@ public class ModEntry : Mod
     /*********
     ** Private methods
     *********/
-    /// <summary>Raised after the player starts a new day.</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnDayStarted(object sender, DayStartedEventArgs e)
+    /// <inheritdoc cref="IGameLoopEvents.DayStarted" />
+    private void OnDayStarted(object? sender, DayStartedEventArgs e)
     {
         this.DetermineRng();
     }
 
-    /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
+    /// <inheritdoc cref="IInputEvents.ButtonsChanged" />
+    private void OnButtonsChanged(object? sender, ButtonsChangedEventArgs e)
     {
         if (this.Config.ReloadKey.JustPressed())
         {

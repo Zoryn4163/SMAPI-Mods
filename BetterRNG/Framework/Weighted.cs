@@ -1,19 +1,21 @@
+using System;
 using System.Linq;
 
 namespace BetterRNG.Framework;
 
 internal static class Weighted
 {
-    public static T Choose<T>(T[] list) where T : IWeighted
+    public static T Choose<T>(T[] list)
+        where T : IWeighted
     {
         if (!list.Any())
-            return default;
+            throw new InvalidOperationException("Can't choose a value because no options were provided.");
 
-        int totalweight = list.Sum(c => c.Weight);
-        int choice = ModEntry.Twister.Next(totalweight);
+        int totalWeight = list.Sum(c => c.Weight);
+        int choice = ModEntry.Twister.Next(totalWeight);
         int sum = 0;
 
-        foreach (var obj in list)
+        foreach (T obj in list)
         {
             for (float i = sum; i < obj.Weight + sum; i++)
             {

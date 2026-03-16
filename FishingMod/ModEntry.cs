@@ -18,7 +18,7 @@ public class ModEntry : Mod
     ** Properties
     *********/
     /// <summary>The mod configuration.</summary>
-    private ModConfig Config;
+    private ModConfig Config = null!; // set in Entry
 
     /// <summary>Whether the player is in the fishing minigame.</summary>
     private readonly PerScreen<bool> BeganFishingGame = new();
@@ -30,8 +30,7 @@ public class ModEntry : Mod
     /*********
     ** Public methods
     *********/
-    /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-    /// <param name="helper">Provides simplified APIs for writing mods.</param>
+    /// <inheritdoc />
     public override void Entry(IModHelper helper)
     {
         CommonHelper.RemoveObsoleteFiles(this, "FishingMod.pdb");
@@ -46,10 +45,8 @@ public class ModEntry : Mod
     /*********
     ** Private methods
     *********/
-    /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    /// <inheritdoc cref="IGameLoopEvents.UpdateTicked" />
+    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
         if (!Context.IsWorldReady)
             return;
@@ -61,14 +58,14 @@ public class ModEntry : Mod
             {
                 if (this.Config.InfiniteBait)
                 {
-                    SObject bait = rod.GetBait();
+                    SObject? bait = rod.GetBait();
                     if (bait != null)
                         bait.Stack = bait.maximumStackSize();
                 }
 
                 if (this.Config.InfiniteTackle)
                 {
-                    foreach (SObject tackle in rod.GetTackle())
+                    foreach (SObject? tackle in rod.GetTackle())
                     {
                         if (tackle != null)
                             tackle.uses.Value = 0;
@@ -127,10 +124,8 @@ public class ModEntry : Mod
         }
     }
 
-    /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
+    /// <inheritdoc cref="IInputEvents.ButtonsChanged" />
+    private void OnButtonsChanged(object? sender, ButtonsChangedEventArgs e)
     {
         if (this.Config.ReloadKey.JustPressed())
         {

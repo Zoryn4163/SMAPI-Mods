@@ -15,7 +15,7 @@ public class ModEntry : Mod
     ** Properties
     *********/
     /// <summary>The mod configuration.</summary>
-    private ModConfig Config;
+    private ModConfig Config = null!; // set in Entry
 
     /// <summary>The current speed boost applied to the player.</summary>
     private readonly PerScreen<int> CurrentSpeed = new();
@@ -29,8 +29,7 @@ public class ModEntry : Mod
     /*********
     ** Public methods
     *********/
-    /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-    /// <param name="helper">Provides methods for interacting with the mod directory, such as read/writing a config file or custom JSON files.</param>
+    /// <inheritdoc />
     public override void Entry(IModHelper helper)
     {
         CommonHelper.RemoveObsoleteFiles(this, "MovementMod.pdb");
@@ -47,10 +46,8 @@ public class ModEntry : Mod
     /*********
     ** Private methods
     *********/
-    /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    /// <inheritdoc cref="IGameLoopEvents.UpdateTicked" />
+    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
         if (!Context.IsWorldReady || Game1.paused || Game1.activeClickableMenu != null)
             return;
@@ -89,10 +86,8 @@ public class ModEntry : Mod
         this.PrevPosition.Value = player.position.Value;
     }
 
-    /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnButtonChanged(object sender, ButtonsChangedEventArgs e)
+    /// <inheritdoc cref="IInputEvents.ButtonsChanged" />
+    private void OnButtonChanged(object? sender, ButtonsChangedEventArgs e)
     {
         if (this.Config.ReloadKey.JustPressed())
         {
@@ -111,7 +106,7 @@ public class ModEntry : Mod
         if (speed == 0)
             player.buffs.Remove(buffId);
 
-        else if (!player.buffs.AppliedBuffs.TryGetValue(buffId, out Buff buff) || (int)buff.effects.Speed.Value != speed)
+        else if (!player.buffs.AppliedBuffs.TryGetValue(buffId, out Buff? buff) || (int)buff.effects.Speed.Value != speed)
         {
             player.applyBuff(
                 new Buff(buffId, duration: Buff.ENDLESS)
