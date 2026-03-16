@@ -12,8 +12,7 @@ public class ModEntry : Mod
     /*********
     ** Public methods
     *********/
-    /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-    /// <param name="helper">Provides simplified APIs for writing mods.</param>
+    /// <inheritdoc />
     public override void Entry(IModHelper helper)
     {
         CommonHelper.RemoveObsoleteFiles(this, "JunimoDepositAnywhere.pdb");
@@ -25,10 +24,8 @@ public class ModEntry : Mod
     /*********
     ** Protected methods
     *********/
-    /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event data.</param>
-    private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    /// <inheritdoc cref="IGameLoopEvents.UpdateTicked" />
+    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
         if (!Context.IsWorldReady || !e.IsMultipleOf(15)) // quarter-second
             return;

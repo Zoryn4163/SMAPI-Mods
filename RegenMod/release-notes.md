@@ -3,6 +3,7 @@
 ## Release notes
 ## Upcoming release
 * Fixed error if the `ReloadKey` config option is set to `null`.
+* Internal changes to simplify maintenance.
 
 ## 2.8.5
 Released 04 November 2024 for SMAPI 4.1.2 or later. Updated by Pathoschild.

@@ -8,6 +8,7 @@
     <Version>2.9.0</Version>
 
     <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <ModZipPath>$(SolutionDir)\_releases</ModZipPath>
   </PropertyGroup>

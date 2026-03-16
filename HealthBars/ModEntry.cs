@@ -16,17 +16,16 @@ public class ModEntry : Mod
     ** Properties
     *********/
     /// <summary>The mod configuration.</summary>
-    private ModConfig Config;
+    private ModConfig Config = null!; // set in Entry
 
     /// <summary>The cached health bar texture.</summary>
-    private Texture2D BarTexture;
+    private Texture2D BarTexture = null!; // set in Entry
 
 
     /*********
     ** Public methods
     *********/
-    /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-    /// <param name="helper">Provides simplified APIs for writing mods.</param>
+    /// <inheritdoc />
     public override void Entry(IModHelper helper)
     {
         CommonHelper.RemoveObsoleteFiles(this, "HealthBars.pdb");
@@ -46,10 +45,8 @@ public class ModEntry : Mod
     /*********
     ** Private methods
     *********/
-    /// <inheritdoc cref="IDisplayEvents.RenderedWorld"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
+    /// <inheritdoc cref="IDisplayEvents.RenderedWorld" />
+    private void OnRenderedWorld(object? sender, RenderedWorldEventArgs e)
     {
         if (!Context.IsWorldReady)
             return;
@@ -64,10 +61,8 @@ public class ModEntry : Mod
         }
     }
 
-    /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
+    /// <inheritdoc cref="IInputEvents.ButtonsChanged" />
+    private void OnButtonsChanged(object? sender, ButtonsChangedEventArgs e)
     {
         if (this.Config.ReloadKey.JustPressed())
         {
@@ -125,7 +120,7 @@ public class ModEntry : Mod
         int innerBarHeight = this.Config.BarHeight - this.Config.BarBorderHeight * 2;
 
         // get pixels
-        var data = new uint[innerBarWidth * innerBarHeight];
+        uint[] data = new uint[innerBarWidth * innerBarHeight];
         for (int i = 0; i < data.Length; i++)
             data[i] = 0xffffffff;
 

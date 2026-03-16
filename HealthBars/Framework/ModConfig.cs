@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
@@ -57,6 +58,7 @@ internal class ModConfig
     /// <summary>The method called after the config file is deserialized.</summary>
     /// <param name="context">The deserialization context.</param>
     [OnDeserialized]
+    [SuppressMessage("ReSharper", "NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract", Justification = "This is the method that enforces the nullable contract.")]
     private void OnDeserializedMethod(StreamingContext context)
     {
         this.ReloadKey ??= new KeybindList(SButton.None);

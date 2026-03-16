@@ -15,7 +15,7 @@ public class ModEntry : Mod
     ** Properties
     *********/
     /// <summary>The mod configuration.</summary>
-    private ModConfig Config;
+    private ModConfig Config = null!; // set in Entry
 
     /// <summary>The health regen carried over from the previous tick.</summary>
     private readonly PerScreen<float> Health = new();
@@ -48,10 +48,8 @@ public class ModEntry : Mod
     /*********
     ** Private methods
     *********/
-    /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnButtonChanged(object sender, ButtonsChangedEventArgs e)
+    /// <inheritdoc cref="IInputEvents.ButtonsChanged" />
+    private void OnButtonChanged(object? sender, ButtonsChangedEventArgs e)
     {
         if (this.Config.ReloadKey.JustPressed())
         {
@@ -60,10 +58,8 @@ public class ModEntry : Mod
         }
     }
 
-    /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+    /// <inheritdoc cref="IGameLoopEvents.UpdateTicked" />
+    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
         if (!Context.IsWorldReady || Game1.paused || Game1.activeClickableMenu != null)
             return;
