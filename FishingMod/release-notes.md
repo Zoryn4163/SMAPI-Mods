@@ -1,6 +1,9 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
+## Upcoming release
+* Fixed error if the `ReloadKey` config option is set to `null`.
+
 ## 2.9.0
 Released 11 January 2026 for SMAPI 4.1.2 or later. Updated by Pathoschild.
 

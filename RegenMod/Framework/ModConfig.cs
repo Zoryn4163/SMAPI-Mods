@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
@@ -6,6 +7,9 @@ namespace RegenMod.Framework;
 /// <summary>The mod configuration.</summary>
 internal class ModConfig
 {
+    /*********
+    ** Accessors
+    *********/
     /// <summary>Whether to constantly regenerate stamina.</summary>
     public bool RegenStaminaConstant { get; set; }
 
@@ -38,4 +42,16 @@ internal class ModConfig
 
     /// <summary>The keys which reload the mod config.</summary>
     public KeybindList ReloadKey { get; set; } = new(SButton.F5);
+
+
+    /*********
+    ** Private methods
+    *********/
+    /// <summary>The method called after the config file is deserialized.</summary>
+    /// <param name="context">The deserialization context.</param>
+    [OnDeserialized]
+    private void OnDeserializedMethod(StreamingContext context)
+    {
+        this.ReloadKey ??= new KeybindList(SButton.None);
+    }
 }
