@@ -7,6 +7,10 @@
     <File Path="Directory.Packages.props" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/root/.github/" />
+  <Folder Name="/root/.github/workflows/">
+    <File Path=".github/workflows/build.yml" />
+  </Folder>
   <Project Path="BetterRNG/BetterRNG.csproj" />
   <Project Path="CalendarAnywhere/CalendarAnywhere.csproj" />
   <Project Path="DurableFences/DurableFences.csproj" />
