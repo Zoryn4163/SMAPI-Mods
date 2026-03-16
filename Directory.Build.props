@@ -5,7 +5,7 @@
     <RepositoryUrl>https://github.com/Zoryn4163/SMAPI-Mods</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
 
-    <Version>2.9.0</Version>
+    <Version>2.9.1</Version>
 
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>

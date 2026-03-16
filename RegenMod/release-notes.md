@@ -1,7 +1,9 @@
 ﻿[← back to readme](README.md)
 
 ## Release notes
-## Upcoming release
+## 2.9.1
+Released 15 March 2026 for SMAPI 4.1.2 or later. Updated by Pathoschild.
+
 * Regen Mod downloads are now created via [automated and attested builds](https://www.patreon.com/posts/automated-builds-148417912).  
   _This guarantees that the download only contains what's in the public source code and hasn't been tampered with._
 * Fixed error if the `ReloadKey` config option is set to `null`.
